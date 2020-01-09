@@ -1,0 +1,98 @@
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+a,
+big,
+em,
+font,
+img,
+strong,
+tt,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+	padding: 0;
+	margin: 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+button,
+input,
+select,
+textarea {
+	font-size:0.14rem;
+}
+
+ol,
+ul,
+li {
+	list-style: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 100%;
+	font-weight:normal;
+}
+a,
+a:hover {
+	text-decoration: none;
+}
+
+a:focus,
+a:visited {
+	outline: none;
+}
+
+input {
+	outline:none;
+	font-family: Microsoft Yahei;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	font-size:0.18rem;
+}
+
+body {
+	background: #f4f4f4;
+	font-family: Microsoft Yahei;
+}
+input::-webkit-input-placeholder{color:#c2c2c2;}
+input::-moz-placeholder{color:#c2c2c2;}
+input:-moz-placeholder{color:#c2c2c2;}
+input::-ms-input-placeholder{color:#c2c2c2;}

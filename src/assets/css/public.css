@@ -1,0 +1,10 @@
+
+
+body {
+	background: #f4f4f4;
+	font-family: Microsoft Yahei;
+}
+input::-webkit-input-placeholder{color:#c2c2c2;}
+input::-moz-placeholder{color:#c2c2c2;}
+input:-moz-placeholder{color:#c2c2c2;}
+input::-ms-input-placeholder{color:#c2c2c2;}
