@@ -1,0 +1,392 @@
+/*科目列表*/
+
+.objList {
+	overflow: hidden;
+	padding-bottom: 0.5rem;
+}
+
+.objList li {
+	float: left;
+	text-align: center;
+	width: 25%;
+}
+
+.objList li img {
+	width: 0.48rem;
+	height: 0.48rem;
+    display: inline-block;
+    padding: 0.4rem 0 0.3rem 0;
+}
+
+.objList li p {
+	font-size: 0.24rem;
+	color: #555555;
+}
+
+
+/*题型列表*/
+
+.questionTypes {}
+
+.questionTypes h2 {
+	color: #999999;
+	font-size: 0.24rem;
+	margin-left: 1.6rem;
+	margin-top: 0.07rem;
+}
+
+.qiang1 {
+	background: url(../img/qiang-1.png)no-repeat;
+}
+
+.qiangti {
+	width: 6.72rem;
+	height: 1.6rem;
+	background-size: 6.72rem 1.6rem !important;
+	margin: 0 auto;
+	margin-top: 0.26rem;
+	overflow: hidden;
+}
+
+.qiang1 p,
+.qiang2 p,
+.qiang3 p,
+.qiang4 p,
+.qiang5 p {
+	font-size: 0.32rem;
+	margin-left: 1.6rem;
+	margin-top: 0.37rem;
+}
+
+.qiang2 {
+	background: url(../img/qiang-2.png)no-repeat;
+}
+
+.qiang3 {
+	background: url(../img/qiang-3.png)no-repeat;
+}
+
+.qiang4 {
+	background: url(../img/qiang-4.png)no-repeat;
+}
+
+.qiang5 {
+	background: url(../img/qiang-5.png)no-repeat;
+}
+
+
+/*题型强化练习*/
+
+.allquestionTypes {
+	padding: 0 0.34rem;
+}
+
+.allquestionTypes li {
+	font-size: 0.28rem;
+	color: #333333;
+	line-height: 0.6rem;
+	position: relative;
+}
+.ss_color-input-bule_type+label{
+	display: block;
+    width: 0.28rem;
+    height: 0.28rem;
+    cursor: pointer;
+    position: absolute;
+    top: 0.15rem;
+    left: 0.0rem;
+    background: #fff;
+    border: 0.01rem solid #cfcfcf;
+}
+.ss_color-input-bule_type:checked+label::before {
+	display: block;
+	content: "\2714";
+	text-align: center;
+	font-size: 0.15rem;
+	color: #fff;
+	background: #0085DE;
+	border: 0.01rem solid #0085DE;
+	width: 0.28rem;
+	height: 0.28rem;
+	line-height: 0.28rem;
+}
+
+.allquestionTypes li input[type=checkbox] {
+	vertical-align: middle;
+	margin-right: 0.1rem;
+	visibility: hidden;
+}
+
+/*单选*/
+.ss_s_z-h-d input[type="radio"] {
+            opacity: 0;
+}
+.b-1 input[type="radio"]{appearance: none; -webkit-appearance: none;outline: none;display:none}
+.list .b-1 span{padding-left:0.1rem;}
+.b-1 label{height:0.48rem;cursor:pointer;font-size:0.28rem;line-height:0.28rem;}
+.b-1 label input[type="radio"] + span{width:0.28rem;height:0.28rem;display:inline-block;background:url(../img/ty.png) no-repeat center;background-size:0.28rem 0.57rem;background-position:0 0;}
+.b-1 label input[type="radio"]:checked + span{background-position:0 -0.29rem;}
+
+.start-space{
+	height: 2rem;
+}
+.start-p{
+	position: absolute;
+	z-index: 10;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: #fff;
+	padding: 1px;
+	box-sizing: border-box;
+	box-shadow: 0 0 5px 0 rgba(0,0,0,0.5)
+}
+.start {
+	width: 2.82rem;
+	height: 0.8rem;
+	font-size: 0.32rem;
+	background-color: #0a8de5;
+	color: #FFFFFF;
+	line-height: 0.8rem;
+	text-align: center;
+	border-radius: 0.1rem;
+	margin: 0.3rem auto;
+
+}
+
+
+/*章节强化练习*/
+
+.obj_ss > p {
+	font-size: 0.28rem;
+	color: #333333;
+	line-height: 0.88rem;
+	padding-left: 0.24rem;
+}
+
+.zhangList {
+	overflow: hidden;
+	background-color: #FFFFFF;
+	padding: 0.15rem 0.24rem;
+	padding-bottom: 0.3rem;
+	margin-bottom: 0.2rem;
+}
+
+.zhangList li {
+	float: left;
+	padding: 0.1rem 0.2rem;
+	border: 0.01rem solid #c1c1c1;
+	margin-right: 0.18rem;
+	font-size: 0.28rem;
+	color: #333333;
+	border-radius: 0.08rem;
+	margin-top: 0.15rem;
+}
+
+.zhangactive {
+	background-color: #34a1e8;
+	border: 0.01rem solid #34a1e8 !important;
+	color: #FFF !important;
+}
+
+
+/*开始练习*/
+.obj_total{
+	font-size: 0.28rem;
+	color: #333333;
+	line-height: 0.88rem;
+	padding-left: 0.24rem;
+}
+.ti_box {
+	background-color: #FFFFFF;
+}
+
+.xueli {
+	font-size: 0.24rem;
+	color: #666666;
+	overflow: hidden;
+	line-height: 0.88rem;
+	padding: 0 0.24rem;
+	border-bottom: 0.01rem solid #e5e5e5;
+}
+
+.xueli span {
+	float: left;
+	width: 30%;
+	text-align: left;
+}
+
+.tiDetail {
+	padding: 0 0.24rem;
+}
+
+.tiDetail h1 {
+	font-size: 0.28rem;
+	color: #999999;
+	line-height: 0.88rem;
+}
+
+
+/*复选框*/
+
+.ss_color-input-bule+label {
+	display: block;
+	width: 0.28rem;
+	height: 0.28rem;
+	cursor: pointer;
+	position: absolute;
+	top: 0.05rem;
+	left: 0.0rem;
+	background: #fff;
+	border: 0.01rem solid #cfcfcf;
+}
+
+.ss_color-input-bule:checked+label::before {
+	display: block;
+	content: "\2714";
+	text-align: center;
+	font-size: 0.15rem;
+	color: #fff;
+	background: #0085DE;
+	border: 0.01rem solid #0085DE;
+	width: 0.28rem;
+	height: 0.28rem;
+	line-height: 0.28rem;
+}
+
+.ss_s_z-h-d input[type=checkbox] {
+	visibility: hidden;
+}
+/**/
+.ss_s_z-h-d {
+	background: #fff;
+	overflow: hidden;
+	font-size: 0.28rem;
+	clear: both;
+	margin-bottom: 0.2rem;
+}
+
+.ss_s_z-h-d ul {
+	margin-bottom: 0.2rem;
+}
+
+.ss_s_z-h-d li {
+	margin: 0.2rem 0;
+	color: #333;
+	position: relative;
+}
+
+.ss_s_z-h-d span {
+	float: left;
+	padding-left: 0.3rem;
+}
+
+.ss_s_z-h-d h2 {
+	color: #222;
+	font-size: 0.28rem;
+}
+.btnXia{
+	overflow: hidden;
+	padding: 0 0.24rem 0.4rem 0.24rem;
+	border-bottom: 0.01rem solid #e5e5e5;
+}
+.btnXia span{
+	float: left;
+	font-size: 0.32rem;
+	
+}
+.shangxia{
+	width: 1.66rem;
+	height: 0.78rem;
+	line-height: 0.78rem;
+	text-align: center;
+	color: #666666;
+	background-color: #f7f7f7;
+	border: 0.01rem solid #b6b6b6;
+	border-radius: 0.08rem;
+}
+.queren{
+	width: 2.82rem;
+	height: 0.8rem;
+	background-color: #0a8de5;
+	color: #FFFFFF;
+	line-height: 0.8rem;
+	text-align: center;
+	border-radius: 0.08rem;
+	margin: 0 0.25rem;
+}
+
+
+/*题目解析*/
+.checkedOn{
+	color: #ff4400 !important;
+}
+.analysis{
+	overflow: hidden;
+	padding: 0 0.12rem;
+	padding-bottom: 0.3rem;
+}
+.analysis li{
+	font-size: 0.28rem;
+	margin-top: 0.24rem;
+	overflow: hidden;
+}
+.analysis li > span{
+	float: left;
+	margin-top: 0.02rem;
+}
+.analysis li p{
+	float: left;
+	margin-left: 0.1rem;
+	color: #333333;
+	width: 5.1rem;
+	line-height: 0.45rem;
+}
+.correct{
+	color: #14be58;
+}
+.kaodian{
+	color: #ff8c00;
+}
+.jiexi{
+	color: #098ee5;
+}
+.zhishi{
+	color: #999999;
+}
+.zhiList span{
+	float: left;
+	padding: 0.05rem 0.2rem;
+	border: 0.01rem solid #b9b9b9;
+	border-radius: 0.5rem;
+	margin-right: 0.1rem;
+    margin-bottom: 0.1rem;
+}
+
+
+
+
+/**/
+.la-1{padding:0.05rem 0.1rem; line-height:0.28rem;font-size:0.28rem;display:inline-block;margin-left:0.1rem;width: 5.5rem;}
+
+
+.ku_img {
+    width: 100%;
+    /* height: 2rem; */
+    margin: 0.1rem 0;
+}
+.ku_img img{
+    width: 100%;
+   
+}
+.no-data{
+	text-align: center;
+	padding: 2rem 0 0 0;
+	color: #333333;
+}
+.no-data-img{
+	display: inline-block;
+	height: 2rem;
+	width: 2rem;
+	
+}

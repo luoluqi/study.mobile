@@ -1,0 +1,748 @@
+.s_tit {
+    background: url(../img/homeWork/2213.png) no-repeat;
+    width: 100%;
+    height: 1.74rem;
+    background-size: 100% 1.74rem;
+}
+
+.s_boxs {
+    overflow: hidden;
+    width: 100%;
+}
+
+.s_sel {
+    float: left;
+    margin: 0.2rem;
+}
+
+    .s_sel span {
+        font-size: 0.28rem;
+        margin-right: 0.1rem;
+    }
+
+    .s_sel input {
+        width: 2.4rem;
+        height: 0.67rem;
+        background: url(../img/homeWork/xia_jian.png) no-repeat 2rem center #fff;
+        background-size: 0.20rem 0.10rem;
+        padding-left: 0.1rem;
+    }
+
+.s_more2 {
+    background-color: #fff;
+    height: 0.68rem;
+    width: 6.6rem;
+    margin: 0 auto;
+    border: 0.01rem solid #dddddd;
+    border-radius: 0.10rem;
+    margin-bottom: 0.3rem;
+}
+
+    .s_more2 span {
+        background: url(../img/homeWork/xia_jian.png) no-repeat right center;
+        background-size: 0.24rem 0.12rem;
+        font-size: 0.32rem;
+        color: #666666;
+        display: block;
+        width: 1.8rem;
+        line-height: 0.68rem;
+        margin: 0 auto;
+    }
+
+.s_name {
+    background: #fff;
+    border-bottom: 0.01rem solid #dddddd;
+    padding: 0rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+    .s_name li {
+        float: left;
+        font-size: 0.32rem;
+        color: #888888;
+        width: 50%;
+        text-align: center;
+        line-height: 0.8rem;
+    }
+
+        .s_name li span {
+            padding-bottom: 0.13rem;
+            border-bottom: 0.05rem solid #fff;
+        }
+
+.whos {
+    font-size: 0.28rem;
+    line-height: 0.85rem;
+    padding: 0rem 0.24rem;
+    color: #888888;
+}
+
+.s_name li.on span {
+    border-bottom: 0.05rem solid #01c587;
+    color: #01c587;
+}
+
+.s_tt {
+    display: none;
+}
+
+/**/
+.s_tit-left {
+    float: left;
+    margin: 0.3rem 0.3rem 0 0.3rem;
+}
+
+    .s_tit-left img {
+        width: 1.12rem;
+        height: 1.12rem;
+        border-radius: 100%;
+        border: 0.04rem solid #fff;
+    }
+
+.s_tit-name {
+    float: left;
+    margin-top: 0.3rem;
+}
+
+    .s_tit-name h2 {
+        font-size: 0.32rem;
+        color: #333;
+        clear: both;
+    }
+
+    .s_tit-name label {
+        font-size: 0.24rem;
+        padding-left: 0.3rem;
+    }
+
+    .s_tit-name span {
+        float: left;
+        padding: 0 0.2rem;
+        line-height: 0.32rem;
+        border: 0.01rem solid #666;
+        margin: 0.1rem;
+        border-radius: 0.2rem;
+    }
+
+.s_tit-right {
+    float: right;
+    margin: 0.6rem 0.3rem;
+}
+
+    .s_tit-right a {
+        line-height: 0.56rem;
+        background: #098ee5;
+        color: #fff;
+        text-align: center;
+        width: 1.46rem;
+        display: block;
+        border-radius: 0.1rem;
+    }
+
+.s_tit-name-2 {
+    float: left;
+    margin-top: 0.3rem;
+}
+
+    .s_tit-name-2 h2 {
+        font-size: 0.32rem;
+        color: #333;
+        clear: both;
+        padding-top: 0.3rem;
+    }
+
+/**/
+.s_tab {
+    padding-bottom: 0.4rem;
+}
+
+.h-list {
+    width: 100%;
+    background: #fff;
+    margin-top: 0.14rem;
+    font-size: 0.24rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+}
+
+    .h-list a {
+        margin: 0 0.24rem;
+        display: block;
+        color: #313131;
+        background: url(../img/homeWork/a-r.png) no-repeat right center;
+        background-size: 0.12rem 0.24rem;
+    }
+
+/*布置作业*/
+.h-work {
+    background: #fff;
+    min-height: 10rem;
+    padding: 0.2rem;
+    font-size: 0.28rem;
+    text-align: center;
+}
+
+    .h-work p {
+        clear: both;
+        margin: 0.23rem 0;
+        text-align: left;
+        overflow: hidden;
+    }
+
+    .h-work label {
+        width: 1.06rem;
+        float: left;
+        line-height: 0.74rem;
+    }
+
+    .h-work input {
+        width: 5.55rem;
+        height: 0.74rem;
+        border: 0.01rem solid #c1c1c1;
+        padding-left: 0.1rem;
+        font-size: 0.28rem;
+        text-align: left;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        outline: none;
+        float: left;
+    }
+
+    .h-work span {
+        padding: 0 0.05rem;
+        line-height: 0.74rem;
+    }
+
+    .h-work .xl {
+        width: 5.5rem;
+        height: 0.74rem;
+        border: 0.01rem solid #c1c1c1;
+        padding-left: 0.1rem;
+        background: url(../img/homeWork/a-d.png) no-repeat 5.2rem center;
+        background-size: 0.2rem 0.1rem;
+        font-size: 0.28rem;
+        text-align: left;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        outline: none;
+        float: left;
+    }
+
+    .h-work .fwb {
+        width: 6.5rem;
+        height: 4.45rem;
+        border: 0.01rem solid #c1c1c1;
+        padding: 0.1rem;
+        font-size: 0.28rem;
+        text-align: left;
+        outline: none;
+        color: #333333;
+        font-family: -webkit-body;
+    }
+
+.s-1 {
+    width: 1.62rem;
+    height: 0.74rem;
+    border: 1px solid #c1c1c1;
+    float: left;
+    text-align: center;
+}
+
+.h-work a {
+    color: #fff;
+    background: #098EE5;
+    width: 2.82rem;
+    line-height: 0.8rem;
+    font-size: 0.32rem;
+    display: inline-block;
+    border-radius: 0.08rem;
+}
+
+.s_scetion {
+    background-color: #fff;
+    padding: 0.18rem 0.24rem;
+    margin-bottom: 0.2rem;
+}
+.subWei{
+    overflow: hidden;
+}
+    .subWei h2 {
+        width: 0.95rem;
+        height: 0.39rem;
+        background: url(../img/homeWork/1111.jpg) no-repeat;
+        font-size: 0.18rem;
+        color: #fff;
+        text-align: center;
+        background-size: 1rem 0.4rem;
+        line-height: 0.33rem;
+        float: left;
+    }
+    .yiwei{
+        float: right;
+    }
+    .yiwei span{
+      color: #f60100;
+      margin-left: 0.1rem;
+    font-size: 0.24rem;
+    }
+    .yiwei label{
+        color: #646464;
+    }
+    .s_scetion p {
+        font-size: 0.24rem;
+        color: #333;
+        margin: 0.2rem 0;
+        white-space: pre-wrap;
+    }
+
+    .s_scetion label {
+        font-size: 0.24rem;
+        color: #999999;
+        clear: both;
+        overflow: hidden;
+    }
+
+/**/
+#USER_AGE {
+    width: 5.5rem;
+    height: 0.74rem;
+}
+
+/*新增*/
+.up_box {
+    overflow: hidden;
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    padding-right: 0.2rem;
+    display: inline-block;
+    object-fit: cover;
+}
+
+.up_img {
+    font-size: 0.28rem;
+    width: 1.68rem !important;
+    height: 0.58rem !important;
+    color: #0a8de5;
+    border: 0.01rem solid #0a8de5;
+    float: left;
+    line-height: 0.58rem !important;
+    text-align: center;
+    border-radius: 0.08rem;
+}
+
+.po {
+    float: left;
+    position: relative;
+    padding-top: 0.15rem;
+    padding-right: 0.15rem;
+}
+
+.img_wrap {
+    height: 1rem;
+    width: 1rem;
+    border: 0.01rem solid #dddddd;
+    background-size: 1rem 1rem;
+}
+
+.cha {
+    width: 0.4rem;
+    height: 0.4rem;
+    position: absolute;
+    right: 0rem;
+    top: 0rem;
+}
+
+.fileinput-button {
+    position: relative;
+    display: inline-block;
+    /*overflow: hidden;*/
+}
+
+    .fileinput-button span {
+        font-size: 0.28rem;
+        width: 1.68rem !important;
+        height: 0.58rem !important;
+        color: #0a8de5;
+        border: 1px solid #0a8de5;
+        float: left;
+        line-height: 0.58rem !important;
+        text-align: center;
+        border-radius: 0.08rem;
+    }
+
+    .fileinput-button input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        -ms-filter: 'alpha(opacity=0)';
+        width: 1.84rem !important;
+        height: 0.58rem !important;
+    }
+
+.apply_nav {
+    background: url(../img/homeWork/2213.png) no-repeat center;
+    width: 100%;
+    height: 1.74rem;
+    background-size: 100% 1.74rem;
+}
+
+.apply_img {
+    float: left;
+    margin-top: 0.27rem;
+    margin-left: 0.24rem;
+}
+
+    .apply_img img {
+        height: 1.12rem;
+        width: 1.12rem;
+        border-radius: 1.12rem;
+        border: 0.04rem solid #fff;
+    }
+
+.apply_text {
+    float: left;
+    margin-top: 0.45rem;
+    margin-left: 0.18rem;
+}
+
+/*七月四日 新增*/
+.xingqi {
+    overflow: hidden;
+    padding: 0.14rem 0.24rem;
+}
+
+.shang {
+    float: left;
+    height: 0.64rem;
+    width: 1.54rem;
+    border: 0.01rem solid #cbcbcb;
+    border-radius: 0.05rem;
+    text-align: center;
+    line-height: 0.64rem;
+    font-size: 0.28rem;
+    color: #666666;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+    .shang img {
+        width: 0.12rem;
+        height: 0.24rem;
+        margin-right: 0.05rem;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+.xia {
+    float: right;
+    height: 0.64rem;
+    width: 1.54rem;
+    border: 0.01rem solid #cbcbcb;
+    border-radius: 0.1rem;
+    text-align: center;
+    line-height: 0.64rem;
+    font-size: 0.28rem;
+    color: #666666;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+    .xia img {
+        width: 0.12rem;
+        height: 0.24rem;
+        margin-left: 0.1rem;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+.workList > ul > li {
+    background-color: #FFFFFF;
+    padding: 0.15rem 0.24rem;
+    overflow: hidden;
+    margin-top: 0.15rem;
+    position: relative;
+}
+
+.weekdang {
+    background-color: #eff7fc !important;
+    border-bottom: 0.01rem solid #8dccf7;
+    border-top: 0.01rem solid #8dccf7;
+}
+
+.weektime {
+    float: left;
+    background: url(../img/homeWork/rili.png) no-repeat;
+    background-size: 1.47rem 1.11rem;
+    font-size: 0.28rem;
+    height: 1.11rem;
+    width: 1.47rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+.dangqian {
+    background: url(../img/homeWork/rili-day.png) !important;
+    background-repeat: no-repeat !important;
+    background-size: 1.47rem 1.11rem !important;
+}
+
+    .dangqian p {
+        font-size: 0.28rem;
+        color: #0a8de5 !important;
+        margin-top: 0.3rem;
+    }
+
+    .dangqian h2 {
+        font-size: 0.20rem;
+        color: #0a8de5 !important;
+    }
+
+.weektime p {
+    font-size: 0.28rem;
+    color: #0a8de5;
+    margin-top: 0.3rem;
+    line-height: 0.4rem;
+}
+
+.weektime h2 {
+    font-size: 0.20rem;
+    color: #0a8de5;
+    line-height: 0.3rem;
+}
+
+.objList {
+    float: left;
+    margin-top: 0.25rem;
+    width: 5rem;
+}
+
+    .objList li {
+        width: 0.68rem;
+        height: 0.68rem;
+        font-size: 0.28rem;
+        color: #fff;
+        text-align: center;
+        line-height: 0.68rem;
+        border-radius: 0.68rem;
+        margin-left: 0.24rem;
+        float: left;
+    }
+
+.xiaoobjList {
+    float: left;
+    margin-top: 0rem;
+}
+
+    .xiaoobjList li {
+        width: 0.48rem;
+        height: 0.48rem;
+        font-size: 0.28rem;
+        color: #fff;
+        text-align: center;
+        line-height: 0.48rem;
+        border-radius: 0.48rem;
+        margin-left: 0.43rem;
+        float: left;
+        margin-top: 0.1rem;
+    }
+
+.obj1 {
+    background-color: #6aca8b;
+}
+
+.obj2 {
+    background-color: #f9905e;
+}
+
+.obj3 {
+    background-color: #fec84a;
+}
+
+.obj4 {
+    background-color: #7e94d4;
+}
+
+.obj5 {
+    background-color: #7bd0d4;
+}
+
+.weekimg {
+    float: right;
+    width: 0.12rem;
+    height: 0.24rem;
+    margin-top: 0.4rem;
+}
+
+.zuoyeList {
+    overflow: hidden;
+}
+
+    .zuoyeList li {
+        border: 0.01rem solid #D9D9D9;
+        width: 1.5rem;
+        height: 1.5rem;
+        float: left;
+        margin-right: 0.15rem;
+        margin-top: 0.15rem;
+    }
+
+        .zuoyeList li img {
+            height: 100%;
+            width: 100%;
+        }
+
+.box {
+    width: 100%;
+    height: 100%;
+    background: #333;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0 auto;
+    align-items: center; /*定义body的元素垂直居中*/
+    justify-content: center; /*定义body的里的元素水平居中*/
+    display: none;
+    overflow: hidden
+}
+
+    .box img {
+        width: 100%;
+        position: absolute;
+    }
+
+.weidu img {
+    width: 0.65rem;
+    height: 0.65rem;
+    position: absolute;
+    top: 0;
+    right: 0rem;
+}
+
+.publish {
+    float: left;
+    font-size: 0.28rem;
+    color: #FFFFFF;
+    background-color: #ff9900;
+    border-radius: 0.08rem;
+    width: 1.62rem;
+    height: 0.64rem;
+    line-height: 0.64rem;
+    text-align: center;
+    margin-left: 1rem;
+}
+
+/*  */
+.win{
+    position:absolute;left:0px;top:0px;
+    background:rgba(0, 0, 0, 0.4);
+    width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+    height:100%;
+    filter:alpha(opacity=60);  /*设置透明度为60%*/
+    opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+    /* display:none;  */
+    z-Index:999;  
+}
+.modal{ 
+    position:absolute;
+    width:6.46rem;
+    height:8.95rem;
+    top:1rem;
+    left:50%;
+    margin-left: -3.23rem;
+    background-color:#fff;
+    /* display:none; */
+    cursor:pointer;
+    z-Index:5000;  
+    border-radius: 0.1rem;
+}
+.chacha{
+    width: 0.56rem;
+    height: 0.56rem;
+    position: absolute;
+    z-index: 9999;
+    top: 10.5rem;
+    left: 50%;
+    margin-left: -0.28rem;
+}
+.chacha img{
+    width: 0.56rem;
+    height: 0.56rem;
+    display: inline-block;
+}
+.topTitle{
+    background: url(../img/homeWork/tanTop.png) no-repeat;
+    width: 100%;
+    height: 0.8rem;
+    background-size: 6.46rem 0.8rem;
+    line-height: 0.8rem;
+    color: #fff;
+    text-align: center;
+    font-size: 0.32rem;
+}
+.weiRen{
+    font-size: 0.32rem;
+    padding: 0 0.24rem;
+    line-height: 0.8rem;
+}
+.weiRen span{
+    color: #333333;
+}
+.weiRen label{
+    color: #f70000;
+}
+.nameList{
+    padding: 0 0.24rem;
+    line-height: 0.5rem;
+    overflow: hidden;
+}
+.nameList li{
+    float: left;
+    width: 50%;
+    font-size: 0.28rem;
+    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+}
+.nameList li span{
+    color: #333333;
+}
+.nameList li label{
+    color: #666666;
+}
+.scollList{
+    overflow: auto;
+    height: 7.6rem;
+}
+.confimWork{
+    color: #fff;
+    background: #098EE5;
+    width: 2.82rem;
+    line-height: 0.8rem;
+    font-size: 0.32rem;
+    margin: 0 auto;
+    border-radius: 0.08rem;
+    text-align: center;
+}
+.upPhone{
+    float: left;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.2rem;
+    margin-top: 0.2rem;
+}
+.upImgList{
+    padding: 0 0.24rem;
+    margin-top: 0.3rem;
+}
+.delImg{
+   position: absolute;
+   right: 0;
+   width: 0.5rem;
+    height: 0.5rem;
+}
+.content{
+    padding-bottom: 0.5rem;
+}

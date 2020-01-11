@@ -1,0 +1,525 @@
+.nvagter {
+	height: 0.88rem;
+	line-height: 0.88rem;
+	background-color: #0a8de5;
+	font-size: 0.32rem;
+	padding: 0 0.24rem;
+	text-align: center;
+	color: #fff;
+}
+
+.arrow_index {
+	float: left;
+	width: 0.16rem;
+	height: 0.32rem;
+	margin-top: 0.26rem;
+}
+
+.index {
+	float: right;
+	width: 0.34rem;
+	height: 0.34rem;
+	margin-top: 0.26rem;
+}
+.qj-bj {
+	width: 100%;
+	height: 2.71rem;
+	background: url(../img/bj-qj.png) no-repeat;
+	background-size: 7.2rem 2.71rem;
+	font-size: 0.28rem;
+}
+
+.qj-img {
+	float: left;
+	margin: 0.02rem 0 0 0.34rem;
+	overflow: hidden;
+}
+
+.qj-img img {
+	width: 1.12rem;
+	height: 1.12rem;
+	border: 0.04rem solid #fff;
+	border-radius: 1.12rem;
+	text-align: center;
+}
+
+.qj-text {
+	width: 2.5rem;
+	float: left;
+	margin-left: 0.1rem;
+	font-size: 0.36rem;
+	padding-top: 0.2rem;
+	color: #fff;
+}
+.qj-text h2{
+    font-size: 0.36rem;
+}
+.qj-bj p {
+	font-size: 0.28rem;
+}
+
+/* 日历 */
+.dateTime{
+    position: absolute;
+    background: #fff;
+    width: 6.72rem;
+    height: 5.64rem;
+    margin-left: 0.24rem;
+    /* padding: 0 0.24rem; */
+    top: 2.45rem;
+    border-radius: 0.1rem;
+    padding-top: 0.24rem;
+
+}
+.chekType{
+    overflow: hidden;
+    width: 5rem;
+    margin: 0 auto;
+    margin-top: 0.2rem;
+}
+.chekType li{
+    font-size: 0.24rem;
+    float: left;
+    color: #999999;
+    margin-left: 0.5rem;
+
+}
+.chekType li i{
+    width: 0.16rem;
+    height: 0.16rem;
+    border-radius: 0.16rem;
+    background-color: #ffad32;
+    display: inline-block;
+    margin-right: 0.08rem
+}
+.kuang{
+    background-color: #ff7070 !important;
+}
+.qingjia{
+    background-color: #4bb0f4 !important;
+}
+
+/*  */
+.content{
+    margin: 0 0.24rem
+}
+.chekingInDay{
+    background-color: #fff;
+    width: 100%;
+    height: 2.2rem;
+    border-radius: 0.1rem;
+    margin-top: 7.25rem;
+}
+.chekingInDay p{
+    line-height: 0.9rem;
+    padding-left: 0.35rem;
+    font-size: 0.28rem;
+    color: #333333;
+}
+.chekingInDay p label{
+    color: #ff4400 !important;
+    margin: 0 0.05rem;
+}
+.kaoDetail{
+    overflow: hidden;
+    margin-left: 0.3rem;
+}
+.kaoDetail li{
+    float: left;
+    font-size: 0.24rem;
+    text-align: center;
+    width: 1.5rem;
+    border-right: 1px solid #e5e5e5;
+}
+.kaoDetail li:last-child{
+    border-right:none;
+}
+.kaoDetail li h2 label{
+    font-size: 0.36rem;
+    color: #0a8de5 !important;
+}
+.kaoDetail li h3{
+    color: #999999;
+    margin-top: 0.05rem;
+}
+/*  */
+.chekingInDuan{
+    background-color: #fff;
+    width: 100%;
+    min-height: 4rem;
+    border-radius: 0.1rem;
+    margin-top: 0.24rem;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+.chekingInDuan p{
+    line-height: 0.9rem;
+    padding-left: 0.35rem;
+    font-size: 0.28rem;
+    color: #333333;
+}
+/*  */
+.duanTime{
+    background: url("../img/duan.png") no-repeat center left;
+   
+    height: 5.96rem;
+    background-size: 1.04rem 5.96rem;
+    margin-left: 0.24rem;
+}
+.duanTime ul{
+    margin-left: 1.24rem;
+
+}
+.duanTime ul li{
+    font-size: 0.28rem;
+    height: 1.67rem;
+    line-height: 0.45rem;
+}
+.duanTime ul li h2{
+    color: #333333
+}
+.duanTime ul li h2 span{
+    display: inline-block;
+    background-color: #e5fcf5;
+    color: #40cfa4;
+    padding: 0.05rem 0.1rem;
+    border-radius: 0.08rem;
+    margin-left: 0.2rem;
+}
+.duanTime ul li h3 label{
+    color: #999999;
+}
+.duanTime ul li h3 img{
+    width: 0.34rem;
+    height: 0.31rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.1rem;
+}
+.zaotui2{
+    background-color: #fff2df !important;
+    color: #ff9900 !important;
+}
+.kuangke2{
+    background-color: #ffeaea !important;
+    color: #ff2f2f !important;
+}
+.qingjia2{
+    background-color: #e2f3ff !important;
+    color: #0a8de5 !important;
+}
+/* 弹框 */
+.BlackWin{
+    position:fixed;left:0px;top:0px;
+    background:#222222;
+    width:100%; 
+    height:100%;
+    filter:alpha(opacity=60); 
+    opacity:0.6; 
+    /* display:none;  */
+    z-Index:56;
+}
+.WinImg{
+    width: 6rem;
+    height: 10.66rem;
+    background-color: #fff;
+    position: fixed;
+    z-index: 70;
+    top: 1.04rem;
+    left: 0.32rem;
+    border-radius: 0.1rem;
+    padding: 0 0.28rem;
+}
+.recognition p{
+   font-size: 0.28rem;
+   color: #333333;
+   line-height: 0.7rem;
+}
+.recognition img{
+    width: 5.9rem;
+    height: 4.04rem;
+}
+.faceCha{
+    text-align: center;
+    width: 0.36rem;
+    margin: 0.2rem auto;
+    padding: 0.2rem;
+}
+.faceCha img{
+   width: 0.36rem;
+   height: 0.36rem;
+}
+/* 考勤查询 */
+.changeIdn{
+    float: right;
+    color: #fff;
+    font-size: 0.28rem;
+    width: 1.94rem;
+    text-align: center;
+    border: 1px solid #fff;
+    height: 0.62rem;
+    line-height: 0.62rem;
+    border-radius: 0.4rem;
+    margin-right: 0.24rem;
+    margin-top: 0.2rem;
+}
+.changeIdn img{
+    width: 0.25rem;
+    height: 0.26rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+.dayDetail{
+    position: absolute;
+    background: #fff;
+    width: 6.72rem;
+    height: 4.96rem;
+    margin-left: 0.24rem;
+    /* padding: 0 0.24rem; */
+    top: 2.45rem;
+    border-radius: 0.1rem;
+   
+}
+.dayDetail h2{
+    font-size: 0.28rem;
+    color: #ff8800;
+    padding-left: 0.24rem;
+    height: 0.92rem;
+    line-height: 0.92rem;
+    background-color: #f7f7f7;
+    border-top-left-radius: 0.1rem;
+    border-top-right-radius: 0.1rem;
+}
+.duanDetail{
+    background: url("../img/dayDuan.png") no-repeat center left;
+    height: 3.4rem;
+    /* width: 0.15rem; */
+    background-size: 0.15rem 2.38rem;
+    margin-left: 0.3rem;
+    overflow: hidden;
+}
+.duanDetail >ul{
+    overflow: hidden;
+    margin-left: 0.4rem;
+    margin-top: 0.14rem;
+}
+.duanDetail >ul>li{
+    font-size: 0.28rem;
+    overflow: hidden;
+    margin-top: 0.23rem;
+}
+.duanDetail >ul>li>span{
+    float: left;
+    margin-top: 0.05rem;
+}
+.DuanType{
+    float: left;
+}
+.DuanType li{
+    float: left;
+    border: 1px solid #d8d8d8;
+    color: #666666;
+    padding: 0.05rem 0.15rem;
+    margin-left: 0.15rem;
+    border-radius: 0.08rem;
+}
+.chaKanDetail{
+    font-size: 0.28rem;
+    color: #0a8de5;
+    text-align: center;
+}
+.chaKanDetail img{
+    width: 0.12rem;
+    height: 0.24rem;
+    display: inline-block;
+    margin-left: 0.1rem;
+}
+.dateList{
+    margin: 0 0.24rem;
+    overflow: hidden;
+    margin-top: 4.15rem;
+}
+.dateList>ul> li{
+    font-size: 0.28rem;
+    color: #333333;
+    overflow: hidden;
+    background-color: #fff;
+    padding: 0.24rem;
+    line-height: 0.5rem;
+    border-radius: 0.1rem;
+    margin-bottom: 0.24rem;
+}
+.dayWeek{
+    overflow: hidden;
+}
+.dayWeek span{
+    float: left;
+}
+.dayWeek img{
+    float: right;
+    width: 0.24rem;
+    height: 0.12rem;
+    margin-top: 0.2rem;
+}
+.duanDetail2 >ul>li{
+    margin-top: 0.13rem !important;
+}
+
+/* 学生列表考勤明细 */
+.studentDetail p{
+    height: 1.02rem;
+    line-height: 1.02rem;
+    padding: 0 0.24rem;
+    font-size: 0.32rem;
+    color: #333333;
+}
+.studentList>ul>li{
+    padding: 0.24rem;
+    background-color: #fff;
+    overflow: hidden;
+    text-align: center;
+    margin-bottom: 0.24rem;
+}
+.stuDetail li{
+    float: left;
+    width: 20%;
+
+}
+.nameBk{
+    background: url(../img/nameBK.png)no-repeat center;
+    width: 1.32rem;
+    height: 1.32rem;
+    background-size: 1.32rem 1.32rem;
+    font-size: 0.28rem;
+    color: #333333;
+    text-align: center;
+    line-height: 1.32rem
+}
+/* .stuDetail li img{
+    width: 1.32rem;
+    height: 1.32rem;
+} */
+.stuDetail li h1{
+    font-size: 0.24rem;
+    color: #999999;
+
+}
+.stuDetail li h2{
+    font-size: 0.28rem;
+    color: #333333;
+    margin-top: 0.1rem;
+    height: 0.37rem;
+    
+}
+.stuDetail li span{
+    font-size: 0.28rem;
+    
+    display: block;
+    border: 1px solid ;
+    color:  #40cfa4;
+    border:1px solid #40cfa4;
+    width: 0.88rem;
+    height: 0.46rem;
+    line-height: 0.46rem;
+    text-align: center;
+    border-radius: 0.1rem;
+    margin-left: 0.25rem;
+    margin-top: 0.1rem;
+    
+}
+.zaochi{
+    border:1px solid #ff9900 !important;
+    color: #ff9900 !important;
+}
+.qingjia3{
+    border:1px solid #0a8de5 !important;
+    color: #0a8de5 !important;
+}
+.kuang3{
+    border:1px solid #ff4242 !important;
+    color: #ff4242 !important;
+}
+
+
+/*  */
+.close{height: 0;transition: 0.2s;}
+.open{display: block;transition: 0.2s;height: 4rem;}
+.down{transition: 0.2s;}
+.up{transition: 0.2s;transform: rotateZ(180deg);}
+
+
+
+/*底部导航栏*/
+
+.bootom_nav {
+	position: fixed;
+	bottom: 0;
+	background-color: #f6f6f6;
+	width: 100%;
+	height: 1.1rem;
+	border-top: 1px solid #d2d2d1;
+}
+
+.bootom_nav li {
+	font-size: 0.24rem;
+	color: #666666;
+	width: 25%;
+	float: left;
+	text-align: center;
+	margin-top: 0.13rem;
+}
+
+.bootom_nav li img {
+	width: 0.50rem;
+	height: 0.44rem;
+}
+
+.bootom_nav li i {
+	width: 0.50rem;
+	height: 0.44rem;
+	display: inline-block;
+}
+
+.shou {
+	background-image: url(../img/shouye1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.vip {
+	background-image: url(../img/vip1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.jifen {
+	background-image: url(../img/jifen1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.geren {
+	background: url(../img/shezhi1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.selectgao {
+	color: #098ee5 !important;
+}
+
+.selectgao .shou {
+	background-image: url(../img/shouye2.png) !important;
+}
+
+.selectgao .vip {
+	background-image: url(../img/vip2.png) !important;
+}
+
+.selectgao .jifen {
+	background-image: url(../img/jifen2.png) !important;
+}
+
+.selectgao .geren {
+	background-image: url(../img/shezhi2.png) !important;
+}

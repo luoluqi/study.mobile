@@ -1,0 +1,261 @@
+
+/*通知列表*/
+.noticeList li{
+	padding: 0 0.24rem;
+}
+.noticeList li p{
+	font-size: 0.24rem;
+	color: #999999;
+	text-align: center;
+	line-height: 0.64rem;
+}
+.noticeTitle{
+	background-color: #FFFFFF;
+	padding: 0.24rem;
+	border-radius: 0.1rem;
+	position: relative;
+}
+.noticeTitle h2{
+	font-size: 0.28rem;
+	color: #999999;
+	margin-bottom: 0.1rem;
+}
+.noticeTitle h2 img{
+	width: 0.28rem;
+	height: 0.28rem;
+}
+.noticeTitle h3{
+	font-size: 0.28rem;
+	color: #333333;
+	line-height: 0.45rem;
+	white-space:pre-wrap;
+	word-break: break-all;
+}
+.weidu{
+	width: 0.65rem;
+	height: 0.65rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.s_more{
+	    font-size: 0.24rem;
+    color: #666666;
+    width: 2rem;
+    margin: 0.4rem auto;
+    text-align: center;
+}    
+.s_more img{
+	width: 0.2rem;
+    height: 0.1rem;
+    margin-left: 0.1rem;
+    vertical-align: middle;
+}
+
+/*通知公告首页*/
+.noticeIndex{
+	background: url(../img/noticeBk.png) no-repeat center;
+	width: 100%;
+	height: 2.71rem;
+	background-size: 7.2rem 2.71rem;
+}
+.noticeIndex > img{
+	width: 1.12rem;
+	height: 1.12rem;
+	border-radius: 1.12rem;
+	border: 0.04rem solid #FFFFFF;
+	float: left;
+	margin-left: 0.3rem;
+}
+.detailtext{
+	float: left;
+	margin-left: 0.2rem;
+}
+.detailtext h2{
+	color: #FFFFFF;
+	font-size: 0.36rem;
+	margin-top: 0.12rem;
+}
+.detailtext h2 label{
+	color: #FFFFFF;
+	font-size: 0.28rem;
+	margin-left: 0.2rem;
+}
+.detailtext h3{
+	color: #FFFFFF;
+	font-size: 0.28rem;
+	margin-top: 0.1rem;
+}
+.InList{
+	position: absolute;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0.15rem;
+    border-top-right-radius: 0.15rem;
+    height: 100%;
+    width: 6.6rem;
+    top: 2.4rem;
+    left: 0.3rem;
+}
+.biao{
+	float: left;
+	width: 0.58rem;
+	height: 0.58rem;
+	}
+.InList li{
+		padding: 0.58rem 0.64rem;
+		overflow: hidden;
+		border-bottom:0.01rem solid #dfdfdf ;
+		line-height: 0.58rem;
+	}
+.InList li span{
+	float: left;
+	font-size: 0.32rem;
+	color: #333333;
+	margin-left: 0.45rem;
+	width: 2.8rem;
+}
+.arrow_ri{
+	float: right;
+	width: 0.12rem;
+	height: 0.24rem;
+	margin-top: 0.15rem;
+}
+.InList li i{
+	padding: 0.02rem 0.06rem;
+	background-color: #ff3d3d;
+	color: #FFFFFF;
+	font-style: normal;
+	text-align: center;
+	line-height: 0.36rem;
+	border-radius: 0.36rem;
+	font-size: 0.2rem;
+	float: left;
+    margin-top: 0.1rem;
+    margin-left: 0.3rem;
+}
+/*通知内容*/
+.noticeContent{
+	padding: 0 0.24rem;
+	line-height: 0.84rem;
+	overflow: hidden;
+}
+.noticeContent h2{
+	font-size: 0.28rem;
+	color: #999999;
+	float: left;
+}
+.noticeContent h2 img{
+	width: 0.28rem;
+	height: 0.28rem;
+	vertical-align: middle;
+}
+.noticeContent span{
+	font-size: 0.24rem;
+	color: #999999;
+	float: right;
+}	
+.noticeContentDetail{
+	padding: 0 0.24rem;
+}
+.noticeContentDetail h2{
+	font-size: 0.32rem;
+	color: #333333;
+	line-height: 0.6rem;
+	white-space: pre-wrap;
+    word-break: break-all;
+}
+.noticeContentDetail p{
+	font-size: 0.28rem;
+	color: #333333;
+	line-height: 0.5rem;
+	margin-top: 0.1rem;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+/*暂无数据*/
+.none img{
+	width: 4.17rem;
+	height: 4.42rem;
+	margin: 2rem auto;
+	display: block;
+}
+/*老师端*/
+.publish{
+	float: right;
+	font-size: 0.28rem;
+	color: #FFFFFF;
+	background-color: #ff8e00;
+	border-radius: 0.5rem;
+	    padding: 0.1rem 0.2rem;
+    margin-right: 0.3rem;
+    margin-top: 0.25rem;
+}
+/*发布通知*/
+.serch_infrom{padding: 0 0.24rem;}
+.serch_infrom li{font-size: 0.28rem;padding-top: 0.34rem;overflow: hidden;}
+.serch_infrom li p{font-size: 0.28rem;color: #333333;margin-bottom: 0.2rem;}
+.serch_infrom li span{
+	padding-left: 0.12rem;
+	display: inline-block;
+	width: 6.58rem;
+	height: 0.74rem;
+	line-height: 0.74rem;
+	border: 0.01rem solid #c1c1c1;
+	font-size: 0.28rem;
+	color: #333;
+    background-size: 0.24rem 0.12rem;
+
+}
+.tit{width: 3.09rem;height: 0.74rem;border: 0.01rem solid #c1c1c1;padding-left: 0.1rem;color: #333;font-size: 0.28rem;background: url(../img/arrX.png)no-repeat 2.8rem center;background-size: 0.24rem 0.12rem;}
+/*.serch_infrom li label{color: #999999;font-size: 0.28rem;}
+*/.serch_ss{font-size: 0.28rem;
+    display: block !important;
+    margin: 0 auto;
+    height: 0.8rem !important;
+    width: 2.82rem !important;
+    background-color: #0a8de5;
+    line-height: 0.8rem;
+    color: #FFFFFF !important;
+    text-align: center;
+    border-radius: 0.05rem;
+    margin-top: 0.4rem;}
+    
+    /*发布通知*/
+.serch_infrom textarea {
+    width: 6.5rem;
+    height: 4.34rem;
+    resize: none;
+    border: 0.01rem solid #c1c1c1;
+    padding: 0.08rem;
+    font-size: 0.28rem;
+    color: #333;
+    font-family: -webkit-body;
+}
+.tit{width: 6.6rem !important;background: none !important;}
+.serch_infrom li div{
+	font-size: 0.28rem;
+	float: left;
+	color: #666666;
+	width: 1.96rem;
+	height: 0.66rem;
+	text-align: center;
+	line-height: 0.66rem;
+	border: 0.01rem solid #cacaca;
+	margin-right: 0.25rem;
+	margin-top: 0.05rem;
+}
+.on_bk{
+	background: url(../img/publish.png) no-repeat center;
+	background-size: 1.96rem 0.68rem;
+	/*background-color: #000000;*/
+	color: #FFFFFF !important;
+}
+.checkR div{
+	border: none !important;
+}
+.checkR div label input{
+	width: 0.3rem;
+    height: 0.3rem;
+    vertical-align: middle;
+    margin-right: 0.05rem;
+}

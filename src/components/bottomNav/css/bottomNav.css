@@ -1,0 +1,75 @@
+
+/*底部导航栏*/
+
+.bootom_nav {
+	position: fixed;
+	bottom: 0;
+	background-color: #f6f6f6;
+	width: 100%;
+	height: 1.1rem;
+	border-top: 0.01rem solid #d2d2d1;
+}
+
+.bootom_nav li {
+	font-size: 0.24rem;
+	color: #666666;
+	width: 25%;
+	float: left;
+	text-align: center;
+	margin-top: 0.13rem;
+}
+
+.bootom_nav li img {
+	width: 0.50rem;
+	height: 0.44rem;
+}
+
+.bootom_nav li i {
+	width: 0.50rem;
+	height: 0.44rem;
+	display: inline-block;
+}
+
+.shou {
+	background-image: url(../img/shouye1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.vip {
+	background-image: url(../img/vip1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.jifen {
+	background-image: url(../img/jifen1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.geren {
+	background: url(../img/geren1.png);
+	background-repeat: no-repeat;
+	background-size: 0.50rem 0.44rem;
+}
+
+.selectgao {
+	color: #098ee5 !important;
+}
+
+.selectgao .shou {
+	background-image: url(../img/shouye2.png) !important;
+}
+
+.selectgao .vip {
+	background-image: url(../img/vip2.png) !important;
+}
+
+.selectgao .jifen {
+	background-image: url(../img/jifen2.png) !important;
+}
+
+.selectgao .geren {
+	background-image: url(../img/geren2.png) !important;
+}
