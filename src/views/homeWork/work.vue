@@ -67,6 +67,7 @@ export default {
         }
     },
     mounted(){
+        this.$store.state.user.type = 2
       var list = this.$store.state.user.workItem
       if(!list){
             this.$router.push('workList')

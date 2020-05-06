@@ -46,17 +46,20 @@ const circle = {
        }
     },
     actions: {
-        getSubjectData({state,rootGetters}){
+        getSubjectData({state,rootState,rootGetters}){
             
             getSubjectList({
-                   schoolId:rootGetters['user/schoolId']
+                   schoolId:rootGetters['user/schoolId'],
+                   gradeId:rootState.user.gradeId
                    }).then((data) => {
-                       var res = JSON.parse(data)
-                       console.log(res)
-                       if(res.Code == '200'){
+                       var list = data.Data
+                        for (var item of list) {
+                            item.id = item.Id
+                            item.name = item.Name
+                        }
                            
-                            state.subjectData = res.Data.data
-                       } 
+                            state.subjectData = list
+                       
                    })
         },
         praise ({state},index) {
@@ -85,6 +88,7 @@ const circle = {
                 subjectId:state.subjectId
             }).then((data) => {
                         var res = JSON.parse(data)
+                        console.log(res)
                         if(res.Data.data.length < state.pageSize){
                             state.isMore = false
                         }
@@ -98,7 +102,13 @@ const circle = {
                              if(obj.ClassImages){
                                  obj.ClassImages = obj.ClassImages.replace(/\\/g,'/')
                                       obj.ClassImages = obj.ClassImages.split(',')
-                                      
+                                      var imgArr = []
+                                      obj.ClassImages.forEach((item,index) => {
+                                            var obj2 = {src: item, msrc: item}
+                                            imgArr.push(obj2)
+                                        })
+
+                                      obj.listArr = imgArr
                                   for(var i = 0; i < obj.ClassImages.length; i++){
                                       var img = obj.ClassImages[i]
                                       if (/^http/.test(img)) {

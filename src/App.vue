@@ -26,7 +26,7 @@ export default {
                 nonceStr: data.Data.nonceStr, // 必填，生成签名的随机串
                 signature: data.Data.signature,// 必填，签名
                 jsApiList: [ // 必填，需要使用的JS接口列表
-                  'chooseImage','uploadImage','getLocalImgData','getLocation','previewImage'
+                  'chooseImage','uploadImage','getLocalImgData','getLocation','previewImage','startRecord','stopRecord','onVoiceRecordEnd','playVoice','uploadVoice','stopVoice'
                 ] 
             })
             wx.ready(function(res){
@@ -71,4 +71,6 @@ body{ font-size: 0.24rem;}
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:#999;
 }
+.amap-logo{display: none !important;}
+.amap-copyright{display: none !important;}
 </style>

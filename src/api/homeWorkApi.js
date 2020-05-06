@@ -94,3 +94,31 @@ export const GetHomeWorkPush = (params) => {
         })
     });
 }
+
+// ================修改
+// 老师获取家庭作业
+export const GetHomeWorkByTeachNew = (params) => {
+	// console.log(params)
+    return new Promise((resolve,reject) => {
+        axios({
+            url: homeWorkUrl + '/api/HomeWork/GetHomeWorkByTeachNew',
+            method: 'get',
+            params
+        }).then(res => {
+            resolve(res.data)
+        })
+    });
+}
+// 家长获取家庭作业
+export const GetHomeWorkByParentNew = (params) => {
+	// console.log(params)
+    return new Promise((resolve,reject) => {
+        axios({
+            url: homeWorkUrl + '/api/HomeWork/GetHomeWorkByParentNew',
+            method: 'get',
+            params
+        }).then(res => {
+            resolve(res.data)
+        })
+    });
+}

@@ -4,7 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-
+import common from '@/assets/js/common.js'
+// 运用公共函数
+Vue.use(common)
 
 // import FastClick from 'fastclick'
 import { ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin } from 'vux'

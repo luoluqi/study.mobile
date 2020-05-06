@@ -1,6 +1,6 @@
 import axios from './axios'
 import qs from 'qs'
-import {circle,giveALike,commentUrl} from '@/config/config'
+import {circle,giveALike,commentUrl,examUrl} from '@/config/config'
 
 
 
@@ -36,7 +36,8 @@ export const getSubjectList = (params) => {
 	// console.log(params)
     return new Promise((resolve,reject) => {
         axios({
-            url: circle + '/api/ClassInfo/GetSubjectList',
+            // url: circle + '/api/ClassInfo/GetSubjectList',
+            url: examUrl + '/api/Exam/GetSubjectList',
             method: 'get',
             params
         }).then(res => {

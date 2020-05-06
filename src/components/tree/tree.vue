@@ -1,8 +1,7 @@
 <template>
     <div>
         <tree-item 
-        @select="select" 
-        @unselect="unselect" 
+      
         v-for="(item, index) in data" 
         :key="index"
         :data="item" 
@@ -20,18 +19,14 @@
 //                 </tree>
 
 import treeItem from './tree-item'
+import { Group } from 'vux'
 export default {
     components: {
-        treeItem
+        treeItem, Group
     },
     props: ['data', 'props', 'selectedData'],
     methods: {
-        select (data) {
-            this.$emit('select', data)
-        },
-        unselect (data) {
-             this.$emit('unselect', data)
-        }
+        
     }
     
 }

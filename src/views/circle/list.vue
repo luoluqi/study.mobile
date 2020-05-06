@@ -12,10 +12,27 @@
                         <span v-if="!item.isAll">全文</span>
                         <span v-if="item.isAll">收起</span>
                     </div>
-                    <div  @click="preview(item,1)" v-if="item.ClassImages.length == 1" v-for="(img,index) in item.ClassImages" :key="index">
+                    <!-- <div  @click="preview(item,1)" v-if="item.ClassImages.length == 1" v-for="(img,index) in item.ClassImages" :key="index">
                         <img class="circle-img-1" :src="img" >
+                    </div> -->
+                    <div v-if="item.ClassImages" class="workPhotoList" >
+                        <pre-view :list='item.listArr'></pre-view>
                     </div>
-                    <div class="circle-img-2-9"  @click="preview(item,n)" v-if="item.ClassImages.length != 1" v-for="(img,n) in item.ClassImages" :key="n" :style="{backgroundImage:'url('+img+')'}"></div>
+                    <!-- <div v-if="item.Imgs && item.ClassImages.length != 1" class="workPhotoList" >
+                        <pre-view :list='item.listArr'></pre-view>
+                    </div> -->
+
+
+                    <!-- <div class="circle-img-2-9"  @click="preview(item,n)" v-if="item.ClassImages.length != 1" v-for="(img,n) in item.ClassImages" :key="n" :style="{backgroundImage:'url('+img+')'}"></div> -->
+                    <div class="vedio" v-if="item.ClassVideos && showModel">
+                        <video :src="item.ClassVideos" width="100%" height="100%" 
+                            playsinline webkit-playsinline
+                            controls
+                            controlslist="nodownload  noremoteplayback"
+                            oncontextmenu = "return false"
+                            disablePictureInPicture = "true"
+                         ></video>
+                    </div>
                     <div class="operation">
                         <span>{{item.AddDate | offsetTime}}</span>
                         <label v-show="operatorUid == item.AddUserId" @click="circleDel(item.Id)">删除</label>
@@ -59,8 +76,8 @@
         </div>
         <div v-show="isAddCom" @click.stop class="add-com-p">
             <textarea id="addComInput" v-model.trim="commentContent" class="add-com-input"></textarea>
-            <img @click.stop="toggleEmoji" class="emoji-btn" src="@/assets/img/circle/emoji.png" alt="">
-            <div @click.stop="addComment" class="add-com-btn">发送</div>
+            <!-- <img @click.stop="toggleEmoji" class="emoji-btn" src="@/assets/img/circle/emoji.png" alt=""> -->
+            <div @touchstart="addComment" class="add-com-btn">发送</div>
             <div v-show="showEmoji" class="emoji-list">
                 <div v-for="(item,index) in emojiList" :key="index" @click="insertEmoji(item)" class="emoji-item">{{item}}</div>
             </div>
@@ -87,13 +104,14 @@ import {pageListByClassIdSType,addZan,getListByRecordId,deleteZan,addComment,del
 import emoji from '@/util/emoji'
 import insertEmoji from '@/util/insertEmoji'
 import bus from '@/util/bus'
+import preView from '@/components/preview'
 import { LoadMore,Swiper,SwiperItem } from 'vux'
 
 export default {
    name:'circleList',
    
     components:{
-       LoadMore,Swiper,SwiperItem
+       LoadMore,Swiper,SwiperItem,preView
     },
     data () {
         return {
@@ -134,15 +152,17 @@ export default {
        },
        type(){
            return this.$store.state.circle.type
-       }
+       },
+       showModel () {
+            return this.$store.state.media.showModel
+        }
     },
     mounted(){
         
        
          this.$store.commit('circle/clearData')
          
-           this.$store.dispatch('circle/circleDataList')
-      
+           this.$store.dispatch('circle/circleDataList')      
     },
     methods: {
       praise (index) {
@@ -264,6 +284,7 @@ export default {
     display: inline-block;
 }
 .circle-content{
+    font-size: 0.28rem;
     line-height: 0.4rem;
     margin-bottom: 0.15rem;
     margin-top: 0.06rem;
@@ -385,10 +406,10 @@ export default {
     font-size: 0.2rem;
 }
 .add-com-p{position:fixed;z-index: 10;width: 100%;bottom: 0;border-top: #c9c9c9 1px solid;background: #fafafa;padding: 0.12rem 0.24rem;box-sizing: border-box;}
-.add-com-input{display: inline-block;vertical-align: middle;width: 4.5rem;
+.add-com-input{display: inline-block;vertical-align: middle;width: 5.5rem;
 font-size: 0.24rem;
 border:1px solid #dedede;height: 0.76rem;padding: 0 0.12rem;border-radius: 0.1rem;background: #fff;}
-.add-com-btn{display: inline-block;vertical-align: middle;color: #10578d;padding: 0.1rem 0.2rem;}
+.add-com-btn{display: inline-block;vertical-align: middle;color: #10578d;padding: 0.1rem 0.2rem;font-size: 0.3rem;}
 .emoji-btn{display: inline-block;vertical-align: middle;width: 0.54rem;height: 0.54rem;padding: 0 0 0 0.24rem;}
 .emoji-list{padding: 0.2rem;}
 .emoji-item{display: inline-block;font-size: 0.5rem;width: 0.8rem;height: 0.8rem;}
@@ -403,4 +424,9 @@ border:1px solid #dedede;height: 0.76rem;padding: 0 0.12rem;border-radius: 0.1re
 .swiper-item::before{display: inline-block;vertical-align: middle;content: '';height: 100%;}
 .swiper-img{max-width: 100%;max-height: 100%;display: inline-block;vertical-align: middle;}
 .all-content{color: #10578d;padding: 0 0 0.2rem 0;}
+.vedio{
+    width: 100%;
+    height: 2.5rem;
+    margin-top: 0.2rem;
+}
 </style>

@@ -1,11 +1,11 @@
 import   cookie from '@/util/cookie'
 import {publicUrl} from '@/config/config'
-import {getAccessToken,getTokenByMoblie,getTeacher} from '@/api/commonApi'
+import {getAccessToken,getTokenByMoblie,getTeacher, getRoleList } from '@/api/commonApi'
 const user = {
     namespaced: true,
     state: {
         access_token:'',
-        testImg: publicUrl + '/UpLoadFile/b1030d1890f94a2bbee7b28d7eeab568.jpg',
+        testImg: 'static/zanwu.png',
         headImg:'',
         classId:'',
         className:'',
@@ -16,7 +16,9 @@ const user = {
         childList:[],
         classList:[],
         teacherId:'',
-        realName:''
+        realName:'',
+        loginUserId: '',
+        isSchoolAdmin: false
        
     },
     getters: {
@@ -133,6 +135,10 @@ const user = {
                 getTokenByMoblie().then(res => {
                     
                     res = JSON.parse(res)
+                    if(!res.Data){
+                        resolve()
+                        return
+                    }
                     if(getters['roleCode'] == 'Teacher'){
                         state.headImg = res.Data.Img
                         state.classList = res.Data.ClassInfoList
@@ -142,6 +148,7 @@ const user = {
                         dispatch('getTeacher').then(() => {
                             resolve()
                         })
+                        dispatch('getRoleList')
                     }else if(getters['roleCode'] == 'Parent'){
                         state.headImg = res.Data.Img
                         state.childList = res.Data.MChildList
@@ -205,6 +212,25 @@ const user = {
                     resolve()
                 })
             })
+        },
+
+        getRoleList ({state,getters}) {
+            var params = {
+                userId: getters['loginUserId']
+            }
+            getRoleList(params).then(
+                res => {
+                    res = JSON.parse(res)
+                    if (res.Code == 200) {
+                        var roles = res.Data.data.roles
+                        roles.forEach(item => {
+                            if (item.code == 'SchoolAdmin') {
+                                state.isSchoolAdmin = true
+                            }
+                        })
+                    }
+                }
+            )
         }
     }
 }

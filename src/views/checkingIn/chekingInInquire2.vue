@@ -189,7 +189,6 @@ export default {
         for(var i=0;i<result.length;i++){
           this.zhaji = result[0]
           this.qiuji = result[1]
-          debugger
           if(this.zhaji=='0'){
               this.zhaji = "static/zanwu.png"
           }

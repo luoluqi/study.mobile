@@ -96,11 +96,11 @@ export default {
                 pageIndex:1,
                 pageSize:10
             }
-            debugger
+            
             GetHomeWorks(prams).then((data) =>{
                var data = JSON.parse(data)
                if(data.Code == 200){
-                   debugger
+                   
 
                }
             })

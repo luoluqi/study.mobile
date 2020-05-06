@@ -45,7 +45,7 @@ const exam = {
         },
         // 获取科目
         getSubjectList({state,commit,dispatch,rootGetters,rootState}){
-            GetSubjectList({schoolId:rootState.user.schoolId}).then((data) => {
+            GetSubjectList({schoolId:rootState.user.schoolId,gradeId:rootState.user.gradeId}).then((data) => {
             if(data.Code == 200){
                 state.subjectData = data.Data
                 if(state.subjectData[0]){

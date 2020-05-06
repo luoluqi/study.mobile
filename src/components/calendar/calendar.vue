@@ -1,15 +1,15 @@
 <template>
     <div class="container">
         <div class="head">
-            <div class="head-item">
+            <!-- <div class="head-item">
                 <img @click="prevYear" class="arrow" src="./img/left-arr.png" alt="">
                 <div class="md-num">{{year}}</div>
                 <img @click="nextYear" class="arrow" src="./img/right-arr.png" alt="">
-            </div>
+            </div> -->
 
             <div class="head-item">
                 <img @click="prevMonth" class="arrow" src="./img/left-arr.png" alt="">
-                <div class="md-num">{{month + 1}}</div>
+                <div class="md-num">{{year}}年{{month + 1}}月</div>
                 <img @click="nextMonth" class="arrow" src="./img/right-arr.png" alt="">
             </div>
         </div>
@@ -18,24 +18,32 @@
             <div class="cal-item">日</div>
             <div class="cal-item">一</div>
             <div class="cal-item">二</div>
-            <div class="cal-item">三</div>
+            <div class="cal-item">三</div> 
             <div class="cal-item">四</div>
             <div class="cal-item">五</div>
             <div class="cal-item">六</div>
-            <div @click="select(item.date)" v-for="(item,index) in list" :key="index" class="cal-item">
+            <div @click="select(item)" v-for="(item,index) in list" :key="index" class="cal-item">
                 <div class="cal-item-d" 
-                :class="{normal:item.isNormal,late:item.isLate,lack:item.isLack,leave:item.isLeave,active:curDate == item.str}">
-                    <span v-if="item.str == nowStr" class="cheng" :class="{bai:item.isNormal || item.isLate || item.isLack || item.isLeave}" >今</span>
+                :class="{normal:item.isNormal,late:item.isLate,lack:item.isLack,leave:item.isLeave,active:curDate == item.str,future:item.isFuture}">
+                  
+                    <span v-if="item.str == nowStr" class="cheng" :class="{bai:item.isNormal || item.isLate || item.isLack || item.isLeave}" >今天</span>
                     <span v-else>{{item.num}}</span>
                 </div>
               
             </div>
-           <div class="chekType" v-if="isShow">
+           <!-- <div class="chekType" v-if="isShow">
                 <ul>
                     <li><i class="zheng"></i><span>正常</span></li>
                     <li><i></i><span>迟到、早退</span></li>
                     <li ><i class="kuang"></i><span>{{lackText}}</span></li>
                     <li><i class="qingjia"></i><span>请假</span></li>
+                </ul>
+            </div> -->
+            <div class="chekType" v-if="isShow">
+                <ul>
+                    <li><i class="zhengchang"></i><span>正常</span></li>
+                    <li ><i class="quewu"></i><span>有缺勤或无记录</span></li>
+                    <li><i class="yichang"></i><span>有异常</span></li>
                 </ul>
             </div>
         </div>
@@ -50,8 +58,8 @@ export default {
         "normal",
         "activeDate",
         "lackText",
-        "isShow"
-       
+        "isShow",
+        'disableFuture'
     ],
     watch:{
         late:function(indexVal, oldVal){
@@ -153,11 +161,28 @@ export default {
                 isLate:this.isLate(d),
                 isLack:this.isLack(d),
                 isLeave:this.isLeave(d),
-                isNormal:this.isNormal(d)
+                isNormal:this.isNormal(d),
+                isFuture:this.isFuture(d)
+            }
+        },
+
+        isFuture(d){
+            if(!this.disableFuture){
+                return false
+            }
+            var now = new Date()
+            if(d.getTime() > now.getTime()){
+                return true
+            }else{
+                return false
             }
         },
 
         isNormal(d){
+            if(!this.normal){
+                return false
+            }
+
             var temp = new Date(d.getTime());
             // temp.setHours(18)
 
@@ -259,7 +284,7 @@ export default {
              this.$emit('change',this.year,this.month);
 
              var date = new Date(this.year,this.month,1)
-             this.curDate = this.dateToStr(date)
+            //  this.curDate = this.dateToStr(date)
         },
 
         nextMonth(){
@@ -275,17 +300,20 @@ export default {
             this.$emit('change',this.year,this.month);
 
              var date = new Date(this.year,this.month,1)
-             this.curDate = this.dateToStr(date)
+            //  this.curDate = this.dateToStr(date)
         },
 
-        select(d){
-            // debugger
+        select(item){
+            if(this.disableFuture && item.isFuture){
+                return
+            }
+            var d = item.date
             var year = d.getFullYear();
             var month = d.getMonth() >=9 ? d.getMonth() + 1 : '0' + ( d.getMonth() + 1);
             var date = d.getDate() >9 ? d.getDate() : '0' + d.getDate();
             var str = year + '-'+month+'-'+ date;
 
-            this.curDate = str;
+            // this.curDate = str;
 
             this.$emit('select',str);
         }
@@ -295,13 +323,13 @@ export default {
       
         this.now = new Date();
         this.nowStr = this.dateToStr(this.now);
-
-        if(this.activeDate){
-            this.curDate = this.activeDate
-            this.initDateList(new Date(this.curDate));
-       }else{
+        
+    //     if(this.activeDate){
+    //         this.curDate = this.activeDate
+    //         this.initDateList(new Date(this.curDate));
+    //    }else{
            this.initDateList();
-       }
+    //    }
 
          
 
@@ -312,7 +340,7 @@ export default {
 .container{
         margin: 0 auto;
     width: 6.26rem;
-    height: 7.2rem;
+    height: 8.5rem;
     /* height: 5.9rem; */
     padding: 0.35rem 0.22rem;
     border-radius: 5px;
@@ -328,7 +356,7 @@ export default {
 }
 .head-item{
     display: inline-block;
-
+    margin: 0 auto;
 }
 .arrow{
     display: inline-block;
@@ -339,7 +367,7 @@ export default {
 }
 .md-num{
     display: inline-block;
-    width: 1.5rem;
+    width: 2.5rem;
     vertical-align: middle;
     text-align: center;
     font-size: 0.32rem;
@@ -400,11 +428,12 @@ export default {
 }
 
 .cal-item-d{
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 0.7rem;
+    height: 0.7rem;
     border-radius: 50%;
-    line-height: 0.5rem;
+    line-height: 0.7rem;
     margin: 0 auto;
+    font-size: 0.32rem;
 }
 .bai{
    color: #fff !important;
@@ -417,21 +446,32 @@ export default {
     color: #333;
 }
 .late{
-    background: #ffad32;
+    background: #FFA927;
     color: #fff !important;
 }
 .lack{
-    background: #ff7070;
+    background: #FF5746;
     color: #fff !important;
 }
 
 .leave{
-    background: #4bb0f4;
+    background: #4BB0F4;
     color: #fff !important;
+}
+.future{
+    color:#a5a4a4 !important;
 }
 .active{
     background: #b6b6b6;
     color: #fff !important;
 }
-
+.zhengchang{
+    background-color: #4BB0F4 !important;
+}
+.quewu{
+    background-color: #FFA927 !important;
+}
+.yichang{
+    background-color: #FF5746 !important;
+}
 </style>

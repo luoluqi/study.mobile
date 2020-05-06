@@ -11,28 +11,35 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api':{
+      "/kitchen-center": {
+        target: "http://192.168.66.218:9101/kitchen-center/",
+        changeOrigin: true,
+        pathRewrite: {
+          // "^/kitchen-center": "/"
+        }
+      },
+      '/api': {
         target: 'http://t-verify.xueerqin.net',
         changeOrigin: true,
         pathRewrite: {
           //  '^/exam': 'exam'
         }
       },
-
-      '/exam':{
-        target: 'http://t-www.xueerqin.net:9526',
+      //http://japi.xueerqin.net/exam/
+      '/exam': {
+        target: 'http://japi.xueerqin.net',
         changeOrigin: true,
         pathRewrite: {
           //  '^/exam': 'exam'
         }
       },
-      '/setting':{
+      '/setting': {
         target: ' http://apiV2-stucard.xueerqin.net',
         changeOrigin: true,
         pathRewrite: {
-            '^/setting': ''
+          '^/setting': ''
         }
-      }  
+      }
     },
 
     // Various Dev Server settings
@@ -43,7 +50,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

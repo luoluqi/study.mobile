@@ -59,23 +59,29 @@ axios.interceptors.response.use(function (response) {
 	Vue.$vux.loading.hide();
 	var data = response.data
 	if(typeof data == 'string'){
-		data = JSON.parse(data)
+		if(data){
+			data = JSON.parse(data)
+		}
+		
 	}
 	if(data.status == 500){
-		alert.error(data.msg)
+		// alert(data.msg)
 	}
 	return response
 }, function (error) {
 	Vue.$vux.loading.hide();
 	console.log('error:',error)
 	if(error.response.status == 302){
-		alert('状态：302，请重新登陆')
-		location.href = 'http://mappv2.xueerqin.net/common/login.shtml'
-	}else{
+		Vue.$vux.toast.text('状态：302，请重新登陆')
+		// location.href = 'http://mappv2.xueerqin.net/common/login.shtml'
+	}else if(error.response.status == 403){
+		Vue.$vux.toast.text(error.response.data.error.message)
+	}
+	else{
 		alert(JSON.stringify(error))
 	}
 	 
-	return Promise.reject(new Error('服务器君开小差了，请稍后再试'))
+	return Promise.reject(error.response.data.error.message)
 })
 export default axios
 

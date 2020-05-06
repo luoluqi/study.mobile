@@ -8,7 +8,7 @@
     </div>-->
     <div class="layout-main">
         <transition name="fade">
-          <keep-alive include="wrongList,circleList,noticeList,newsList,examList,PexamList">
+          <keep-alive :include="aliveList">
             <router-view></router-view>
           </keep-alive>
         </transition>
@@ -21,7 +21,35 @@ export default {
   data () {
     return {
       userData:{}, // 用户信息
-      fromPath:''
+      fromPath:'',
+      aliveList: ["wrongList",
+                  "circleList",
+                  "noticeList",
+                  "newsList",
+                  "examList", 
+                  "PexamList",
+                  "ThomeWork", 
+                  "PhomeWork", 
+                  "workList", 
+                  "parentsWorkList", 
+                  "parentList",
+                  'teacherPunish',
+                  'pcheckList',
+                  'affairsRepair',
+                  'leave',
+                  'buyGoods',
+                  'eduInsurance',
+                  'patchCard',
+                  'payPrinting',
+                  'sealPrinting',
+                  'classAdjustment',
+                  'studentCheck',
+                  'pcheckList',
+                  'list',
+                  'amap',
+                  'oaIndex',
+                  'sos'
+                  ]
     }
   },
   computed: {

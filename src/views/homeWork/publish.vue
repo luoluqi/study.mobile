@@ -57,6 +57,7 @@ export default {
         }
     },
     mounted(){
+      this.$store.state.user.type = 1
          // h获取老师的数据
        for(var obj of this.$store.state.user.classList){
             let classObj = {}
@@ -123,7 +124,6 @@ export default {
                             access_token:access_token,
                             media_id:this.serverIds[i]
                         }).then(res => {
-                          
                             if(res.data){
                                 this.imgData[i] = res.data
                             }else{

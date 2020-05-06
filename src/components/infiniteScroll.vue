@@ -1,5 +1,5 @@
 <template>
-    <div ref="scrollDiv" @scroll="handleScroll" class='main-con'>
+    <div ref="scrollDiv" @scroll.passive="handleScroll" class='main-con'>
         <slot></slot>
     </div>
 </template>
@@ -22,9 +22,11 @@ export default {
             if (!this.canLoadMore) {
                 return
             }
+            
 			var div = e.target
 			var scrollHeight = div.scrollHeight
-			var scrollTop = div.scrollTop 
+            var scrollTop = div.scrollTop 
+            this.$emit('getScroll', scrollTop)
 			var clientHeight = div.clientHeight 
             // console.log(scrollHeight, clientHeight, scrollTop)
             if(scrollHeight == clientHeight){

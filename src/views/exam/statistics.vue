@@ -42,6 +42,8 @@ export default {
           localStorage.setItem("schoolYearId",schoolYearId)
           localStorage.setItem("schoolTermId",schoolTermId)
           this.$router.push('examList')
+          this.$store.state.exam.type = 1
+          localStorage.setItem("type",1)
       }
     }
 }

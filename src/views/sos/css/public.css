@@ -1,0 +1,31 @@
+.main{
+    padding: 0.24rem 0.32rem;
+}
+.oneMan{
+    position: relative;
+    padding: 0.28rem 0.24rem;
+    background: #fff;
+    border-radius: 0.15rem;
+    overflow: hidden;
+    margin-bottom: 0.24rem;
+}
+.oneMan img{
+    float: left;
+    width: 1.08rem;
+    height: 1.08rem;
+}
+.detail{
+    margin-left: 0.22rem;
+    float: left;
+    font-size: 0.32rem;
+}
+.detail>p{
+    line-height: 0.56rem;
+}
+.detail>p:first-child{
+    color: #333;
+    font-weight: bold;
+}
+.detail>p:last-child{
+    color: #999;
+}

@@ -83,6 +83,12 @@ export default {
                 schoolId:this.schoolId
                 }).then((data) => {
                     var data=JSON.parse(data)
+                    for(var obj of data.Data){
+                        if(obj.Name == '帮助'){
+                             obj.Url = 'http://m.xueerqin.net/study/index.html#help/index'
+                            // obj.Url = location.href
+                        }
+                    }
                     this.setData = data.Data
                     // console.log(this.setData);
                     // alert(JSON.stringify(this.setData))

@@ -15,7 +15,6 @@ const mobileCommon = {
         getTokenByMoblie ({ state, commit, dispatch }) {
             return new Promise((resolve, reject) => {
                 getTokenByMoblie().then(res => {
-                    debugger
                     res = JSON.parse(res)
                 })
             })

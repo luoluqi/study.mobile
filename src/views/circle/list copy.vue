@@ -513,6 +513,7 @@ export default {
     display: inline-block;
 }
 .circle-content{
+    font-size: 0.28rem;
     line-height: 0.4rem;
     margin-bottom: 0.15rem;
     margin-top: 0.06rem;

@@ -1,13 +1,13 @@
 <template>
     <div>
-        <headNav title="成绩统计"></headNav>
+        <headNav :isBack="false" title="成绩统计"></headNav>
         <div class="title-bg">
 
              <div class="title-div">
                 <div class="exam-name">{{examName}}</div>
                 <div class="exsd">
                     <img class="zhuz" src="@/assets/img/exam/zhuz.png" alt="">
-                    <div class="exam-rs">计划考试人数：{{statistisDetail.number}}人</div>
+                    <div class="exam-rs">计划考试人数：{{statistisDetail?statistisDetail.number:''}}人</div>
                     <div class="exam-k">{{subjectName}}</div>
                 </div>
             </div>
@@ -17,19 +17,19 @@
             <div class="count-title">年段统计</div>
             <div class="count-list">
                 <div class="count-p">
-                    <div class="count-num">{{statistisDetail.maxScore}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.maxScore:''}}</div>
                     <div class="count-text">总分最高分</div>
                 </div>
                  <div class="count-p">
-                    <div class="count-num">{{statistisDetail.avgScore}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.avgScore:''}}</div>
                     <div class="count-text">总分平均分</div>
                 </div>
                  <div class="count-p">
-                    <div class="count-num">{{statistisDetail.subjectMaxScore}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.subjectMaxScore:''}}</div>
                     <div class="count-text">{{subjectName}}最高分</div>
                 </div>
                  <div class="count-p">
-                    <div class="count-num">{{statistisDetail.subjectAvgScore}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.subjectAvgScore:''}}</div>
                     <div class="count-text">{{subjectName}}平均分</div>
                 </div>
             </div>
@@ -38,19 +38,19 @@
             <div class="count-title">班级统计</div>
             <div class="count-list">
                 <div class="count-p">
-                    <div class="count-num">{{statistisDetail.classMaxScore}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.classMaxScore:''}}</div>
                     <div class="count-text">总分最高分</div>
                 </div>
                  <div class="count-p">
-                    <div class="count-num">{{statistisDetail.classAvgScore}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.classAvgScore:''}}</div>
                     <div class="count-text">总分平均分</div>
                 </div>
                  <div class="count-p">
-                    <div class="count-num">{{statistisDetail.classSubjectMax}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.classSubjectMax:''}}</div>
                     <div class="count-text">{{subjectName}}最高分</div>
                 </div>
                  <div class="count-p">
-                    <div class="count-num">{{statistisDetail.classSubjectAvg}}</div>
+                    <div class="count-num">{{statistisDetail?statistisDetail.classSubjectAvg:''}}</div>
                     <div class="count-text">{{subjectName}}平均分</div>
                 </div>
             </div>
@@ -163,29 +163,49 @@ export default {
         }
     },
     mounted () {
-        // this.roleCode = this.$store.getters['user/roleCode']
-        // this.examId = this.examItem.examId
-        // this.schoolClassId = this.examItem.classId
-        // this.subjectId = this.examItem.subjectId
-        var queryString = this.getQueryString(window.location.href);
+        var queryString = this.getParam();
+        console.log(queryString)
+        if(!queryString.examId){
+            this.$vux.toast.text('该考试已被删除', 'center')
+            return;
+        }
         this.examName = queryString.examName;
         this.subjectName = queryString.subjectName;
         this.examId = queryString.examId;
         this.schoolClassId = queryString.schoolClassId;
         this.subjectId = queryString.subjectId;
         this.studentId = queryString.studentId;
-        this.getExamStatistics()
-        this.getScoreDistributed()
-        var params = {
-            examId: this.examId,
-            schoolClassId: this.schoolClassId,
-            subjectId: this.subjectId,
-            studentId: this.studentId
-        }
-        this.getSur(params)
-        this.getScoreDetailsParent()
+        this.getExamStatistics().then(res => {
+            if(!res){
+                return
+            }
+            this.getScoreDistributed()
+            var params = {
+                examId: this.examId,
+                schoolClassId: this.schoolClassId,
+                subjectId: this.subjectId,
+                studentId: this.studentId
+            }
+            this.getSur(params)
+            this.getScoreDetailsParent()
+        })
+        
     },
     methods:{
+        getParam(){
+            var search = location.search
+            if(search.indexOf("#") != -1){
+                 search = search.substring(0,search.indexOf("#"))
+            }
+            search = search.substring(1)
+            var arr = search.split('&')
+            var param = {}
+            for(var item of arr){
+                var list = item.split('=')
+                param[list[0]] = decodeURIComponent(list[1])
+            }
+            return param
+        },
         //获取url参数
         getQueryString(url) {
             var index1 = url.indexOf('?');
@@ -237,22 +257,32 @@ export default {
         },
         // 成绩统计
         getExamStatistics () {
-            var params = {
-                examId: this.examId,
-                schoolClassId: this.schoolClassId,
-                subjectId: this.subjectId,
-                choice: 1
-            }
-            this.$store.dispatch('examStatic/getExamStatistics', params).then(
-            res => {
-                if (res.Code == 200) {
-                    this.statistisDetail = res.Data
-                    this.statistisDetail.avgScore = this.statistisDetail.avgScore.toFixed(1)
-                    this.statistisDetail.subjectAvgScore = this.statistisDetail.subjectAvgScore.toFixed(1)
-                    this.statistisDetail.classAvgScore = this.statistisDetail.classAvgScore.toFixed(1)
-                    this.statistisDetail.classSubjectAvg = this.statistisDetail.classSubjectAvg.toFixed(1)
-                } 
+            return new Promise((resolve,reject) => {
+                var params = {
+                    examId: this.examId,
+                    schoolClassId: this.schoolClassId,
+                    subjectId: this.subjectId,
+                    choice: 1
+                }
+                this.$store.dispatch('examStatic/getExamStatistics', params).then(
+                res => {
+                    if (res.Code == 200) {
+                        this.statistisDetail = res.Data
+                        if (this.statistisDetail) {
+                            this.statistisDetail.avgScore = this.statistisDetail.avgScore.toFixed(1)
+                            this.statistisDetail.subjectAvgScore = this.statistisDetail.subjectAvgScore.toFixed(1)
+                            this.statistisDetail.classAvgScore = this.statistisDetail.classAvgScore.toFixed(1)
+                            this.statistisDetail.classSubjectAvg = this.statistisDetail.classSubjectAvg.toFixed(1)
+                             resolve(true)
+                        }else{
+                            this.$vux.toast.text('该考试已被删除或不存在', 'center')
+                             resolve(false)
+                        }
+                    } 
+                   
+                })
             })
+            
         },
         // 获取分数段分布
         getScoreDistributed () {
@@ -265,10 +295,12 @@ export default {
             this.$store.dispatch('examStatic/getScoreDistributed', params).then(
             res => {
                 if (res.Code == 200) {
-                    if(this.cur == 1){
-                        this.barData = res.Data.subjectScore
-                    }else{
-                        this.barData = res.Data.classScore
+                    if(res.Data){
+                        if(this.cur == 1){
+                            this.barData = res.Data.subjectScore
+                        }else{
+                            this.barData = res.Data.classScore
+                        }
                     }
                    for (var i=0;i<this.barData.length;i++){
                        var obj={name:this.barData[i].beginScore+'-'+this.barData[i].endScore,color:this.colorArr[i],value:this.barData[i].number}
@@ -366,13 +398,13 @@ export default {
 </script>
 <style scoped>
 .title-bg{background: url(../../assets/img/exam/title-bg.png);background-size: cover;margin: 0 0 1rem 0;height: 1.36rem;position: relative;}
-.title-div{background: #fff;width: 6.6rem;height: 1.96rem;position: absolute;transform: translateX(-50%);left: 50%;border-radius: 5px;top: 0rem;
+.title-div{background: #fff;width: 6.74rem;height: 1.96rem;position: absolute;transform: translateX(-50%);left: 50%;border-radius: 5px;top: 0.14rem;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);box-sizing: border-box;padding: 0.4rem 0.36rem;}
 .exam-name{color: #333;font-size: 0.32rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .exsd{position: relative;margin: 0.38rem 0 0 0;}
 .zhuz{display: inline-block;vertical-align: middle;width: 0.3rem;height: 0.3rem;}
 .exam-rs{display: inline-block;vertical-align: middle;font-size: 0.28rem;color: #666;}
-.exam-k{position: absolute;padding: 0 0.1rem;height: 0.48rem;line-height: 0.48rem;text-align: center; border-radius: 0.24rem;
+.exam-k{position: absolute;padding: 0 0.16rem;height: 0.48rem;line-height: 0.48rem;text-align: center; border-radius: 0.24rem;
 border:1px solid #0A8DE5;color: #0A8DE5;font-size: 0.28rem;position: absolute;top: 0;right: 0;}
 .count-item{background: #fff;height: 2.18rem;box-sizing: border-box;padding: 0.32rem 0 0 0;margin: 0 0 0.24rem 0;}
 .count-title{color: #333;font-size: 0.32rem;border-left: 0.06rem solid #0A8DE5;padding: 0rem 0.2rem;margin: 0 0 0.3rem 0;}
@@ -393,8 +425,17 @@ border:1px solid #0A8DE5;color: #0A8DE5;font-size: 0.28rem;position: absolute;to
     font-size: 0.28rem;color: #666;background: #F6F6F6;
     border-radius: 0 5px 5px 0;border-top:1px solid #CDCDCD;border-right:1px solid #CDCDCD;border-bottom:1px solid #CDCDCD;
 }
-.change-p div.active{
+.change-p>div:first-child.active{
     background: #0A8DE5;color: #fff;
+    border-top: 1px solid #0a8de5;
+    border-left: 1px solid #0a8de5;
+    border-bottom: 1px solid #0a8de5;
+}
+.change-p>div:nth-child(2).active{
+    background: #0A8DE5;color: #fff;
+    border-top: 1px solid #0a8de5;
+    border-right: 1px solid #0a8de5;
+    border-bottom: 1px solid #0a8de5;
 }
 /* .cha-btn{display: inline-block;vertical-align: middle;width: 1.62rem;height: 0.68rem;line-height: 0.68rem;text-align: center;
 font-size: 0.28rem;color: #666;background: #F6F6F6;}

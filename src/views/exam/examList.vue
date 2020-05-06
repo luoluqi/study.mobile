@@ -15,7 +15,7 @@
                 <ul>
                     <li v-for="(item,index) in examData" :key="index" @click="getExamItem(item)">
                         <div class="examName"><img src="@/assets/img/exam/text.png" alt=""><span>{{item.examName}}</span></div>
-                        <span class="examNum">考试ID：{{item.examId}} </span>
+                        <span class="examNum">考试时间：{{item.day}} </span>
                     </li>
                 </ul>
                   <div class="load-p">
@@ -44,9 +44,16 @@ export default {
             subject:''
         }
     },
-    mounted(){
-      this.getSubjectList()
-    //   this.getExamListTeachBySubject()
+    activated(){
+      if(this.$store.state.exam.type == 1 || localStorage.getItem("type") == 1){
+         this.activeClass = ''
+         this.getSubjectList()
+      }
+      if(!this.$store.state.exam.type){
+         this.activeClass = ''
+         this.getSubjectList()
+      }else{
+      }
     },
      computed: {
         subjectData(){

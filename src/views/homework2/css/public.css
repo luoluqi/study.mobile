@@ -1,0 +1,122 @@
+.audioList{
+    display: flex;
+    flex-wrap: wrap;
+}
+.audio{
+    position: relative;
+    color: #333;
+    font-size: 0.28rem;
+    display: flex;
+    align-items: center;
+    padding: 0 0.3rem;
+    width:1.36rem;
+    height: 0.6rem;
+    border-radius: 0.3rem;
+    border: 0.01rem solid #d2d2d2;
+    margin: 0 0.15rem 0.2rem 0;
+}
+.audio img{
+    width: 0.24rem;
+    height: 0.3rem;
+    margin-right: 0.12rem;
+}
+/* .audio{
+    padding: 0 0.08rem;
+    margin-bottom: 0.2rem;
+    float: left;
+    border: none;
+    height: 0.6rem;
+    width: 1.96rem;
+    border-radius: 25%;
+}
+.audio audio{
+    display: inline-block;
+    height: 0.6rem;
+    width: 1.96rem;
+    border-radius: 25%;
+} */
+/* .audio img{
+    width: 0.24rem;
+    height: 0.3rem;
+    margin-right: 0.12rem;
+} */
+.workPhotoList{
+    display: flex;
+    margin: 0.32rem -0.09rem 0 -0.09rem;
+    flex-wrap: wrap;
+}
+.onePhoto{
+    position: relative;
+    width: 1.44rem;
+    height: 1.44rem;
+    border-radius: 0.08rem;
+    margin-bottom: 0.32rem;
+    padding: 0 0.09rem;
+}
+.onePhoto img{
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+}
+.vedio{
+    position: relative;
+    width: 100%;
+    height: 3.88rem;
+    margin-bottom: 0.32rem;
+    background: #000;
+}
+.videoModel{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.link{
+    position: relative;
+    height: 0.84rem;
+    background: #f7f7f7;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.32rem;
+    font-size: 0.28rem;
+    color: #333;
+    padding: 0 0.08rem;
+}
+.link div:first-child{
+    width: 0.68rem;
+    height: 0.68rem;
+    margin-right: 0.12rem;
+}
+.link img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.link div:last-child{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-emphasis: emphasis;
+}
+.deleteIcon{
+    position: absolute;
+    top: -0.1rem;
+    right: -0.2rem;
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    color: #FFF;
+    text-align: center;
+    font-size: 0.30rem;
+    z-index: 101;
+}

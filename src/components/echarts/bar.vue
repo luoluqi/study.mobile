@@ -8,7 +8,6 @@
             ref="bar"
             theme="ovilia-green"
             autoresize
-            
             />
         </div>
        
@@ -39,7 +38,7 @@ export default {
             default:[]
         },
         title: {
-             type:String,
+            type:String,
             default:''
         }
     },
@@ -61,12 +60,12 @@ export default {
                 //     },
                 //     top:10
                 // },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                    }
-                },
+                // tooltip: {
+                //     trigger: 'axis',
+                //     axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                //         type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                //     }
+                // },
                 grid: {
                     left: '0%',
                     right: '0%',
@@ -79,20 +78,33 @@ export default {
                         type: 'category',
                         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                         axisTick: {
-                            alignWithLabel: true
+                            alignWithLabel: true,
+                            lineStyle: {
+                                color:'#666666'
+                            }
+                        },
+                        axisLabel: {
+                            color: '#666666'
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color:'#666666'
+                            } 
                         }
+                        
                     }
                 ],
                 yAxis: [
                     {
-                        type: 'value'
+                        type: 'value',
+                        show:false
                     }
                 ],
                 series: [
                     {
                         name: '',
                         type: 'bar',
-                        barWidth: '60%',
+                        barWidth: '40%',
                         label: {
                             show: true,
                             position: 'top'

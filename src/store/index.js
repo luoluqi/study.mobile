@@ -15,6 +15,18 @@ import sign from "./modules/sign"
 import news from './modules/news'
 import exam from './modules/exam'
 import examStatic from './modules/examStatic'
+import homework2 from './modules/homework2'
+import notice2 from './modules/notice2'
+import media from './modules/media'
+import checkingIn2 from './modules/checkingIn2'
+import selectTeacher from './modules/selectTeacher'
+import oa from './modules/oa'
+import oaNotice from './modules/oaNotice'
+import map from './modules/map'
+import link from './modules/link'
+import help from './modules/help'
+import sos from './modules/sos'
+import kitchen from './modules/kitchen'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
@@ -26,17 +38,30 @@ const store = new Vuex.Store({
     circle,
     user,
     notice,
+    notice2,
     partyBuild,
     sign,
     answer,
     exam,
     news,
-    examStatic
+    examStatic,
+    homework2,
+    notice2,
+    media,
+    checkingIn2,
+    selectTeacher,
+    oa,
+    oaNotice,
+    map,
+    link,
+    help,
+    sos,
+    kitchen
   },
   getters,
-  state:{
-    imgSrc:"http://www.xueerqin.net:9526/fs/"
-   
+  state: {
+    imgSrc: "http://www.xueerqin.net/fs/"
+
   }
 })
 export default store
