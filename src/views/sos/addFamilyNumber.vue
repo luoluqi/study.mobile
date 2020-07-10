@@ -33,7 +33,7 @@ export default {
     },
     data () {
         return {
-            familyMembers: ['爸爸', '妈妈', '爷爷', '奶奶', '外公', '外婆', '叔叔', '阿姨', '其他'], 
+            familyMembers: ['爸爸', '妈妈', '爷爷', '奶奶', '外公', '外婆', '叔叔', '婶婶', '其他'], 
             familyNum: '',
             familyRelation: '',
             current: -1,

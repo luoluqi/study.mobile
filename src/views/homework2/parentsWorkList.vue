@@ -174,6 +174,8 @@ export default {
                         this.$vux.toast.text('点赞成功', 'top')
                         item.isLike = 1
                         item.likeNumber = item.likeNumber + 1
+                    } else {
+                        this.$vux.toast.text(res.Msg, 'top')
                     }
                }
            )

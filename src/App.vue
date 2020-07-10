@@ -10,6 +10,12 @@ export default {
   name: 'App',
 
   mounted(){
+    // if (location.href.indexOf('&from=singlemessage') != -1) {
+    //   var url = location.href.replace('&from=singlemessage', '')
+    //   location.href = url
+    //   return
+    // }
+
     this.$vux.loading.show({
         text: '加载中'
     })
@@ -26,13 +32,21 @@ export default {
                 nonceStr: data.Data.nonceStr, // 必填，生成签名的随机串
                 signature: data.Data.signature,// 必填，签名
                 jsApiList: [ // 必填，需要使用的JS接口列表
-                  'chooseImage','uploadImage','getLocalImgData','getLocation','previewImage','startRecord','stopRecord','onVoiceRecordEnd','playVoice','uploadVoice','stopVoice'
+                  'chooseImage','uploadImage','getLocalImgData','getLocation','previewImage','startRecord',
+                  'stopRecord','onVoiceRecordEnd','playVoice','uploadVoice','stopVoice', 'chooseWXPay',
+                  'updateAppMessageShareData'
                 ] 
             })
+           
             wx.ready(function(res){
-               this.$vux.loading.hide()
+                this.$vux.loading.hide()
+              
+                
+
+               
             });
             wx.error(function(res){
+              
                 this.$vux.loading.hide()
                 alert(JSON.stringify(res))
             });
@@ -48,6 +62,7 @@ export default {
 html,body{
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 body{ font-size: 0.24rem;}
 #app{

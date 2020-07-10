@@ -1,7 +1,7 @@
 import axios from '@/api/axios'
 import qs from 'qs'
 import {publicUrl, baseUrl2, fytestUrl, payrollUrl} from '@/config/config'
-import {homeWorkUrl,schoolUrl} from '@/config/config'
+import {homeWorkUrl,schoolUrl,authUrl} from '@/config/config'
 import   cookie from '@/util/cookie'
 export const getAccessToken = () => {
     return new Promise((resolve,reject) => {
@@ -16,8 +16,9 @@ export const getAccessToken = () => {
 export const GetConfig = () => {
     // console.log(params)
     return new Promise((resolve,reject) => {
+        var url = window.location.href
         axios({
-            url: fytestUrl + '/api/CommonApi/GetConfig?url=' + window.location.href,
+            url: fytestUrl + '/api/CommonApi/GetConfig?url=' + url,
             method: 'get'
         }).then(res => {
             resolve(res.data)
@@ -130,3 +131,20 @@ export const getRoleList = (params) => {
         })
     })
 } 
+// /auth/api/app/refreshToken
+export const refreshToken = (params) => {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: authUrl + '/auth/api/app/refreshToken',
+            method: 'put',
+            // withCredentials: true,
+            params
+        }).then(res => {
+            resolve(res.data)
+        }).catch(
+          res => {
+            reject(res.data)
+          }
+        )
+    })
+  }

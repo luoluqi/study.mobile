@@ -31,6 +31,7 @@ const news = {
           state.isMore = true
         state.newsList = []
         state.newsPageIndex = 0
+        state.curSecondTab = ''
       },
       setCurFristTab(state,tab){
           
@@ -79,6 +80,7 @@ const news = {
         },
         //获取二级菜单
         getNewsTypeChildren({state,commit,dispatch,getters,rootGetters},param){
+            
             return new Promise((resolve,reject) => {
                 getNewsTypeChildren(param).then(res => {
                     res = JSON.parse(res)
@@ -95,11 +97,13 @@ const news = {
         },
         //点击选择一个二级菜单
         changeSecondType({state,commit,dispatch,getters,rootGetters},type){
+            
             if(state.curSecondTab.id == type.id){
                 return
             }
+            commit('clear')
                 commit('setCurSecondTab', type)
-                commit('clear')
+              
                 dispatch('getNextPageNewsList')
         },
         //获取下一页的新闻

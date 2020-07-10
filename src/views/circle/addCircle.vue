@@ -95,17 +95,18 @@ export default {
     },
     methods:{
         publish(){
-            if(this.imgData.length == 0){
-                this.addData()
-            }else{
-                if(this.type == 2){
-                    if(!this.subjectItem){
-                        this.$vux.toast.text('学科不能为空', 'top')
-                        return
-                    }
-                }
-                this.uploadImage([].concat(this.imgData))
-            }
+             this.addData()
+            // if(this.imgData.length == 0){
+            //     this.addData()
+            // }else{
+            //     if(this.type == 2){
+            //         if(!this.subjectItem){
+            //             this.$vux.toast.text('学科不能为空', 'top')
+            //             return
+            //         }
+            //     }
+            //     this.uploadImage([].concat(this.imgData))
+            // }
       },
       addData(){
           if(this.type == 3){
@@ -139,7 +140,7 @@ export default {
     //   发布班级风采
       addCircle(){
           
-          if(this.$store.state.media.imgData.length == 0 && this.$store.state.media.video.length == 0 && this.content.replace(/\s/g,'') == ''){
+          if(this.$store.state.media.imgDataSource.length == 0 && this.$store.state.media.video.length == 0 && this.content.replace(/\s/g,'') == ''){
              this.$vux.toast.text('照片、视频或内容不能为空', 'top')
              return
            }
@@ -184,7 +185,7 @@ export default {
       },
     //   课余天地
       addAfterSchool(){
-          if(this.$store.state.media.imgData.length == 0 && this.$store.state.media.video.length == 0 && this.content.replace(/\s/g,'') == ''){
+          if(this.$store.state.media.imgDataSource.length == 0 && this.$store.state.media.video.length == 0 && this.content.replace(/\s/g,'') == ''){
              this.$vux.toast.text('照片、视频或内容不能为空', 'top')
              return
            }
@@ -233,7 +234,7 @@ export default {
              this.$vux.toast.text('学科不能为空', 'top')
              return
            }
-           if(this.$store.state.media.imgData.length == 0 && this.$store.state.media.video.length == 0 && this.content.replace(/\s/g,'') == ''){
+           if(this.$store.state.media.imgDataSource.length == 0 && this.$store.state.media.video.length == 0 && this.content.replace(/\s/g,'') == ''){
              this.$vux.toast.text('照片、视频或内容不能为空', 'top')
              return
            }

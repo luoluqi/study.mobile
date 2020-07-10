@@ -1,12 +1,21 @@
 <template>
   <div >
      <amap @complete='complete'></amap>
+     <div id="panel" style="display:none;"></div>
      <div class="func-p">
         <img @click="back" class="func-img" src="@/assets/img/map/back.png" alt="">
         <div>返回</div>
         <img @click="getLocation" class="func-img" src="@/assets/img/map/my.png" alt="">
         <div  @click="getLocation">我的</div>
       </div>
+
+      <!-- <div class="walk-rigde">
+        <img @click="walkOrRide('walking')" class="func-img" src="@/assets/img/map/walk.png" alt="">
+        <div @click="walkOrRide('walking')">步行</div>
+        <img  @click="walkOrRide('riding')" class="func-img" src="@/assets/img/map/ride.png" alt="">
+        <div  @click="walkOrRide('riding')">骑行</div>
+      </div> -->
+
      <div class="track-p">
          <div class="date-p">
              <div @click="openCalendar" class="date-item middle">{{date | formatDateTime('周W MM-DD')}}</div>
@@ -182,22 +191,24 @@ import {getGPS} from '@/api/mapApi'
            if(this.list.length == 0){
              return
            }
-            var path = this.list.map(item => {
-              var lng = parseFloat(item.c_Longitude)
-              var lat = parseFloat(item.c_Latitude)
-              // return [lng, lat, item.createTime]
-              return {
-                lng,
-                lat,
-                createTime: item.createTime
-              }
-            })
+           
+           var path = []
+           for (var i = 0; i < this.list.length; i++) {
+             var item = this.list[i]
+             if (item.positionType != 3) {
+               path.push({
+                  lng: parseFloat(item.c_Longitude),
+                  lat: parseFloat(item.c_Latitude),
+                    createTime: item.createTime
+                })
+             }
+           }
            
             console.log(path)
-             
+             this.path = path
             if (path.length > 0) {
              
-               this.$store.dispatch('map/drawTrack', {path})
+               this.$store.dispatch('map/drawTrack', {path, type:'riding'})
             }
             
            
@@ -214,10 +225,13 @@ import {getGPS} from '@/api/mapApi'
              PageNum: 1,
              PageSize: 10000
            }).then(res => {
+            //  res = falseData
               this.list = res.items
-              // this.list = falseData
              this.drawTrack()
            })
+         },
+         walkOrRide (type) {
+            this.$store.dispatch('map/drawTrack', {path:this.path, type})
          }
     },
      mounted () { 
@@ -227,7 +241,17 @@ import {getGPS} from '@/api/mapApi'
   }
 </script>
 <style scoped>
-
+.walk-rigde{
+  position: absolute;
+  width: 0.72rem;
+ 
+  background: #fff;
+  right:0.2rem;
+  bottom:3rem;
+  box-shadow: 0 0 0.1rem 0 rgba(0,0,0,0.3);
+  text-align: center;
+  padding: 0 0 0.2rem 0;
+}
 .func-p{
   position: absolute;
   width: 0.72rem;
@@ -239,6 +263,7 @@ import {getGPS} from '@/api/mapApi'
   text-align: center;
   padding: 0 0 0.2rem 0;
 }
+
 .func-img{
   width: 0.44rem;
   height:0.44rem;

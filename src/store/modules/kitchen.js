@@ -1,4 +1,4 @@
-import { listFoodPicVo, listTodayFoodsMenuVos, uploadFoodsPic, getWeekToday } from '@/api/kitchenApi'
+import { listFoodPicVo, listTodayFoodsMenuVos, uploadFoodsPic, getWeekToday, getWeekList, listKitchen, watchKitchenMonitor } from '@/api/kitchenApi'
 const kitchen = {
   namespaced: true,
   state: {
@@ -36,6 +36,30 @@ const kitchen = {
     GetWeekToday ({ state, commit, dispatch }, params) {
       return new Promise((resolve, reject) => {
         getWeekToday(params).then(res => {
+          resolve(res)
+        })
+      })
+    },
+    // 获取周数据
+    GetWeekList ({ state, commit, dispatch }, params) {
+      return new Promise((resolve, reject) => {
+        getWeekList(params).then(res => {
+          resolve(res)
+        })
+      })
+    },
+    // 查看厨房列表
+    ListKitchen ({ state, commit, dispatch }, params) {
+      return new Promise((resolve, reject) => {
+        listKitchen(params).then(res => {
+          resolve(res)
+        })
+      })
+    },
+    // 查看厨房监控
+    WatchKitchenMonitor ({ state, commit, dispatch }, params) {
+      return new Promise((resolve, reject) => {
+        watchKitchenMonitor(params).then(res => {
           resolve(res)
         })
       })

@@ -5,12 +5,12 @@
                 <!-- <div>{{access_token}}</div>
                 <div>{{voiceServerIds}}</div> -->
                  <div class="audio" v-for="(item,index) in voices" :key='index'>
-                    <div @click="playAudio(item,index)"> 
+                    <div @click="playAudio(item,index)">
                         <img v-if="item == curVoice" src="@/assets/img/voiceGif.gif" alt="">
                         <img v-else src="@/assets/img/homeWork/audioCode.png" alt="">
                         {{timeList[index]}}"
                     </div>
-                    
+
                     <span   @click="deleAudio(index)"  class="deleteIcon">
                         X
                     </span>
@@ -26,9 +26,9 @@
                     </span>
                 </div>
             </div>
-           
+
             <div :class="showModel ? 'vedio' : 'hideVedio'" v-for="(item,index) in video" :key="index">
-                <video v-if="showModel" :src="item" 
+                <video v-if="showModel" :src="item"
                     playsinline webkit-playsinline width="100%" height="100%"
                     controls
                     controlslist="nodownload  noremoteplayback"
@@ -46,7 +46,7 @@
 
                 <div class="a-link-p">
                    <!-- <a :href="item.url" target="_blank" class="a-link">{{item.title}}</a>  -->
-                   <span  href="javaScript:;" class="a-link">{{item.title}}</span> 
+                   <span  href="javaScript:;" class="a-link">{{item.title}}</span>
                 </div>
                 <span class="deleteIcon" @click="delUrl">
                     X
@@ -67,7 +67,7 @@
 
                 <div class="a-link-p">
                    <!-- <a :href="item.url" target="_blank" class="a-link">{{item.title}}</a>  -->
-                   <span  href="javaScript:;" class="a-link">{{item.fileName}}</span> 
+                   <span  href="javaScript:;" class="a-link">{{item.fileName}}</span>
                 </div>
                 <span class="deleteIcon" @click="delFile">
                     X
@@ -98,7 +98,7 @@
                 </div>
             </div>
         </div>
-      
+
         <!-- 链接弹框 -->
         <div class="remark-d" v-if="isUrl">
             <div class="win">
@@ -132,10 +132,10 @@
                         </div>
                     </div>
                     <!-- <div class="stop-btn" @click="stopRecord">结束录音</div> -->
-                
+
                 </div>
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -167,6 +167,10 @@ export default {
         showFile: {
             type: Boolean,
             default: false
+        },
+        maxPic: {
+          type: Number,
+          default: 9
         }
     },
     computed: {
@@ -174,10 +178,10 @@ export default {
             return this.$store.state.media.filesObj
         },
         voices () {
-            return this.$store.state.media.voices
+            return this.$store.state.media.voicesSource
         },
         imgData () {
-            return this.$store.state.media.imgData
+            return this.$store.state.media.imgDataSource
         },
         voiceServerIds () {
             return this.$store.state.media.voiceServerIds
@@ -206,7 +210,7 @@ export default {
     },
     data () {
         return {
-           
+
             isUrl: false,
             urlLink:'',
             curVoice: '',
@@ -217,7 +221,7 @@ export default {
 
             isRecord: false,
             time: -1,
-        
+
             percent: 0,
             voiceTimer: null,
             voiceIndex:0,
@@ -253,7 +257,7 @@ export default {
             this.time++
             this.percent = this.time/60*100
             if(this.time >= 59){
-               
+
                 this.stopRecord()
                 return
             }
@@ -279,7 +283,7 @@ export default {
                     var localId = res.localId;
                     self.$store.commit('media/addVoice', localId)
 
-                    
+
                 }
             })
 
@@ -316,7 +320,7 @@ export default {
                 this.curVoice = item
                 this.startVoiceTimer()
             }
-           
+
         },
         startVoiceTimer(){
             this.clearVoiceTimer()
@@ -341,14 +345,14 @@ export default {
              this.$store.commit('media/delVoice', index)
              this.$store.commit('media/delTime', index)
         },
-        
+
         // 图片
-        chooseImage(){
-            this.$store.dispatch('media/chooseImage').then(() => { 
+        chooseImage(num){
+            this.$store.dispatch('media/chooseImage', num).then(() => {
                 this.$emit('chooseImageSuccess')
             })
         },
-       
+
         delImg(index){
            this.$store.commit('media/delImg', index)
         },
@@ -361,15 +365,15 @@ export default {
                 var size = file.size
                 if(size > 1000 * 1024 * 250){
                     this.$vux.toast.text('只能上传250M以内的视频', 'top')
-                    return 
+                    return
                 }
                 var name = file.name
                 function progress(progressData) {
                     console.log(progressData)
                     self.progress = Math.floor(progressData.percent * 100)
-                   
+
                     self.showProgress = true
-                    
+
                 }
                 COS.putObject(file, progress).then(res => {
                     console.log(res)
@@ -377,16 +381,16 @@ export default {
                     this.$store.commit('media/addVideo', res)
                     self.showProgress = false
                 })
-            
-            
+
+
         },
         delVideo(index){
             this.$store.commit('media/delVideo', index)
         },
         // 上传文件
         changeFile(e){
-            if (this.filesObj.length >= 9) {
-                 this.$vux.toast.text('最多只能上传9个文件', 'top')
+            if (this.filesObj.length >= this.maxPic) {
+                 this.$vux.toast.text('最多只能上传'+ this.maxPic +'个文件', 'top')
                 return
             }
             var self = this
@@ -394,15 +398,15 @@ export default {
             var size = file.size
             if(size > 1000 * 1024 * 30){
                 this.$vux.toast.text('只能上传30M以内的文件', 'top')
-                return 
+                return
             }
             var name = file.name
             function progress(progressData) {
                 console.log(progressData)
                 self.progress = Math.floor(progressData.percent * 100)
-                
+
                 self.showFileProgress = true
-                
+
             }
             COS.putObject(file, progress).then(res => {
                 var oneFile = file.name.split('.')
@@ -418,7 +422,7 @@ export default {
             this.$store.commit('media/delFile', index)
             this.$store.commit('media/delFileName', index)
         },
-        // 链接 
+        // 链接
         chooseLink () {
             if(this.link.length >= 1){
                 this.$vux.toast.text('只能上传一个链接', 'top')
@@ -457,7 +461,7 @@ export default {
                    this.$vux.toast.text(res.Msg)
                 }
            })
-           
+
         },
         delUrl (index) {
             this.$store.commit('media/delLink',  index)
@@ -551,8 +555,8 @@ export default {
         padding: 0 0.3rem;
     }
     .onePhoto img{
-        width: 100%; 
-        height: 100%; 
+        width: 100%;
+        height: 100%;
         object-fit: cover;
     }
     .vedio{

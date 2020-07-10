@@ -2,6 +2,13 @@
     <div>
         <headNav title="亲情号码"></headNav>
         <div class="main">
+            <div class="settingSos">
+                <span class="setTit">亲情号码</span>
+                <span class="setSos" @click="goFamily">设置SOS号码</span>
+            </div>
+            <div class="remind">
+                最多可添加4个号码，状态“可用”的方可正常使用。
+            </div>
             <div v-for="(item,index) in phoneList" :key="index" class="oneMan" @click="editNumber(item)">
 
                 <img v-if="item.nickName == '爸爸'" src="@/assets/img/sos/dad.png" alt="">
@@ -11,7 +18,7 @@
                 <img v-else-if="item.nickName == '外公'" src="@/assets/img/sos/waigong.png" alt="">
                 <img v-else-if="item.nickName == '外婆'" src="@/assets/img/sos/waipo.png" alt="">
                 <img v-else-if="item.nickName == '叔叔'" src="@/assets/img/sos/uncle.png" alt="">
-                <img v-else-if="item.nickName == '阿姨'" src="@/assets/img/sos/unty.png" alt="">
+                <img v-else-if="item.nickName == '婶婶'" src="@/assets/img/sos/unty.png" alt="">
                 <img v-else src="@/assets/img/sos/otherMan.png" alt="">
                 <div class="detail">
                     <p>
@@ -39,9 +46,7 @@
                    点击添加亲情号码
                </p>
             </div>
-            <div class="remind">
-                最多可添加4个号码，状态“可用”的方可正常使用。
-            </div>
+            
         </div>
     </div>
 </template>
@@ -92,6 +97,9 @@ export default {
             this.$router.push({name:'editFamilyNumber',params:{phoneList: arr}})
            this.$store.state.sos.editData = item
            sessionStorage.setItem('editData', JSON.stringify(item))
+        },
+        goFamily(){
+            this.$router.push('setFamily')
         }
     }
 }
@@ -164,9 +172,29 @@ export default {
         color: #FF2F2F;
     }
     .remind{
-        margin-top: 0.32rem;
-        text-align: center;
+        margin-top: 0.2rem;
+        margin-bottom: 0.2rem;
         color: #888;
         font-size: 0.24rem;
+    }
+    .settingSos{
+        /* margin-bottom: 20px; */
+        overflow: hidden; 
+        line-height: 0.6rem;
+    }
+    .setTit{
+       font-size: 0.32rem;
+       color: #333333;
+    }
+    .setSos {
+      float: right;
+      width:1.86rem;
+     height:0.60rem;
+     background:rgba(255,153,0,1);
+     border-radius:0.30rem;
+      color: #ffffff;
+      font-size: 0.24rem;
+      line-height: 0.6rem;
+      text-align: center;
     }
 </style>

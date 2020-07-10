@@ -38,6 +38,14 @@ export default {
         meta:{
           title:'考勤查询'
         }
+      },
+      {
+        path: 'teacherDetail',
+        name: 'index',
+        component: () => import('@/views/checkingIn2/teacherDetail'),
+        meta:{
+          title:'考勤详情'
+        }
       }
     ]   
   }

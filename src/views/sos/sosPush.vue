@@ -133,21 +133,23 @@ import {setSOSReadState,lastGPSInfoFromEs} from '@/api/sosApi'
        
       // 给地图赋值
       getPath(){
-            var walking = new AMap.Walking({
-              map: this.$store.state.map.map,
-              panel: "panel"
-            }); 
-            console.log(this.getSosItem.x + '-------' + this.getSosItem.y)
-            console.log(this.newAdress.c_Longitude + '-------' + this.newAdress.c_Latitude)
-            var startLngLat = [this.getSosItem.x,this.getSosItem.y]
-            var endLngLat = [this.newAdress.c_Longitude,this.newAdress.c_Latitude]
-            walking.search(startLngLat,endLngLat,(status, result) => {
-              if (status === 'complete') {
-                  // alert('绘制步行路线完成')
-              } else {
-                  // alert('步行路线数据查询失败' + result)
-              } 
-          })
+           AMap.plugin(['AMap.Walking'], () => {
+              var walking = new AMap.Walking({
+                map: this.$store.state.map.map,
+                panel: "panel"
+              }); 
+              console.log(this.getSosItem.x + '-------' + this.getSosItem.y)
+              console.log(this.newAdress.c_Longitude + '-------' + this.newAdress.c_Latitude)
+              var startLngLat = [this.getSosItem.x,this.getSosItem.y]
+              var endLngLat = [this.newAdress.c_Longitude,this.newAdress.c_Latitude]
+              walking.search(startLngLat,endLngLat,(status, result) => {
+                if (status === 'complete') {
+                    // alert('绘制步行路线完成')
+                } else {
+                    // alert('步行路线数据查询失败' + result)
+                } 
+            })
+           })
       }
     }
   }

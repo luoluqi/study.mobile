@@ -23,8 +23,8 @@ const webpackConfig = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  externals:{
-      "AMap": "AMap",
+  externals: {
+    "AMap": "AMap",
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -86,4 +86,8 @@ const webpackConfig = {
 }
 module.exports = vuxLoader.merge(webpackConfig, {
   plugins: ['vux-ui']
+  //  [
+  //   { name: 'vux-ui' },
+  //   { name: 'less-theme', path: 'src/assets/style/yisong.less' }
+  // ]
 })

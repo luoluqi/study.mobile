@@ -146,28 +146,8 @@ const map = {
                 state.childMarker = res
             })
         },
-        drawTrack({state,dispatch},{path}){
+        drawTrack({state,dispatch},{path, type}){
             state.map.clearMap()
-            dispatch('addMarker', {
-                img: 'static/img/map/start.png',
-                width: 23,
-                height: 31,
-                lng: path[0].lng,
-                lat: path[0].lat,
-                anchor: 'bottom-center'
-            })
-
-            dispatch('addMarker', {
-                img: 'static/img/map/end.png',
-                width: 23,
-                height: 31,
-                lng: path[path.length -1].lng,
-                lat: path[path.length -1].lat,
-                anchor: 'bottom-center'
-            })
-
-            var  graspRoad = new AMap.GraspRoad()
-          
             var pathParam = path.map((obj, index) => {
                 
                 var tm
@@ -180,66 +160,193 @@ const map = {
                 return  {
                     x: obj.lng,
                     y: obj.lat,
+                    lng: obj.lng,
+                    lat: obj.lat,
                     sp:10,
                     ag:0, 
                     tm:tm
                 }
             })
-          
-            graspRoad.driving(pathParam,function(error,result){
-                if(!error){
-                  var path2 = [];
-                  var newPath = result.data.points;
-                  for(var i =0;i<newPath.length;i+=1){
-                    path2.push([newPath[i].x,newPath[i].y])
-                  }
-                  var newLine = new AMap.Polyline({
-                    path:path2,
-                    strokeWeight:8,
-                    strokeOpacity:0.8,
-                    strokeColor:'#0091ea',
-                    showDir:true
-                  })
-                  state.map.add(newLine)
-                  state.map.setFitView([newLine])
 
+            
+            dispatch('drive', pathParam)
+        },
 
-                  dispatch('addMarker', {
+        drive ({state, dispatch},arr) {
+            
+            AMap.plugin(['AMap.Driving'], () => {
+                var start = [arr[0].lng, arr[0].lat]
+                var end = [arr[arr.length - 1].lng, arr[arr.length - 1].lat]
+
+                var list = []
+               
+                for (let i = 1; i < arr.length; i++) {
+                  
+                        list.push([arr[i].lng, arr[i].lat])
+                   
+                }
+                let driving = new AMap.Driving({
+                    hideMarkers: true,
+                    map: state.map,
+                    panel: "panel",
+                    autoFitView: true,
+                    showTraffic: false
+                });
+              
+                driving.search(
+                    start, 
+                    end,
+                    {
+                        waypoints:list
+                    }, 
+                function(status, result) {
+                    // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+                    if (status === 'complete') {
+                        console.log('绘制驾车路线完成')
+                    } else {
+                        console.log('获取驾车数据失败：' + result)
+                    }
+                  
+                    var pathList = []
+                    for (var s of result.routes[0].steps) {
+                        pathList = pathList.concat(s.path)
+                    }
+                    console.log(pathList)
+
+                  
+                    
+                    dispatch('addMarker', {
+                        img: 'static/img/map/start.png',
+                        width: 23,
+                        height: 31,
+                        lng: pathList[0].lng,
+                        lat: pathList[0].lat,
+                        anchor: 'bottom-center'
+                    })
+        
+                    dispatch('addMarker', {
+                        img: 'static/img/map/end.png',
+                        width: 23,
+                        height: 31,
+                        lng: pathList[pathList.length -1].lng,
+                        lat: pathList[pathList.length -1].lat,
+                        anchor: 'bottom-center'
+                    })
+
+                    dispatch('addMarker', {
                         img: 'static/img/map/head.png',
                         width: 66,
                         height: 71,
-                        lng: path2[0].lng,
-                        lat: path2[0].lat,
+                        lng: pathList[0].lng,
+                        lat: pathList[0].lat,
                         anchor: 'bottom-center'
-                    }).then(res => {
-                        res.moveAlong(path2, 200);
+                    }).then(marker => {
+                        marker.moveAlong(pathList, 200)
                     })
-                }
-              })
 
-            // path = path.map(obj => {
-            //     return [obj.lng, obj.lat]
-            // })
-            // var polyline = new AMap.Polyline({
-            //     path: path,
-            //     isOutline: true,
-            //     outlineColor: 'blue',
-            //     borderWeight: 0,
-            //     strokeColor: "#128FEF", 
-            //     strokeOpacity: 1,
-            //     strokeWeight: 3,
-            //     // 折线样式还支持 'dashed'
-            //     strokeStyle: "solid",
-            //     // strokeStyle是dashed时有效
-            //     strokeDasharray: [10, 5],
-            //     lineJoin: 'round',
-            //     lineCap: 'round',
-            //     zIndex: 50,
-            // })
-        
-            // polyline.setMap(state.map)
-            // // 缩放地图到合适的视野级别
-            // state.map.setFitView([ polyline ])
+                      // pathList = pathList.map(obj => {
+                    //     return [obj.lng, obj.lat]
+                    // })
+
+                    // var polyline = new AMap.Polyline({
+                    //     path: pathList,
+                    //     isOutline: true,
+                    //     outlineColor: 'blue',
+                    //     borderWeight: 0,
+                    //     strokeColor: "#128FEF", 
+                    //     strokeOpacity: 1,
+                    //     strokeWeight: 3,
+                    //     // 折线样式还支持 'dashed'
+                    //     strokeStyle: "solid",
+                    //     // strokeStyle是dashed时有效
+                    //     strokeDasharray: [10, 5],
+                    //     lineJoin: 'round',
+                    //     lineCap: 'round',
+                    //     zIndex: 50,
+                    // })
+                
+                    // polyline.setMap(state.map)
+                    // // 缩放地图到合适的视野级别
+                    // state.map.setFitView([ polyline ])
+                    
+                   
+                   
+                });
+            })
+        },
+       
+        walking ({state, dispatch},arr) {
+            AMap.plugin(['AMap.Walking'], () => {
+                var list = []
+                list.push(arr[0])
+                for (let i = 1; i < arr.length; i++) {
+                    if (i % 10 === 0) {
+                        list.push(arr[i])
+                    }
+                }
+                list.push(arr[arr.length - 1])
+                
+                for (let i = 0;i < list.length; i++) {
+                    if (i >= list.length - 1) {
+                        state.map.setFitView()
+                        break
+                    }
+                    let start = [list[i].lng, list[i].lat]
+                    let end = [list[i + 1].lng, list[i + 1].lat]
+                    let walking = new AMap.Walking({
+                        hideMarkers: true,
+                        map: state.map,
+                        panel: "panel",
+                        autoFitView: false
+                    });
+                    walking.search(start, end, (status, result) => {
+                      
+                        if (status === 'complete') {
+                            console.log('绘制步行路线完成')
+                           
+                        } else {
+                            console.log('步行路线数据查询失败' + result)
+                        } 
+                    });
+                }
+            })
+        },
+       
+        riding ({state}, arr) {
+            AMap.plugin(['AMap.Riding'], () => {
+                var list = []
+                list.push(arr[0])
+                for (let i = 1; i < arr.length; i++) {
+                    if (i % 10 === 0) {
+                        list.push(arr[i])
+                    }
+                }
+                list.push(arr[arr.length - 1])
+                
+                for (let i = 0;i < list.length; i++) {
+                    if (i >= list.length - 1) {
+                        state.map.setFitView()
+                        break
+                    }
+                    let start = [list[i].lng, list[i].lat]
+                    let end = [list[i + 1].lng, list[i + 1].lat]
+                    let riding = new AMap.Riding({
+                        hideMarkers: true,
+                        map: state.map,
+                        panel: "panel",
+                        autoFitView: false
+                    });
+                    riding.search(start, end, (status, result) => {
+                    
+                        if (status === 'complete') {
+                            console.log('绘制骑行路线完成')
+                        
+                        } else {
+                            console.log('骑行路线数据查询失败' + result)
+                        } 
+                    });
+                }
+            })
         },
         addTrackMarker({state,dispatch},{lng, lat, content}){
             if(state.trackMarker){
@@ -293,60 +400,68 @@ const map = {
             state.overlays.push(circle)
             // 缩放地图到合适的视野级别
             state.map.setFitView([ circle ])
-        
-            var circleEditor = new AMap.CircleEditor(state.map, circle)
-            circleEditor.open()
-        
-            circleEditor.on('move', function(event) {
-                console.log('触发事件：move')
-            })
-        
-            circleEditor.on('adjust', function(event) {
-                console.log('触发事件：adjust')
-            })
-        
-            circleEditor.on('end', function(event) {
-                console.log('触发事件： end')
-                // event.target 即为编辑后的圆形对象
-            })
+
+
+            AMap.plugin(['AMap.CircleEditor'], () => {
+                var circleEditor = new AMap.CircleEditor(state.map, circle)
+                circleEditor.open()
             
-           
+                circleEditor.on('move', function(event) {
+                    console.log('触发事件：move')
+                })
+            
+                circleEditor.on('adjust', function(event) {
+                    console.log('触发事件：adjust')
+                })
+            
+                circleEditor.on('end', function(event) {
+                    console.log('触发事件： end')
+                    // event.target 即为编辑后的圆形对象
+                })
+                
+            });
         },
         drawPolygon({state, dispatch}){
             if(state.mouseTool){
                 state.mouseTool.close()
             }
-            state.mouseTool = new AMap.MouseTool(state.map)
-            state.mouseTool.on('draw',function(e){
-                console.log(e.obj)
-                console.log(e.obj.getPath())
-                state.overlays.push(e.obj)
+           
 
-
-                state.isDrawPolygon =  false
-                state.mouseTool.close()
-
-                var polyEditor = new AMap.PolyEditor(state.map, e.obj)
-                polyEditor.open()
-
-                polyEditor.on('addnode', function(event) {
-                    console.log('触发事件：addnode')
+            AMap.plugin(['AMap.MouseTool', 'AMap.PolyEditor'],function(){
+                state.mouseTool = new AMap.MouseTool(state.map)
+                state.mouseTool.on('draw',function(e){
+                    console.log(e.obj)
+                    console.log(e.obj.getPath())
+                    state.overlays.push(e.obj)
+    
+    
+                    state.isDrawPolygon =  false
+                    state.mouseTool.close()
+    
+                    var polyEditor = new AMap.PolyEditor(state.map, e.obj)
+                    polyEditor.open()
+    
+                    polyEditor.on('addnode', function(event) {
+                        console.log('触发事件：addnode')
+                    })
+                
+                    polyEditor.on('adjust', function(event) {
+                        console.log('触发事件：adjust')
+                    })
+                
+                    polyEditor.on('removenode', function(event) {
+                        console.log('触发事件：removenode')
+                    })
+                }) 
+                
+                state.mouseTool.polygon({
+                    fillColor:'#128FEF',
+                    strokeColor:'#80d8ff'
+                    //同Circle的Option设置
                 })
-            
-                polyEditor.on('adjust', function(event) {
-                    console.log('触发事件：adjust')
-                })
-            
-                polyEditor.on('removenode', function(event) {
-                    console.log('触发事件：removenode')
-                })
-            }) 
-            
-            state.mouseTool.polygon({
-                fillColor:'#128FEF',
-                strokeColor:'#80d8ff'
-                //同Circle的Option设置
             })
+
+            
         },
         drawFence({state, dispatch}, data){
             for (var item of data) {
@@ -375,8 +490,11 @@ const map = {
                     circle.setMap(state.map)
         
                     state.overlays.push(circle)
-                    var circleEditor = new AMap.CircleEditor(state.map, circle)
-                    circleEditor.open()
+
+                    AMap.plugin(['AMap.CircleEditor'],function(){
+                        var circleEditor = new AMap.CircleEditor(state.map, circle)
+                        circleEditor.open()
+                    })
                 } else {
                     var path = item.pointInfo.split('|')
                     var list = []
@@ -398,8 +516,12 @@ const map = {
                     polygon.setMap(state.map)
         
                     state.overlays.push(polygon)
-                    var polyEditor = new AMap.PolyEditor(state.map, polygon)
-                    polyEditor.open()
+
+                    AMap.plugin(['AMap.PolyEditor'],function(){
+                        var polyEditor = new AMap.PolyEditor(state.map, polygon)
+                        polyEditor.open()
+                    })
+                   
                 }
             }
             state.map.setFitView(state.overlays)

@@ -56,7 +56,7 @@
                  <ul>
                     <li > 
                         <h2 v-if="item.attendanceTeachCommutingWork.id != null" style="color: #999;">上班：{{item.attendanceTeachCommutingWork.attendanceTime | formatDateTime('HH:mm:ss')}}</h2>
-                        <h2 v-if="item.attendanceTeachCommutingWork.id != null">打卡时间：{{item.attendanceTeachCommutingWork.cardingTime | formatDateTime('HH:mm:ss')}} 
+                        <h2 v-if="item.attendanceTeachCommutingWork.id != null && item.attendanceTeachCommutingWork.cardingTime">打卡时间：{{item.attendanceTeachCommutingWork.cardingTime | formatDateTime('HH:mm:ss')}} 
                             <span v-if="item.attendanceTeachCommutingWork.msg == '正常'">正常</span>
                              <span v-if="item.attendanceTeachCommutingWork.msg == '迟到'" class="zaotui2">迟到</span>
                             <span v-if="item.attendanceTeachCommutingWork.msg == '早退'" class="zaotui2">早退</span>
@@ -67,7 +67,7 @@
                     <!-- <li v-if="item.attendanceTeachCommutingWorkOff.id == null"></li> -->
                     <li >
                         <h2 v-if="item.attendanceTeachCommutingWorkOff.id != null" style="color: #999;">下班：{{item.attendanceTeachCommutingWorkOff.attendanceTime | formatDateTime('HH:mm:ss')}}</h2>
-                        <h2 v-if="item.attendanceTeachCommutingWorkOff.id != null">打卡时间：{{item.attendanceTeachCommutingWorkOff.cardingTime | formatDateTime('HH:mm:ss')}} 
+                        <h2 v-if="item.attendanceTeachCommutingWorkOff.id != null && item.attendanceTeachCommutingWorkOff.cardingTime">打卡时间：{{item.attendanceTeachCommutingWorkOff.cardingTime | formatDateTime('HH:mm:ss')}} 
                             <span v-if="item.attendanceTeachCommutingWorkOff.msg == '正常'">正常</span>
                              <span v-if="item.attendanceTeachCommutingWorkOff.msg == '迟到'" class="zaotui2">迟到</span>
                             <span v-if="item.attendanceTeachCommutingWorkOff.msg == '早退'" class="zaotui2">早退</span>
@@ -229,6 +229,7 @@ export default {
                                 this.lack.push(obj.day)
                             }
                             if(this.formatDate(obj.day)==dateDay){
+                                debugger
                                 this.itemDay = obj
                                 console.log(this.itemDay)
                             }

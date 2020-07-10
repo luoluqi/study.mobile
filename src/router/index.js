@@ -10,7 +10,7 @@ import settings from './modules/settings'
 import circle from './modules/circle'
 import outIn from './modules/outIn'
 import pushDetail from './modules/pushDetail'
-import homeWork from './modules/homeWork'
+
 import homeWork2 from './modules/homeWork2'
 import classNotice from './modules/classNotice'
 import classNotice2 from './modules/classNotice2'
@@ -23,6 +23,9 @@ import link from './modules/link'
 import sos from './modules/sos'
 import oaNotice from './modules/oaNotice'
 import kitchen from './modules/kitchen'
+import schoolAccount from './modules/schoolAccount'
+import inviteParents from './modules/inviteParents'
+import broadcast from './modules/broadcast'
 Vue.use(Router)
 
 const router = new Router({
@@ -35,7 +38,7 @@ const router = new Router({
     circle,
     outIn,
     pushDetail,
-    homeWork,
+
     homeWork2,
     partyBuild,
     classNotice,
@@ -49,6 +52,9 @@ const router = new Router({
     sos,
     oaNotice,
     kitchen,
+    schoolAccount,
+    inviteParents,
+    broadcast,
     {
       path: '/404',
       name: 'lost',
@@ -85,4 +91,5 @@ router.beforeEach((to, from, next) => {
 })
 router.afterEach((to, from) => {
   window.document.title = to.meta.title
+  document.body.scrollTop = document.documentElement.scrollTop = 0
 })

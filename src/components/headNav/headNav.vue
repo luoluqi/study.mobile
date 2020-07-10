@@ -37,13 +37,39 @@ export default {
       }
   },
   methods:{
+      
+    randomNum(min = 0, max = 100, len = 0) {
+        return Number((min + (max - min) * Math.random()).toFixed(len));
+    },
+    randomStr(){
+
+        let str = '';
+        let list = '0123456789abcdefghijklmnopqrstuvwxyz';
+        for (let i = 0; i < 8; i++) {
+            let index = this.randomNum(0, 35);
+            let word = list[index];
+            if (isNaN(word) && this.randomNum() < 50) {
+            word = word.toUpperCase();
+            }
+            str += word;
+        }
+        return str;
+
+    },
     back(){
-        
-         if(this.title=="设置"){
-             location.href="http://mappv2.xueerqin.net/home/#/index";
-         }else{
-             this.$router.go(-1)
-         }
+
+        console.log(this.$router)
+        console.log(this.$route)
+        if(this.title=="设置"){
+            location.href="http://mappv2.xueerqin.net/home/#/index";
+        }else if(this.title=="充值"){
+            this.$router.replace('/schoolAccount/index')
+        }else if(this.title=="校园账户"){
+            //console.log('校园账户')
+            location.href='http://m.xueerqin.net/study/index.html?v='+this.randomStr()+'#/settings/Tsetup'
+        }else{
+            this.$router.go(-1)
+        }
         
     },
 

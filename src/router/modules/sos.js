@@ -64,6 +64,30 @@ export default {
         meta:{
           title:'SOS详情'
         }
+      },
+      {
+        path: 'schoolAdminSos',
+        name: 'schoolAdminSos',
+        component: () => import('@/views/sos/schoolAdminSos'),
+        meta:{
+          title:'SOS设置'
+        }
+      },
+      {
+        path: 'setFamily',
+        name: 'setFamily',
+        component: () => import('@/views/sos/setFamily'),
+        meta:{
+          title:'设置家庭SOS号码'
+        }
+      },
+      {
+        path: 'lookNumber',
+        name: 'lookNumber',
+        component: () => import('@/views/sos/lookNumber'),
+        meta:{
+          title:'SOS号码查看'
+        }
       }
     ]
   }

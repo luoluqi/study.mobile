@@ -33,6 +33,7 @@
 import headNav from '@/components/headNav/headNav';
 import bottomNav from '@/components/bottomNav/bottomNav';
 import {setUp,exit} from "@/api/studyApi"
+import cookie from "@/util/cookie"
 export default {
     components: {
     headNav,
@@ -75,8 +76,8 @@ export default {
                     var data=JSON.parse(data)
                     for(var obj of data.Data){
                         if(obj.Name == '帮助'){
-                            obj.Url = 'http://m.xueerqin.net/study/index.html#help/index'
-                            // obj.Url = location.href
+                            // obj.Url = 'http://m.xueerqin.net/study/index.html#help/index'
+                            obj.Url = location.href
                         }
                     }
                     this.setData = data.Data
@@ -101,24 +102,7 @@ export default {
             return null;
         },
         DropOut (){
-            this.openId = this.getCookie("OpenId")
-                //   alert(this.openId)
-                if(!this.openId){
-                    this.openId = "null";
-                }
-                
-            exit({
-            openId:this.openId
-            }).then((data) => {
-                var data=JSON.parse(data)
-                if(data.Code==200){
-                   
-                    // console.log(data);
-                window.location.href=data.Msg
-                }
-                
-                
-            });
+            this.$store.dispatch('setting/loginOut')
         },
         // 判断是否需要切换身份
         switchIdentities(setData){

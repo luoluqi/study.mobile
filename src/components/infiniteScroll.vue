@@ -19,6 +19,7 @@ export default {
     },
     methods: {
         handleScroll (e) {
+        
             if (!this.canLoadMore) {
                 return
             }
@@ -32,6 +33,7 @@ export default {
             if(scrollHeight == clientHeight){
                 return
             }
+          
             if (scrollHeight - clientHeight - scrollTop < 30) {
                 
                 this.$emit('loadMore')

@@ -13,13 +13,24 @@
        </div> -->
        <div class="setList">
            <ul>
+                <router-link tag="li" to="/schoolAccount/index">
+                    <img class="yuanT" src="@/assets/img/schoolaccount/i1.png" alt="">
+                    <span>校园账户</span>
+                    <img class="arrYou" src="@/assets/img/a-arrow.png" alt="">
+                </router-link>
+                <!-- <li 
+                    @click="">
+                    <img class="yuanT" :src="item.ImgUrl" alt="">
+                    <span>校园账户</span>
+                    <img class="arrYou" src="@/assets/img/a-arrow.png" alt="">
+                </li> -->
              
-                   <li v-for="(item,index) in setData" :key="index"
+                <li v-for="(item,index) in setData" :key="index"
                     @click="toUrl(item)">
                         <img class="yuanT" :src="item.ImgUrl" alt="">
                         <span>{{item.Name}}</span>
                         <img class="arrYou" src="@/assets/img/a-arrow.png" alt="">
-                    </li>
+                </li>
             
            </ul>
        </div>
@@ -32,6 +43,7 @@
 import headNav from '@/components/headNav/headNav';
 import bottomNav from '@/components/bottomNav/bottomNav';
 import {setUp,exit} from "@/api/studyApi"
+import cookie from "@/util/cookie"
 export default {
     components: {
     headNav,
@@ -85,8 +97,8 @@ export default {
                     var data=JSON.parse(data)
                     for(var obj of data.Data){
                         if(obj.Name == '帮助'){
-                             obj.Url = 'http://m.xueerqin.net/study/index.html#help/index'
-                            // obj.Url = location.href
+                            //  obj.Url = 'http://m.xueerqin.net/study/index.html#help/index'
+                            obj.Url = location.href
                         }
                     }
                     this.setData = data.Data
@@ -112,24 +124,7 @@ export default {
             return null;
         },
         DropOut (){
-            this.openId = this.getCookie("OpenId")
-                //   alert(this.openId)
-                if(!this.openId){
-                    this.openId = "null";
-                }
-                
-            exit({
-            openId:this.openId
-            }).then((data) => {
-                var data=JSON.parse(data)
-                if(data.Code==200){
-                   
-                    // console.log(data);
-                window.location.href=data.Msg
-                }
-                
-                
-            });
+            this.$store.dispatch('setting/loginOut')
         },
         // 判断是否需要切换身份
         switchIdentities(setData){

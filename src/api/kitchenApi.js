@@ -49,3 +49,39 @@ export const getWeekToday = (params) => {
     })
   })
 }
+// 获取周数据
+export const getWeekList = (params) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: kitchenUrl + '/food/getWeekList',
+      method: 'get',
+      data: qs.stringify(params)
+    }).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+// 查看厨房列表
+export const listKitchen = (params) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: kitchenUrl + '/monitor/listKitchen',
+      method: 'post',
+      data: qs.stringify(params)
+    }).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+// 查看厨房监控
+export const watchKitchenMonitor = (params) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: kitchenUrl + '/monitor/watchKitchenMonitor',
+      method: 'post',
+      data: qs.stringify(params)
+    }).then(res => {
+      resolve(res.data)
+    })
+  })
+}

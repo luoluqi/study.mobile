@@ -90,15 +90,18 @@ export const setOrUpdateFamilyPhones = (data) => {
     })
 }
 // 发送监听 /safety/api/device/studentDevice/sendListen
+// /safety/api/device/studentDevice/sendListenInMonitor
 export const sendListen = (data) => {
     // console.log(params)
     return new Promise((resolve,reject) => {
         axios({
-            url: appUrl + '/safety/api/device/studentDevice/sendListen',
+            url: appUrl + '/safety/api/device/studentDevice/sendListenInMonitor',
             method: 'post',
             data
         }).then(res => {
             resolve(res.data)
+        }).catch(res => {
+            reject(res)
         })
     })
 }
@@ -108,6 +111,47 @@ export const studentDevice = (params) => {
     return new Promise((resolve,reject) => {
         axios({
             url: appUrl + '/safety/api/device/studentDevice',
+            method: 'get',
+            params
+        }).then(res => {
+            resolve(res.data)
+        })
+    })
+}
+// /safety/api/device/studentDevice/monitorState/{deviceMonitorId}
+export const monitorState = (params) => {
+    // console.log(params)
+    return new Promise((resolve,reject) => {
+        axios({
+            url: appUrl + '/safety/api/device/studentDevice/monitorState/' + params.deviceMonitorId,
+            method: 'get',
+            params
+        }).then(res => {
+            resolve(res.data)
+        })
+    })
+}
+// 设置或更新家庭sos号码
+export const setOrUpdateSOSPhones = (data) => {
+    // console.log(params)
+    return new Promise((resolve,reject) => {
+        axios({
+            url: appUrl + '/safety/api/device/studentDevice/setOrUpdateSOSPhones',
+            method: 'post',
+            data
+        }).then(res => {
+            resolve(res.data)
+        }).catch(res =>{
+            reject(res)
+        })
+    })
+}
+// 获取sos详情
+export const sOSPhonesStateDto = (params) => {
+    // console.log(params)
+    return new Promise((resolve,reject) => {
+        axios({
+            url: appUrl + '/safety/api/device/studentDevice/sOSPhonesState/' + params.studentId,
             method: 'get',
             params
         }).then(res => {

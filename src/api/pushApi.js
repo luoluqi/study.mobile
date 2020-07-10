@@ -1,6 +1,6 @@
 import axios from './axios'
 import qs from 'qs'
-import {studentNameUrl} from '@/config/config'
+import {studentNameUrl,appUrl} from '@/config/config'
 
 // 获取推送给班主任的异常数据
 export const GetAbnormalForTeach = (params) => {
@@ -38,3 +38,39 @@ export const GetAbormalForParent = (params) => {
         })
     })
 }
+// /school/api/classroom/classRolls 教师获取异常点名数据
+export const classRolls = (params) => {
+    return new Promise((resolve, reject) => {
+        axios({
+            url:appUrl + '/school/api/classroom/classRolls2',
+            method: 'get',
+            params:params
+        }).then(res => {
+            resolve(res.data)
+        })
+    })
+}
+// 家长查看学生点名/school/api/classroom/classRolls2/child
+export const classRollsParent = (params) => {
+    return new Promise((resolve, reject) => {
+        axios({
+            url:appUrl + '/school/api/classroom/classRolls2/child',
+            method: 'get',
+            params:params
+        }).then(res => {
+            resolve(res.data)
+        })
+    })
+}
+// 点名推送给家长 /school/api/classroom/classRolls2/classRollToFamily/{rollBatchId}
+export const classRollToFamily = (params) => {
+    return new Promise((resolve, reject) => {
+        axios({
+            url:appUrl + '/school/api/classroom/classRolls2/classRollToFamily/' + params.rollBatchId,
+            method: 'get'
+        }).then(res => {
+            resolve(res.data)
+        })
+    })
+}
+

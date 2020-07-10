@@ -9,10 +9,11 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '',
     proxyTable: {
       "/kitchen-center": {
-        target: "http://192.168.66.218:9101/kitchen-center/",
+        // target: "http://192.168.66.218:9101/kitchen-center/",  // 开发线
+        target: "http://t-api.xueerqin.net/kitchen-center/",  // 测试线
         changeOrigin: true,
         pathRewrite: {
           // "^/kitchen-center": "/"

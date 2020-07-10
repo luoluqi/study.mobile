@@ -120,7 +120,8 @@ import {setSOSReadState,lastGPSInfoFromEs} from '@/api/sosApi'
       },
       // 给地图赋值
       getPath(){
-            var walking = new AMap.Walking({
+         AMap.plugin(['AMap.Walking'], () => {
+             var walking = new AMap.Walking({
               map: this.$store.state.map.map,
               panel: "panel"
             }); 
@@ -135,6 +136,7 @@ import {setSOSReadState,lastGPSInfoFromEs} from '@/api/sosApi'
                   // alert('步行路线数据查询失败' + result)
               } 
           })
+         })
       }
     }
   }

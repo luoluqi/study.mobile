@@ -35,11 +35,13 @@ const answer = {
                 if(data.Code == 200){
                     if(data.Data.length < 5){
                         Vue.$vux.toast.text('每日答题小于5题，不能进行答题')
-                        router.push('study')
+                        // router.go(-2)
                         return
                     }
                    state.dayList = data.Data
                    state.dayListItem = state.dayList[state.dayListIndex]
+
+                   router.push({path:'/partyBuild/answer',query:{type:'day'}})
                 }
                 if(data.Code == 300){
                     Vue.$vux.toast.text(data.Msg)
@@ -49,7 +51,7 @@ const answer = {
                 }
                 if(data.Code == 0){
                     Vue.$vux.toast.text(data.Msg)
-                    router.push('study')
+                    // router.go(-2)
                 }
             })
         },
@@ -63,11 +65,12 @@ const answer = {
                 if(data.Code == 200){
                     if(data.Data.length < 10){
                         Vue.$vux.toast.text('每周答题小于10题，不能进行答题')
-                        router.push('study')
+                        // router.push('study')
                         return
                     }
                    state.dayList = data.Data
                    state.dayListItem = state.dayList[state.dayListIndex]
+                   router.push({path:'/partyBuild/answer',query:{type:'week'}})
                 }
                 if(data.Code == 300){
                     Vue.$vux.toast.text(data.Msg)
@@ -77,7 +80,7 @@ const answer = {
                 }
                 if(data.Code == 0){
                     Vue.$vux.toast.text(data.Msg)
-                    router.push('study')
+                    // router.push('study')
                 }
             })
         },
@@ -95,7 +98,8 @@ const answer = {
                 }
                 if(data.Code == 0){
                     Vue.$vux.toast.text(data.Msg)
-                    router.push('study')
+                    router.go(-2)
+                   
                 }
             })
         },

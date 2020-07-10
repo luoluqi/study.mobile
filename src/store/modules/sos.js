@@ -1,5 +1,5 @@
 // import {sign} from '@/api/signApi'
-import {familyPhonesState, listenPhoneList, setOrUpdateFamilyPhones, sendListen,studentDevice} from '@/api/sosApi'
+import {familyPhonesState, listenPhoneList, setOrUpdateFamilyPhones, sendListen,studentDevice,monitorState,setOrUpdateSOSPhones,sOSPhonesStateDto} from '@/api/sosApi'
 const sos = {
     namespaced: true,
     state: {
@@ -50,6 +50,8 @@ const sos = {
             return new Promise((resolve, reject) => {
                 sendListen(params).then(res => {
                     resolve(res)
+                }).catch(res => {
+                    reject(res)
                 })
             })
         },
@@ -57,6 +59,29 @@ const sos = {
         StudentDevice ({state, commit, dispatch}, params) {
             return new Promise((resolve, reject) => {
                 studentDevice(params).then(res => {
+                    resolve(res)
+                })
+            })
+        },
+        MonitorState ({state, commit, dispatch}, params) {
+            return new Promise((resolve, reject) => {
+                monitorState(params).then(res => {
+                    resolve(res)
+                })
+            })
+        },
+        SetOrUpdateSOSPhones ({state, commit, dispatch}, params) {
+            return new Promise((resolve, reject) => {
+                setOrUpdateSOSPhones(params).then(res => {
+                    resolve(res)
+                }).catch(res =>{
+                    reject(res)
+                })
+            })
+        },
+        SOSPhonesStateDto ({state, commit, dispatch}, params) {
+            return new Promise((resolve, reject) => {
+                sOSPhonesStateDto(params).then(res => {
                     resolve(res)
                 })
             })

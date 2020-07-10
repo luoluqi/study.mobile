@@ -34,10 +34,10 @@ export default {
     },
     methods:{
         toDayAnswer(){
-            this.$router.push({path:'/partyBuild/answer',query:{type:'day'}})
+          this.$store.dispatch('answer/getDayQustion')
         },
         toWeekAnswer(){
-            this.$router.push({path:'/partyBuild/answer',query:{type:'week'}})
+           this.$store.dispatch('answer/getWeekQustion')
         },
         toChallenge(){
             this.$router.push('challenge')

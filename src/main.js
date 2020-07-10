@@ -28,6 +28,14 @@ import '@/assets/css/public.css';
 import '@/assets/css/index_app.css'
 import '@/style/quill.core.css'
 
+// 播放m3u8的插件使用
+import VideoPlayer from 'vue-video-player'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer)
+const hls = require('videojs-contrib-hls')
+Vue.use(hls)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

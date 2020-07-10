@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <!-- <headNav :title='title'></headNav> -->
+        {{dayListIndex}}
         <div id="head" style="">
             <div class="head-space"></div>
             <div class="nvagter">
@@ -83,16 +84,16 @@ export default {
     },
     mounted () {
         // alert(this.$route.query.type)
-        this.$store.commit('answer/clear')
+        // this.$store.commit('answer/clear')
         this.type = this.$route.query.type
         if(this.type == 'day'){
             this.title = '每日答题'
-            this.getDayQustion()
+            // this.getDayQustion()
             this.time_fun()
         }
         if(this.type == 'week'){
             this.title = '每周答题'
-            this.getWeekQustion()
+            // this.getWeekQustion()
             this.time_fun()
         }
     },
@@ -121,13 +122,13 @@ export default {
             })
         },
         //    获取每日答题数据
-        getDayQustion(){
-           this.$store.dispatch('answer/getDayQustion')
-        },
+        // getDayQustion(){
+        //    this.$store.dispatch('answer/getDayQustion')
+        // },
         // 获取每周答题数据
-        getWeekQustion(){
-            this.$store.dispatch('answer/getWeekQustion')
-        },
+        // getWeekQustion(){
+        //     this.$store.dispatch('answer/getWeekQustion')
+        // },
         // 添加样式
         addActive (index,answerId,subjectId) {
             if(this.$store.state.answer.dayListItem.isComfirm) {
@@ -196,8 +197,9 @@ export default {
            SubmitAnswer(params).then((data) => {
                if(data.Code == 200){
                    this.$vux.toast.text(data.Msg)
-                   this.$router.push('answerOver')
+                   this.$router.replace('answerOver')
                    this.$store.state.answer.submitData = data.Data
+                   this.$store.commit('answer/clear')
                }
            })
         }

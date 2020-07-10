@@ -37,7 +37,11 @@
                         <span v-if="item.attendanceTeachCommutingWork.msg == '旷工'" class="Ckuangke">旷工</span>
                         <span @click="updataClockIn('1')" class="gengxin" v-if="item.attendanceTeachCommutingWork.isLast">更新打卡 ></span>
                     </li>
-                    <li class="threeLi"><img src="@/assets/img/ding.png" alt=""><span>{{item.attendanceTeachCommutingWork.address}}</span></li>
+                    <li class="threeLi" v-if="item.attendanceTeachCommutingWork.address"><img src="@/assets/img/ding.png" alt=""><span>{{item.attendanceTeachCommutingWork.address}}</span></li>
+                    <li class="threeLi" v-if="item.attendanceTeachCommutingWork.msg == '旷工'">
+                        <span>缺卡</span>
+                        <!-- <div class="bukaBtn" @click="goBuka">申请补卡</div> -->
+                    </li>
                 </ul>
                 <div class="line"></div>
             </div>
@@ -55,7 +59,11 @@
                         <span v-if="item.attendanceTeachCommutingWorkOff.msg == '旷工'" class="Ckuangke">旷工</span>
                         <span @click="updataClockIn('1')" class="gengxin" v-if="item.attendanceTeachCommutingWorkOff.isLast">更新打卡 ></span>
                     </li>
-                    <li class="threeLi"><img src="@/assets/img/ding.png" alt=""><span>{{item.attendanceTeachCommutingWorkOff.address}}</span></li>
+                    <li v-if="item.attendanceTeachCommutingWorkOff.address" class="threeLi"><img src="@/assets/img/ding.png" alt=""><span>{{item.attendanceTeachCommutingWorkOff.address}}</span></li>
+                    <li class="threeLi" v-if="item.attendanceTeachCommutingWorkOff.msg == '旷工'">
+                        <span>缺卡</span>
+                        <!-- <div class="bukaBtn" @click="goBuka">申请补卡</div> -->
+                    </li>
                 </ul>
                 <div class="line"></div>
             </div>
@@ -138,8 +146,10 @@ export default {
           State:{},
           surpass:true,
           tescherName:'',
-          tescherImg:''
-          
+          tescherImg:'',
+          deptId:'',
+          memuList:[],
+          menuNames:[{FlowName: '补考勤', val: 'patchCard', FormId: 'f5a68f61-467f-4eff-acec-041bb7907ef1'}]
 
       }
   },
@@ -152,13 +162,58 @@ export default {
     if(this.tescherImg && this.tescherImg != 'null'){
          this.tescherImg = this.tescherImg
     }
-   
     this.ClockInList()
+    // this.getDeptId()
     // this.RecordState()
     // this. Commuting()
   },
   methods:{
-   
+      goBuka(){
+          this.$router.push('/oa/patchCard')
+        //   var obj = {FlowName: '补考勤', val: 'patchCard', FormId: 'f5a68f61-467f-4eff-acec-041bb7907ef1'}
+      },
+       // 获取部门deptid
+        getDeptId () {
+            var teacherId = this.$store.state.user.teacherId
+            this.$store.dispatch('oa/DeptListByTeacherId', {teacherId}).then(result => {
+                let arr = []
+                let deptArr = []
+                if (result.Code == 200) {
+                    for (var i = 0; i < result.Data.length; i++) {
+                        var obj = {name: result.Data[i].Name, value: result.Data[i].Id}
+                        arr.push(result.Data[i].Id)
+                        deptArr.push(result.Data[i].Name)
+                    }
+                    this.deptId = arr.join()
+                    this.$store.commit('oa/deptId', this.deptId)
+                    this.$store.commit('oa/deptArr', deptArr)
+                    this.myPowerApplyFlow()
+                } 
+            })
+        },
+      // 获取当前用户能申请的流程
+        myPowerApplyFlow () {
+            var params = {
+                userId: this.$store.getters['user/teacherId'],
+                deptId: this.deptId,
+                schoolId: this.$store.state.user.schoolId
+            }
+            this.$store.dispatch('oa/MyPowerApplyFlow', params).then(
+                res => {
+                    if (res.Code == 200) {
+                        this.memuList = res.Data
+                        for(var obj of this.memuList){
+                            for(var obj2 of this.menuNames){
+                                if(obj2.FormId == obj.FormId){
+                                    this.$store.commit('oa/setFlowObj', obj)
+                                }
+                            }
+                        }
+                    } 
+                }
+
+            )
+        },
        //   获取cookie中的值
       getCookie(sName){
             var aCookie = document.cookie.split("; ");
@@ -356,6 +411,7 @@ export default {
        },
       //    查看教师考勤
        LookTeacher () {
+        //    checkingIn2/studentCheck
            this.$router.push('LookTeacherDetail')
        },
        getAddress(){
@@ -667,6 +723,21 @@ export default {
 .btnBox span:nth-child(2){
    background-color: #ffffff;
    color: #0a8de5
+}
+.bukaBtn{
+    display: inline-block;
+    font-size: 0.28rem;
+    background-color: #1393e9;
+    width: 1.5rem;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    text-align: center;
+    border-radius: 0.3rem;
+    color: #fff;
+    margin-left: 0.3rem;
+}
+.clockIn{
+    margin-bottom: 1rem;
 }
 </style>
 

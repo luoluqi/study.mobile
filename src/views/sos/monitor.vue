@@ -13,7 +13,7 @@
                 <img v-else-if="item.nickName == '外公'" src="@/assets/img/sos/waigong.png" alt="">
                 <img v-else-if="item.nickName == '外婆'" src="@/assets/img/sos/waipo.png" alt="">
                 <img v-else-if="item.nickName == '叔叔'" src="@/assets/img/sos/uncle.png" alt="">
-                <img v-else-if="item.nickName == '阿姨'" src="@/assets/img/sos/unty.png" alt="">
+                <img v-else-if="item.nickName == '婶婶'" src="@/assets/img/sos/unty.png" alt="">
                 <img v-else src="@/assets/img/sos/otherMan.png" alt="">
                 <!-- <img src="@/assets/img/sos/dad.png" alt=""> -->
                 <div class="detail">
@@ -26,10 +26,13 @@
                 </div>
                 <img v-if="current == index" class="isImg" src="@/assets/img/sos/isImg.png" alt="">
             </div>
-            <div v-if="isListen" @click="toMonitor" class="submit">
+            <div v-if="isListen == 1" @click="toMonitor" class="submit">
                 开始监听
             </div>
-            <div v-else class="submit" style="background: rgb(159, 165, 169);">
+            <div v-if="isListen == 2" class="submit" style="background: rgb(159, 165, 169);">
+                正在监听...
+            </div>
+            <div v-if="isListen == 3" class="submit" style="background: rgb(159, 165, 169);">
                 不可用
             </div>
             <div class="remark">提示：仅可用状态的亲情号码可发起监听</div>
@@ -57,9 +60,12 @@ export default {
             phoneList: [],
             phoneCount: 0,
             telephone: '',
-            isListen:true,
+            isListen:1,
             deviceType:'',
-            devicePhone:''
+            devicePhone:'',
+            deviceMonitorId:'',
+            count:0,
+             timer: '',
         }
     },
     mounted () {
@@ -77,39 +83,20 @@ export default {
                  this.$vux.toast.text('请选择监听人')
                  return
             }
+            this.isListen = 2
             var params = {
                 studentId: this.$store.getters['user/studentId'],
-                // studentId:'2bf1def9599144dd964115bbe1243e70',
+                // studentId:'e0838d9a5bd54caf8a5a71db8ca2c6f2',
                 telephone: this.telephone
             }
             this.$store.dispatch('sos/SendListen', params).then(
                 res => {
-                    if (res) {
-                       var _this = this
-                        if(_this.deviceType == '1'){
-                            var content = '开启监听成功，请等待学生设备呼入，请勿重复开启监听'
-                        }
-                        if(_this.deviceType == '3'){
-                            var content = '开启监听成功，请在3分钟内拨打学生号码，请勿重复开启监听'
-                        }
-                    } else {
-                        var content = '开启监听失败'
-                    }
-                    this.$vux.confirm.show({
-                        //  组件除show外的属性
-                        content: content,
-                        onConfirm () {
-                            if(_this.deviceType == '1'){
-                               return
-                            }
-                            if(_this.deviceType == '3'){
-                                _this.$refs.tel.click()
-                            }
-                            
-                        }
-                    })
+                    this.deviceMonitorId = res
+                     this.monitorState()
                 }
-            )
+            ).catch(res=>{
+                this.isListen = 1
+            })
         },
         // 获取监听列表
         getPhoneList () {
@@ -137,12 +124,73 @@ export default {
                 }
             )
         },
+        monitorState(){
+            this.count++
+            var params = {
+                deviceMonitorId:this.deviceMonitorId 
+            }
+            this.$store.dispatch('sos/MonitorState', params).then(
+                res => {
+                        if(res == 0){
+                            this.timer = setTimeout(() => {
+                                this.monitorState()
+                            }, 2000)
+                            if(this.count == 3){
+                                this.count = 0 
+                                clearTimeout(this.timer)
+                                this.showConfirm()
+                           } 
+                        }
+                        if(res == 1){
+                           this.count = 0
+                            clearTimeout(this.timer)
+                           this.showConfirm()
+                        }
+                        if(res == 2){
+                            this.count = 0
+                             clearTimeout(this.timer)
+                           this.$vux.toast.text('开启监听失败') 
+                           this.isListen = 1
+                        }
+                }
+            )
+        },
+        showConfirm(){
+            //  if (res) {
+                       var _this = this
+                        if(_this.deviceType == '1'){
+                            var content = '开启监听成功，请等待学生设备呼入，请勿重复开启监听'
+                        }
+                        if(_this.deviceType == '3'){
+                            var content = '开启监听成功，请在3分钟内拨打学生号码，请勿重复开启监听'
+                        }
+                    // } else {
+                    //     var content = '开启监听失败'
+                    // }
+                    this.$vux.confirm.show({
+                        //  组件除show外的属性
+                        content: content,
+                        onConfirm () {
+                            if(_this.deviceType == '1'){
+                                _this.isListen = 1
+                               return
+                            }
+                            if(_this.deviceType == '3'){
+                                _this.isListen = 1
+                                _this.$refs.tel.click()
+                            }
+                        },
+                        onCancel () {
+                            _this.isListen = 1
+                        },
+                    })
+        },
         // 选择号码
         chooseMan (item,index) {
             if(item.state == 0 || item.state == 2){
-               this.isListen = false
+               this.isListen = 3
             }else{
-                this.isListen = true
+                this.isListen = 1
             }
             this.current = index
             this.telephone = item.phone

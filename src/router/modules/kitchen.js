@@ -10,14 +10,22 @@ export default {
       meta: {
         title: '明厨亮灶'
       }
+    },
+    {
+      path: 'kitchenMonitor',
+      name: 'kitchenMonitor',
+      component: () => import('@/views/kitchen/kitchenMonitor'),
+      meta: {
+        title: '厨房监控'
+      }
+    },
+    {
+      path: 'watchMonitor',
+      name: 'watchMonitor',
+      component: () => import('@/views/kitchen/watchMonitor'),
+      meta: {
+        title: '厨房监控'
+      }
     }
-    // {
-    //   path: 'detail',
-    //   name: '操作帮助',
-    //   component: () => import('@/views/help/detail'),
-    //   meta:{
-    //     title:'操作帮助'
-    //   }
-    // }
   ]
 }

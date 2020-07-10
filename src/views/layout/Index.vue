@@ -48,7 +48,8 @@ export default {
                   'list',
                   'amap',
                   'oaIndex',
-                  'sos'
+                  'sos',
+                  'invite'
                   ]
     }
   },

@@ -27,6 +27,12 @@ import link from './modules/link'
 import help from './modules/help'
 import sos from './modules/sos'
 import kitchen from './modules/kitchen'
+import schoolAccount from './modules/schoolAccount'
+import inviteParents from './modules/inviteParents'
+import schoolAdminSos from './modules/schoolAdminSos'
+import setting from './modules/setting'
+import broadcast from './modules/broadcast'
+
 Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
@@ -56,7 +62,12 @@ const store = new Vuex.Store({
     link,
     help,
     sos,
-    kitchen
+    kitchen,
+    schoolAccount,
+    inviteParents,
+    schoolAdminSos,
+    setting,
+    broadcast
   },
   getters,
   state: {

@@ -52,7 +52,7 @@ export default {
     },
     methods: {
         change(type){
-            
+            this.$store.commit('news/clear')
             switch(type){
                 case 0:
                     this.$router.push('news')

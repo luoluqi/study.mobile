@@ -19,73 +19,8 @@
                             <span v-if="item2.status == 3" class="qingjia3">请假</span>
                             <span v-if="item2.status == 4" class="kuang3">旷课</span>
                         </li>
-                        <!-- <li>
-                            <h1>上午放学</h1>
-                            <h2>11:36</h2>
-                            <span class="zaochi">早退</span>
-                        </li>
-                        <li>
-                            <h1>下午上学</h1>
-                            <h2>13:36</h2>
-                            <span class="qingjia3">请假</span>
-                        </li>
-                        <li>
-                            <h1>下午放学</h1>
-                            <h2>18:00</h2>
-                            <span class="kuang3">旷课</span>
-                        </li> -->
                     </ul>
                 </li>
-                <!-- <li>
-                    <ul class="stuDetail">
-                        <li class="nameBk">陈锋风</li>
-                        <li>
-                            <h1>上午上学</h1>
-                            <h2></h2>
-                            <span>正常</span>
-                        </li>
-                        <li>
-                            <h1>上午放学</h1>
-                            <h2></h2>
-                            <span class="zaochi">早退</span>
-                        </li>
-                        <li>
-                            <h1>下午上学</h1>
-                            <h2></h2>
-                            <span class="qingjia3">请假</span>
-                        </li>
-                        <li>
-                            <h1>下午放学</h1>
-                            <h2></h2>
-                            <span class="kuang3">旷课</span>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <ul class="stuDetail">
-                        <li class="nameBk">陈锋风</li>
-                        <li>
-                            <h1>上午上学</h1>
-                            <h2>09:36</h2>
-                            <span>正常</span>
-                        </li>
-                        <li>
-                            <h1>上午放学</h1>
-                            <h2>09:36</h2>
-                            <span class="zaochi">早退</span>
-                        </li>
-                        <li>
-                            <h1>下午上学</h1>
-                            <h2>09:36</h2>
-                            <span class="zaochi">迟到</span>
-                        </li>
-                        <li>
-                            <h1>下午放学</h1>
-                            <h2>09:36</h2>
-                            <span class="kuang3">旷课</span>
-                        </li>
-                    </ul>
-                </li> -->
             </ul>
         </div>
          <bottomNav></bottomNav>

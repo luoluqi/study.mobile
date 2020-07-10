@@ -46,8 +46,9 @@
                     // 地图图块加载完成后触发
                 self.$emit('complete')
             })
-            
-            //输入提示
+
+             AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'], () => {
+                  //输入提示
                 var autoOptions = {
                     input: "tipinput"
                 };
@@ -62,6 +63,7 @@
                 }
 
                 this.$store.state.map.placeSearch = placeSearch
+            })
         },
         inputChange (e) {
           console.log(e.target.value)

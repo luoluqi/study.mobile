@@ -28,7 +28,7 @@
                     </ul>
                 </div>
            </div>
-        <bottomNav></bottomNav>
+        <!-- <bottomNav></bottomNav> -->
     </div>
 
 </template>
@@ -49,7 +49,7 @@ export default {
         }
     },
     mounted(){
-        this.classRollCallId = this.getQueryVariable("classRollCallId") ? this.getQueryVariable("classRollCallId") : 'ec97948e44c245d98077d4316ff81ab3'
+        this.classRollCallId = this.getQueryVariable("classRollCallId")
          this.getList()
     },
     methods:{

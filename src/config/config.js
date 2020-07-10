@@ -14,15 +14,34 @@ export const noticeUrl = 'http://srv.xueerqin.net/api-classnotice'
 export const partyBuildUrl = 'http://srv.xueerqin.net/api-partybuild'
 export const examUrl = 'http://srv.xueerqin.net/api-schoolmanage'
 export const fytestUrl = 'http://t-api.fytest.xueerqin.net'
-// export const homeWorkUrl2 = 'http://api-homework.xueerqin.net'
-// export const noticeUrl2 = 'http://api-classnotice.xueerqin.net'
-export const appUrl = 'http://tapp.xueerqin.net'
+
+
+let a = ''
+let b = ''
+let c = ''
+if (process.env.NODE_ENV == 'production') {
+    a = 'https://api.xueerqin.net' // 正式
+    b = 'https://app.xueerqin.net' // 正式 
+    c = 'https://auth.xueerqin.net' // 正式                  
+} else {
+    a= 'https://t-api.xueerqin.net'  // 测试
+    b = 'https://tapp.xueerqin.net' // 测试
+    c = 'https://tauth.xueerqin.net' // 测试 
+}
+console.log(process.env.NODE_ENV)
+console.log(a, b)
+export const appUrl = b
+export const apiUrl = a
+export const authUrl = c
+
+
 export const payrollUrl = 'http://srv.xueerqin.net/api-oa-salary'
 export const oaUrl = 'http://srv.xueerqin.net/api-oa-flow'
 export const oaNoticeUrl = 'http://srv.xueerqin.net/api-classnotice'
 export const formUrl = 'http://srv.xueerqin.net/api-oa-form'
 export const organizationUrl = 'http://srv.xueerqin.net/api-oa-dept'
-export const kitchenUrl = 'http://192.168.66.218:9101/kitchen-center'
+export const kitchenUrl = apiUrl + '/kitchen-center'
 export const schoolUrl = appUrl
+export const schoolAccount=apiUrl+"/one-card-solution"
 
 

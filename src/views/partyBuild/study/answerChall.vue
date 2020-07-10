@@ -163,7 +163,7 @@ export default {
             d = d < 10 ? ('0' + d) : d; 
             return y + '-'+ m + '-' + d + 'T'
         }
-    },
+    }, 
     mounted () {
         this.$store.state.answer.submitData = ''
         this.getChallengeQustion()

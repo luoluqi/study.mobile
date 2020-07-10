@@ -16,7 +16,7 @@
                 <span style="float:right">班主任：{{studentData.headTeachName}}</span>
             </div>
         </div>
-        <bottomNav></bottomNav>
+        <!-- <bottomNav></bottomNav> -->
     </div>
 </template>
 <script>
@@ -51,9 +51,9 @@ export default {
             // 获取推送给家长的异常数据
             getList(){
                 GetAbormalForParent({
-                    classRollCallId: this.getQueryVariable("classRollCallId") ? this.getQueryVariable("classRollCallId") : 'ec97948e44c245d98077d4316ff81ab3',
+                    classRollCallId: this.getQueryVariable("classRollCallId"),
                      sendId: this.getQueryVariable("sendId"),
-                    studentId: this.getQueryVariable("studentId") ? this.getQueryVariable("studentId") : '85c7e98f87164d0cb0e3d96ef8d6eaec'
+                    studentId: this.getQueryVariable("studentId")
                     }).then((data) => {
                     if(data.Code == 200){
                         this.studentData = data.Data

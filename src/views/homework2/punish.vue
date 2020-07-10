@@ -61,6 +61,9 @@ export default {
     computed:{
        uploadError(){
            return this.$store.state.media.uploadError
+       },
+       voiceServerIds () {
+           return this.$store.state.media.voiceServerIds
        }
     },
     mounted () {
@@ -91,7 +94,7 @@ export default {
                  this.$vux.toast.text('科目不能为空', 'top')
                  return false
             }
-            if(!this.content && this.$store.state.media.imgData.length == 0 && this.$store.state.media.voices.length == 0 && this.$store.state.media.video.length == 0 && this.$store.state.media.link.length == 0){
+            if(!this.content && this.$store.state.media.imgDataSource.length == 0 && this.$store.state.media.voicesSource.length == 0 && this.$store.state.media.video.length == 0 && this.$store.state.media.link.length == 0){
                  this.$vux.toast.text('内容、语音、图片、视频、链接必须填一项', 'top')
                  return false
             }

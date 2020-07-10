@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骆米</title>
+</head>
+<body>
+    
+</body>
+</html>
+<!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+<script>
+    var search = location.search
+    search = search.replace('?', '')
+    var arr = search.split('&')
+    var obj = {}
+    for (var item of arr) {
+        var list = item.split('=')
+        obj[list[0]] = list[1]
+    }
+    console.log(obj)
+   location.href = 'http://m.xueerqin.net/study/index.html?id=' + obj.id + '#/inviteParents/toSendParents'
+</script>

@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         check () {
-            if (!this.content && this.$store.state.media.imgData.length == 0 && this.$store.state.media.voices.length == 0 && this.$store.state.media.video.length == 0) {
+            if (!this.content && this.$store.state.media.imgDataSource.length == 0 && this.$store.state.media.voicesSource.length == 0 && this.$store.state.media.video.length == 0) {
                 this.$vux.toast.text('请至少选择上传一个图片/语音/视频或填写作业内容', 'top')
                 return false
             } else {
