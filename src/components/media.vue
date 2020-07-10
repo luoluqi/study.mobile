@@ -16,10 +16,9 @@
                     </span>
                 </div>
             </div>
-            <div v-if="this.imgData.length>0" class="workPhotoList">
-                <!-- <div>{{imgData}}</div>
-                <div>{{serverIds}}</div> -->
-                <div class="onePhoto" v-for="(item,index) in imgData" :key="index">
+            <div v-if="this.imgDataSource.length>0" class="workPhotoList">
+              
+                <div class="onePhoto" v-for="(item,index) in imgDataSource" :key="index">
                     <img :src="item" alt="">
                     <span class="deleteIcon" @click="delImg(index)">
                         X
@@ -79,7 +78,7 @@
                 <div  @click="startRecord"  class="record-p" v-if="showVoice">
                     <!-- <img src="@/assets/img/homeWork/uploadAudio.png" alt=""> -->
                 </div>
-                <img v-show="imgData.length < 9" @click="chooseImage" src="@/assets/img/homeWork/uploadPhoto.png" alt="" v-if="showImg">
+                <img v-show="imgDataSource.length < 9" @click="chooseImage" src="@/assets/img/homeWork/uploadPhoto.png" alt="" v-if="showImg">
                 <div class="video-p" v-if="showVideo">
                     <div v-if="video.length == 0">
                          <img src="@/assets/img/homeWork/uploadVideo.png" alt="">
@@ -180,7 +179,7 @@ export default {
         voices () {
             return this.$store.state.media.voicesSource
         },
-        imgData () {
+        imgDataSource () {
             return this.$store.state.media.imgDataSource
         },
         voiceServerIds () {
