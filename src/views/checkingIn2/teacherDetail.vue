@@ -248,6 +248,7 @@ export default {
                 this.attendanceDetail()
                 this.monthSummary()
             }).catch(res => {
+                debugger
                 this.$vux.toast.text('当前token已过期,请重新操作',top)
                 this.attendanceDetail()
             //    this.$store.state.checkingIn2.statuItem = prams
@@ -275,7 +276,7 @@ export default {
                 this.attendanceDetail()
                 this.monthSummary()
             }).catch(res => {
-                this.$vux.toast.text('当前token已过期,请重新操作',top)
+                // this.$vux.toast.text('当前token已过期,请重新操作',top)
                 this.attendanceDetail()
             //    this.$store.state.checkingIn2.statuItem = prams
             })

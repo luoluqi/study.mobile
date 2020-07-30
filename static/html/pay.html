@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>付款</title>
+    <style type="text/css">
+      .loading {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-left: -16px;
+        margin-top: -16px;
+        z-index: 1000000;
+        width: 32px;
+        height: 32px;
+        background: url("../imgs/loading.gif") no-repeat 0 0;
+        display: inline-block;
+      }
+    </style>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/crypto-js.js"></script>
+    <script type="text/javascript" src="../js/crypto.js"></script>
+    <script type="text/javascript">
+      window.history.pushState(null, null,window.location.href);
+      window.history.forward(1);
+      window.addEventListener('popstate', function () {
+        // alert('监听到返回了')
+        history.pushState(null, null,window.location.href);
+      });
+
+
+      function getCookie (name) {
+        var strCookie = document.cookie
+        var arrCookie = strCookie.split('; ')
+        for (var i = 0; i < arrCookie.length; i++) {
+            var arr = arrCookie[i].split('=')
+            if (arr[0] == name) {
+                return arr[1]
+            }
+        }
+        return null
+      }
+
+      (function($){
+          var _ajax = $.ajax;
+          $.ajax = function(opt){
+              //签名
+              var sign = Encrypt(new Date().getTime())
+              var openId = getCookie('OpenId')
+
+              if(opt.headers){
+                  opt.headers.sign = sign
+                  opt.headers.openId = openId
+              }else{
+                  opt.headers = {
+                      sign:sign,
+                      openId:openId
+                  }
+              }
+              _ajax(opt)
+          }
+      })(jQuery);
+
+    </script>
+    <script type="text/javascript">
+      var mXueErQin = 'http://m.xueerqin.net'
+
+      // var jsonStr = {"data":{"type":1,"studentId":"984ff3cb0791493597288b523d89cead","orderType":1,"chargeId":"73f6f21fcdc44243b55aff78b136d4e5","PackageId":"6873d3ff9fb64b08a869129f63a0f4e8","OperatorId":"f06bb0e73f284f1ba70b08cfb55874ce","payType":2,"openId":"oTpYmw2L_pi_bvtWTuvhkIKe1dn8"}}
+      // localStorage.setItem('payItem',JSON.stringify(jsonStr))
+      if(getQueryString(window.location.href).payUrl){        
+        if (typeof WeixinJSBridge == "undefined"){
+          if(document.addEventListener){
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady2, false);
+          }else if (document.attachEvent){
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady2); 
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady2);
+          }
+        }else{
+          onBridgeReady2();
+        }
+      }else{
+        
+        var from = localStorage.getItem('pageFrom')
+        if(from == 'index'){
+          if (typeof WeixinJSBridge == "undefined"){
+            if(document.addEventListener){
+              document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            }else if (document.attachEvent){
+              document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+              document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+          }else{
+            onBridgeReady();
+          }
+        }else{
+          if (typeof WeixinJSBridge == "undefined"){
+            if(document.addEventListener){
+              document.addEventListener('WeixinJSBridgeReady', onBridgeReady1, false);
+            }else if (document.attachEvent){
+              document.attachEvent('WeixinJSBridgeReady', onBridgeReady1); 
+              document.attachEvent('onWeixinJSBridgeReady', onBridgeReady1);
+            }
+          }else{
+            onBridgeReady1();
+          }
+        }
+      }
+
+      function onBridgeReady(){
+        var payItem = JSON.parse(localStorage.getItem('payItem'))
+        var payItemStr = 'data='+JSON.stringify(payItem.data)
+        // alert(payItemStr)
+        $.ajax({
+          url:'http://srv.xueerqin.net/api-classroomorder/api/MCharge/AddOrder',
+          data:payItemStr,
+          // dataType:'json',//服务器返回json格式数据
+          type:'post',//HTTP请求类型
+          timeout:10000,//超时时间设置为10秒；
+          contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+          beforeSend: function() { //发送之前，可以打一下看看提交的参数（如果是变量）
+            top.$('body').append('<i class="loading"></i>')
+          },
+          success:function(data){
+            //服务器返回响应，根据响应结果，分析是否登录成功；
+            var result = JSON.parse(data)
+            // alert(JSON.stringify(result))
+            // console.log(result);
+            if(result.Code==200){
+              var orderId = result.Data.orderId
+              var payUrl = result.Data.payUrl.Data.data
+              var appId = payUrl.jsapi_appid
+              var timeStamp = payUrl.jsapi_timestamp
+              var nonceStr = payUrl.jsapi_noncestr
+              var package = payUrl.jsapi_package
+              var signType = payUrl.jsapi_signtype
+              var paySign = payUrl.jsapi_paysign
+              
+              WeixinJSBridge.invoke(
+              'getBrandWCPayRequest', {
+                "appId":appId,     //公众号名称，由商户传入     
+                "timeStamp":timeStamp,         //时间戳，自1970年以来的秒数     
+                "nonceStr":nonceStr, //随机串     
+                "package":package,     
+                "signType":signType,         //微信签名方式：     
+                "paySign":paySign //微信签名 
+              },
+              function(res){
+                // alert(JSON.stringify(res))
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                  // 使用以上方式判断前端返回,微信团队郑重提示：
+                  //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                  top.$('body').append('<i class="loading"></i>')
+                  setTimeout(function(){
+                    top.$('.loading').remove();
+                    alert('支付成功')
+                    var  key='package'+getCookie('schoolId')
+                    localStorage.removeItem(key)
+                    // alert(orderId)
+                   
+                    // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip?orderId='+orderId
+
+                    location.href = mXueErQin + '/study/index.html?orderId='+orderId + '#/vip/index'
+                  },2000)
+                }else{
+                  alert('支付失败')
+                  var  key='package'+getCookie('schoolId')
+                  localStorage.removeItem(key)
+                  // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip'
+                  location.href = mXueErQin + '/study/index.html#/vip/index'
+                }
+              })
+            }else{
+              alert(result.Code)
+              var  key='package'+getCookie('schoolId')
+              localStorage.removeItem(key)
+              // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip'
+              location.href = mXueErQin + '/study/index.html#/vip/index'
+            }
+          },
+          error:function(xhr,textStatus,errorThrown){
+            //异常处理；
+            console.log(errorThrown)
+          },
+          complete: function() {
+            top.$('.loading').remove();
+          }
+        });
+      }
+      
+      function onBridgeReady1(){
+        var payItem = JSON.parse(localStorage.getItem('payItemList'))
+        var payItemStr = 'data='+JSON.stringify(payItem.data)
+        // alert(payItemStr)
+        $.ajax({
+          url: 'http://srv.xueerqin.net/api-classroomorder/api/MCharge/ContinueToPay',
+          data:payItemStr,
+          // dataType:'json',//服务器返回json格式数据
+          type:'post',//HTTP请求类型
+          timeout:10000,//超时时间设置为10秒；
+          contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+          beforeSend: function() { //发送之前，可以打一下看看提交的参数（如果是变量）
+            top.$('body').append('<i class="loading"></i>')
+          },
+          success:function(data){
+            //服务器返回响应，根据响应结果，分析是否登录成功；
+            var result = JSON.parse(data)
+            // console.log(result);
+            if(result.Code==200){
+              var orderId = result.Data.orderId
+              if(result.Data.payUrl.Code==500){
+                alert(result.Data.payUrl.Msg)
+                var key='package'+getCookie('schoolId')
+                localStorage.removeItem(key)
+                // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip'
+
+                location.href = mXueErQin + '/study/index.html#/vip/index'
+              }else{
+                var payUrl = result.Data.payUrl.Data.data
+                var appId = payUrl.jsapi_appid
+                var timeStamp = payUrl.jsapi_timestamp
+                var nonceStr = payUrl.jsapi_noncestr
+                var package = payUrl.jsapi_package
+                var signType = payUrl.jsapi_signtype
+                var paySign = payUrl.jsapi_paysign
+                
+                WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                  "appId":appId,     //公众号名称，由商户传入     
+                  "timeStamp":timeStamp,         //时间戳，自1970年以来的秒数     
+                  "nonceStr":nonceStr, //随机串     
+                  "package":package,     
+                  "signType":signType,         //微信签名方式：     
+                  "paySign":paySign //微信签名 
+                },
+                function(res){
+                  // alert(JSON.stringify(res))
+                  if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    // 使用以上方式判断前端返回,微信团队郑重提示：
+                    //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                    top.$('body').append('<i class="loading"></i>')
+                    setTimeout(() => {
+                      top.$('.loading').remove();
+                      alert('支付成功')
+                      var  key='package'+getCookie('schoolId')
+                      localStorage.removeItem(key)
+                      // alert(orderId)
+                      // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip?orderId='+orderId
+
+                      location.href = mXueErQin + '/study/index.html?orderId='+orderId + '#/vip/index'
+                    }, 2000);
+                  }else{
+                    alert('支付失败')
+                    var  key='package'+getCookie('schoolId')
+                    localStorage.removeItem(key)
+                    // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip'
+
+                    location.href = mXueErQin + '/study/index.html#/vip/index'
+                  }
+                })
+              }
+            }else{
+              alert(result.Code)
+              var  key='package'+getCookie('schoolId')
+              localStorage.removeItem(key)
+              // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip'
+
+              location.href = mXueErQin + '/study/index.html#/vip/index'
+            }
+          },
+          error:function(xhr,textStatus,errorThrown){
+            //异常处理；
+            console.log(errorThrown)
+          },
+          complete: function() {
+            top.$('.loading').remove();
+          }
+        });
+      }
+
+      function onBridgeReady2(){
+        var localUrl = getCookie2('localUrl')
+        console.log(localUrl)
+        // return
+        var payObj =getQueryString(window.location.href)
+        // console.log(payUrl)
+        // alert(payItemStr)
+        $.ajax({
+          url: payObj.payUrl,
+          data: payObj,
+          // dataType:'json',//服务器返回json格式数据
+          type:'post',//HTTP请求类型
+          timeout:10000,//超时时间设置为10秒；
+          contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+          beforeSend: function() { //发送之前，可以打一下看看提交的参数（如果是变量）
+            top.$('body').append('<i class="loading"></i>')
+          },
+          success:function(data){
+            //服务器返回响应，根据响应结果，分析是否登录成功；
+            var result = data
+            // console.log(result);
+            if(result.status === 200){
+              var payUrl = result.data
+              var appId = payUrl.jsapi_appid
+              var timeStamp = payUrl.jsapi_timestamp
+              var nonceStr = payUrl.jsapi_noncestr
+              var package = payUrl.jsapi_package
+              var signType = payUrl.jsapi_signtype
+              var paySign = payUrl.jsapi_paysign
+              
+              WeixinJSBridge.invoke(
+              'getBrandWCPayRequest', {
+                "appId":appId,     //公众号名称，由商户传入     
+                "timeStamp":timeStamp,         //时间戳，自1970年以来的秒数     
+                "nonceStr":nonceStr, //随机串     
+                "package":package,     
+                "signType":signType,         //微信签名方式：     
+                "paySign":paySign //微信签名 
+              },
+              function(res){
+                // alert(JSON.stringify(res))
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                  // 使用以上方式判断前端返回,微信团队郑重提示：
+                  //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                  top.$('body').append('<i class="loading"></i>')
+                  setTimeout(() => {
+                    top.$('.loading').remove();
+                    alert('支付成功')
+                    // window.location.replace(localUrl)
+                    
+                    // window.location.replace(localUrl)
+                    location.href = localUrl
+                    // window.history.go(-1)
+                    // goUrl(localUrl)
+                    // var  key='package'+getCookie('schoolId')
+                    // localStorage.removeItem(key)
+                    // // alert(orderId)
+                    // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip?orderId='+orderId
+                  }, 2000);
+                }else{
+                  alert('支付失败')
+                    // window.location.replace(localUrl)
+                    location.href = localUrl
+                    // window.history.go(-1)
+                    // goUrl(localUrl)
+                  // var  key='package'+getCookie('schoolId')
+                  // localStorage.removeItem(key)
+                  // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip'
+                }
+              })
+            }else{
+              // alert(result.Code)
+              
+              // window.location.replace(localUrl)
+              location.href = localUrl
+              // window.history.go(-1)
+              // window.location.replace(localUrl)
+              // goUrl(localUrl)
+              // localStorage.removeItem(key)
+              // location.href =  location.protocol + '//' + location.host +'/home/#' + '/vip'
+              
+            }
+          },
+          error:function(xhr,textStatus,errorThrown){
+            //异常处理；
+            console.log(errorThrown)
+          },
+          complete: function() {
+            top.$('.loading').remove();
+          }
+        });
+      }
+
+
+      // 查询字符串参数
+      function getQueryString (url) {
+        var index1 = url.indexOf('?');
+        if (index1 > 0) {
+          var qs = url.substring(index1 + 1);
+          var args = {};
+          var items = qs.split('&');
+          var len = items.length;
+          var i = 0;
+          var item = null;
+          var name = null;
+          var value = null;
+          for (i = 0; i < len; i++) {
+            item = items[i].split('=');
+            name = decodeURIComponent(item[0]);
+            value = decodeURIComponent(item[1]);
+            if (name.length) {
+                args[name] = value;
+            }
+          }
+          return args;
+        } else {
+          return {};
+        }
+      }
+      function getCookie (name) {
+        var strCookie = document.cookie;
+        var arrCookie = strCookie.split("; ")
+        for (var i = 0; i < arrCookie.length; i++) {
+            var arr = arrCookie[i].split("=")
+            if (arr[0] == name) {
+                return arr[1]
+            }
+        }
+        return null
+      }
+      function goUrl(url){
+        if (history.replaceState) {
+          history.replaceState(null, null, url)
+          history.go(0)
+        } else {
+          location.replace(url)
+        }
+      }
+      // 可以取出带引号的
+      function getCookie2(name)
+      {
+
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg))
+        return unescape(arr[2]);
+        else
+        return null;
+      }
+      function getCookie (name) {
+        var strCookie = document.cookie;
+        var arrCookie = strCookie.split("; ")
+        for (var i = 0; i < arrCookie.length; i++) {
+            var arr = arrCookie[i].split("=")
+            if (arr[0] == name) {
+                return arr[1]
+            }
+        }
+        return null
+      }
+    </script>
+  </head>
+  <body>
+    支付中.....
+  </body>
+</html>

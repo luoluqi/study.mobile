@@ -32,7 +32,10 @@ import inviteParents from './modules/inviteParents'
 import schoolAdminSos from './modules/schoolAdminSos'
 import setting from './modules/setting'
 import broadcast from './modules/broadcast'
-
+import vip from './modules/vip'
+import role from './modules/role'
+import temperature from './modules/temperature'
+import learningSituation from './modules/learningSituation'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
@@ -67,7 +70,11 @@ const store = new Vuex.Store({
     inviteParents,
     schoolAdminSos,
     setting,
-    broadcast
+    broadcast,
+    vip,
+    role,
+    temperature,
+    learningSituation
   },
   getters,
   state: {

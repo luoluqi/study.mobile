@@ -26,6 +26,12 @@ import kitchen from './modules/kitchen'
 import schoolAccount from './modules/schoolAccount'
 import inviteParents from './modules/inviteParents'
 import broadcast from './modules/broadcast'
+import vip from './modules/vip'
+import menu from './modules/menu'
+import role from './modules/role'
+import login from './modules/login'
+import temperature from './modules/temperature'
+import learningSituation from './modules/learningSituation'
 Vue.use(Router)
 
 const router = new Router({
@@ -55,10 +61,16 @@ const router = new Router({
     schoolAccount,
     inviteParents,
     broadcast,
+    menu,
+    vip,
+    role,
+    login,
+    temperature,
+    learningSituation,
     {
       path: '/404',
       name: 'lost',
-      component: () => import('@/views/error/404'),
+      component: () => import('@/views/error/404')
     },
 
     //   {

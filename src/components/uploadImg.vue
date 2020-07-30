@@ -3,17 +3,16 @@
         <div class="content">
             <div>上传图片</div>
             <div class="photoBox">
-                <div v-if="this.imgData.length>0" class="workPhotoList">
-                <!-- <div>{{imgData}}</div>
-                <div>{{serverIds}}</div> -->
-                    <div class="onePhoto" v-for="(item,index) in imgData" :key="index">
+                <div v-if="this.imgDataSource.length>0" class="workPhotoList">
+             
+                    <div class="onePhoto" v-for="(item,index) in imgDataSource" :key="index">
                         <img :src="item" alt="">
                         <span class="deleteIcon" @click="delImg(index)">
                             <img src="@/assets/img/oa/delete.png" alt="">
                         </span>
                     </div>
                 </div>
-                <div v-show="imgData.length < 9" class="upload">
+                <div v-show="imgDataSource.length < 9" class="upload">
                     <img  @click="chooseImage" src="@/assets/img/oa/addImg.png" alt="">
                 </div>
             </div>
@@ -25,8 +24,8 @@ import COS from '@/util/COS'
 import {getLinkInfo} from '@/api/commonApi'
 export default {
     computed: {
-        imgData () {
-            return this.$store.state.media.imgData
+        imgDataSource () {
+            return this.$store.state.media.imgDataSource
         }
     },
     data () {

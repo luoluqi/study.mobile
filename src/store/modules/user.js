@@ -1,6 +1,7 @@
 import cookie from '@/util/cookie'
 import { publicUrl } from '@/config/config'
 import { getAccessToken, getTokenByMoblie, getTeacher, getRoleList } from '@/api/commonApi'
+import {getCookiesObj, setCookie, checkArr, unique, getCookie} from '@/util/tool'
 const user = {
   namespaced: true,
   state: {
@@ -18,86 +19,54 @@ const user = {
     teacherId: '',
     realName: '',
     loginUserId: '',
-    isSchoolAdmin: false
+    parentId: '',
+    studentId: '',
+
+    isSchoolAdmin: false,
+
+    isNoClass: false,
+    cookiesObj: {},
+
+    reloadToken: true
 
   },
   getters: {
-    cellPhoneNum () {
+    cellPhoneNum (state) {
       var s = cookie.get('cellPhoneNum')
       if (!s) {
         return null
       }
       return s
     },
-    classId () {
-      var s = cookie.get('classId')
-      if (!s) {
-        return "d5f2734484b54ab09e0328c9429c7234"
-      }
-      return s
+    classId (state) {
+        return state.classId
     },
-    gradeId () {
-      var s = cookie.get('gradeId')
-      if (!s) {
-        return null
-      }
-      return s
+    gradeId (state) {
+     return state.gradeId
     },
-    schoolId () {
-      var s = cookie.get('schoolId')
-      if (!s) {
-        return null
-      }
-      return s
+    schoolId (state) {
+      return state.schoolId
     },
-    studentId () {
-      var s = cookie.get('studentId')
-      if (!s) {
-        return null
-      }
-      return s
+    studentId (state) {
+      return state.studentId
     },
-    parentId () {
-      var s = cookie.get('parentId')
-      if (!s) {
-        return null
-      }
-      return s
+    parentId (state) {
+      return state.parentId
     },
-    teacherId () {
-      var s = cookie.get('teacherId')
-      if (!s) {
-        return null
-      }
-      return s
+    teacherId (state) {
+      return state.teacherId
     },
-    roleCode () {
-      var s = cookie.get('roleCode')
-      if (!s) {
-        return 'Teacher'
-      }
-      return s
+    roleCode (state) {
+      return state.roleCode
     },
-    loginUserId () {
-      var s = cookie.get('loginUserId')
-      if (!s) {
-        return null
-      }
-      return s
+    loginUserId (state) {
+      return state.loginUserId
     },
-    realName () {
-      var s = cookie.get('realName')
-      if (!s) {
-        return null
-      }
-      return decodeURI(s)
+    realName (state) {
+      return state.realName
     },
-    loginName () {
-      var s = cookie.get('loginName')
-      if (!s) {
-        return null
-      }
-      return s
+    loginName (state) {
+        return state.LoginName
     },
     img () {
       var s = cookie.get('img')
@@ -126,57 +95,136 @@ const user = {
 
       })
     },
-    getUserInfo ({ state, getters, dispatch }) {
-      return new Promise((resolve, reject) => {
-        if (state.classId) {
+    changePerson ({ state, dispatch }, item) {
+        if (getCookie('roleCode') == 'Teacher') {
+            setCookie('schoolId', item.SchoolId, 0)
+            setCookie('classId', item.ClassId, 0)
+            setCookie('gradeId', item.GradeId, 0)
+
+            state.schoolId = item.SchoolId
+            state.classId = item.ClassId
+            state.gradeId = item.GradeId
+
+        } else if (getCookie('roleCode') == 'Parent') {
+            setCookie('schoolId', item.SchoolId, 0)
+            setCookie('studentId', item.SelfId, 0)
+            setCookie('classId', item.ClassId, 0)
+            setCookie('gradeId', item.GradeId, 0)
+            setCookie('img', item.Img, 0)
+
+            state.schoolId = item.SchoolId
+            state.studentId = item.SelfId
+            state.classId = item.ClassId
+            state.gradeId = item.GradeId
+        }
+
+        location.reload()
+    },
+     getUserInfo ({ state, dispatch }) {
+      return new Promise(async (resolve, reject) => {
+        if (!state.reloadToken) {
           resolve()
           return
         }
-        getTokenByMoblie().then(res => {
+        state.reloadToken = false
 
-          res = JSON.parse(res)
-          console.log(res)
-          if (!res.Data) {
-            resolve()
-            return
-          }
-          if (getters['roleCode'] == 'Teacher') {
-            state.headImg = res.Data.Img
-            state.classList = res.Data.ClassInfoList ? res.Data.ClassInfoList : []
-            state.teacherId = res.Data.SelfId
-            state.realName = res.Data.RealName
-            state.schoolId = res.Data.SchoolId
-            state.loginUserId = res.Data.UserId
-            dispatch('getTeacher').then(() => {
-              resolve()
-            })
-            dispatch('getRoleList')
-          } else if (getters['roleCode'] == 'Parent') {
-            state.headImg = res.Data.Img
-            state.loginName = res.Data.LoginName
-            state.childList = res.Data.MChildList
-            for (var item of state.childList) {
-              if (item.SelfId == getters['studentId']) {
-                state.classId = item.ClassId
-                state.className = item.ClassName
-                state.gradeId = item.GradeId
-                state.gradeName = item.GradeName
-                state.schoolId = item.SchoolId
-                state.schoolName = item.SchoolName
-                state.studentName = item.RealName
-                state.studentId = getters['studentId']
-                state.studentImg = item.Img
-                state.isMain = false
-              }
-            }
-            resolve()
-          }
-        })
+        var res = await getTokenByMoblie()
+        
+        res = JSON.parse(res)
+        console.log(res)
+        if (!res.Data) {
+          resolve()
+          return
+        }
+        state.roleCode = getCookie('roleCode')
+       
+        if (getCookie('roleCode') == 'Teacher') {
+         
+            dispatch('teacherHandle', res)
+            await dispatch('getTeacher')
+            await dispatch('getRoleList')
+        } else if (getCookie('roleCode') == 'Parent') {
+          console.log(getCookie('roleCode'))
+            dispatch('parentHandle', res)
+        }
+        resolve()
+
       })
     },
-    getTeacher ({ state, getters }) {
+    parentHandle ({ state, dispatch }, res) {
+       // 陈勇的逻辑 
+      setCookie('loginUserId', res.Data.UserId, 0)
+      setCookie('parentId', res.Data.SelfId, 0)
+      setCookie('realName', encodeURI(res.Data.RealName), 0)
+      if(!localStorage.getItem('itemData')){
+        setCookie('schoolId', res.Data.MChildList[0].SchoolId, 0)
+        setCookie('studentId', res.Data.MChildList[0].SelfId, 0)
+        setCookie('classId', res.Data.MChildList[0].ClassId, 0)
+        setCookie('gradeId', res.Data.MChildList[0].GradeId, 0)
+        setCookie('img', res.Data.MChildList[0].Img, 0)
+        state.cookiesObj = getCookiesObj(document.cookie)
+        localStorage.setItem('mChildList', JSON.stringify(res.Data.MChildList))
+      }
+      // 路奇的逻辑
+      state.headImg = res.Data.Img
+      state.loginName = res.Data.LoginName
+      state.childList = res.Data.MChildList
+      state.parentId = res.Data.SelfId
+      state.realName = res.Data.RealName
+      state.loginUserId = res.Data.UserId
+      
+      for (var item of state.childList) {
+        
+        if (item.SelfId == getCookie('studentId')) {
+          state.classId = item.ClassId
+          state.className = item.ClassName
+          state.gradeId = item.GradeId
+          state.gradeName = item.GradeName
+          state.schoolId = item.SchoolId
+          state.schoolName = item.SchoolName
+          state.studentName = item.RealName
+          state.studentId = getCookie('studentId')
+          state.studentImg = item.Img
+          state.isMain = false
+        }
+      }
+
+    },
+    teacherHandle ({ state, dispatch }, res) {
+      
+        // 陈勇的逻辑
+        setCookie('img', res.Data.Img, 0)
+        setCookie('loginUserId', res.Data.UserId, 0)
+        setCookie('teacherId', res.Data.SelfId, 0)
+        setCookie('realName', encodeURI(res.Data.RealName), 0)
+        setCookie('schoolId', res.Data.SchoolId, 0)
+        setCookie('loginName', res.Data.LoginName, 0)
+
+        if(!res.Data.ClassInfoList || res.Data.ClassInfoList.length == 0){ 
+            state.isNoClass = true
+        }
+
+        if (!localStorage.getItem('itemDataTeacher')) {
+          if (res.Data.ClassInfoList.length > 0) {
+            setCookie('classId', res.Data.ClassInfoList[0].ClassId, 0)
+            setCookie('gradeId', res.Data.ClassInfoList[0].GradeId, 0)
+          }
+        }
+
+        state.cookiesObj = getCookiesObj(document.cookie)
+
+        // 路奇的逻辑
+        state.headImg = res.Data.Img
+        state.classList = res.Data.ClassInfoList ? res.Data.ClassInfoList : []
+        state.teacherId = res.Data.SelfId
+        state.realName = res.Data.RealName
+        state.schoolId = res.Data.SchoolId
+        state.loginUserId = res.Data.UserId
+    },
+
+    getTeacher ({ state }) {
       return new Promise((resolve, reject) => {
-        getTeacher(getters['teacherId']).then(res => {
+        getTeacher(getCookie('teacherId')).then(res => {
           res = JSON.parse(res)
           res = JSON.parse(res)
           var list = res.data
@@ -185,6 +233,8 @@ const user = {
             for (var i = 0; i < state.classList.length; i++) {
               if (state.classList[i].ClassId == item.Id) {
                 state.classList[i].isMain = true
+                state.classList[i].IsMain = true
+                state.classList[i].parentName = '班主任'
                 isHave = true
               }
             }
@@ -196,14 +246,16 @@ const user = {
                 GradeName: item.GradeName,
                 SchoolId: item.SchoolId,
                 SchoolName: item.SchoolName,
-                IsMain: true
+                IsMain: true,
+                isMain: true,
+                parentName : '班主任'
               })
             }
 
           }
 
           for (var item of state.classList) {
-            if (item.ClassId == getters['classId']) {
+            if (item.ClassId == getCookie('classId')) {
               state.classId = item.ClassId
               state.className = item.ClassName
               state.gradeId = item.GradeId
@@ -212,14 +264,16 @@ const user = {
                 state.isMain = item.IsMain
             }
           }
+
+          localStorage.setItem('classInfoList', JSON.stringify(state.classList))
           resolve()
         })
       })
     },
 
-    getRoleList ({ state, getters }) {
+    getRoleList ({ state }) {
       var params = {
-        userId: getters['loginUserId']
+        userId: getCookie('loginUserId')
       }
       getRoleList(params).then(
         res => {

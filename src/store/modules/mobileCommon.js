@@ -1,4 +1,3 @@
-import {getTokenByMoblie} from '@/api/commonApi'
 const mobileCommon = {
     namespaced: true,
     state: {
@@ -12,13 +11,6 @@ const mobileCommon = {
         }
     },
     actions: {
-        getTokenByMoblie ({ state, commit, dispatch }) {
-            return new Promise((resolve, reject) => {
-                getTokenByMoblie().then(res => {
-                    res = JSON.parse(res)
-                })
-            })
-        }
     }
 }
 export default mobileCommon

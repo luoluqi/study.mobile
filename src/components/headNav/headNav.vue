@@ -58,23 +58,30 @@ export default {
     },
     back(){
 
-        console.log(this.$router)
+      
+
+         console.log(this.$router)
         console.log(this.$route)
         if(this.title=="设置"){
-            location.href="http://mappv2.xueerqin.net/home/#/index";
+            this.$router.push('/menu/index')
         }else if(this.title=="充值"){
             this.$router.replace('/schoolAccount/index')
-        }else if(this.title=="校园账户"){
-            //console.log('校园账户')
-            location.href='http://m.xueerqin.net/study/index.html?v='+this.randomStr()+'#/settings/Tsetup'
-        }else{
+        }else if (this.title=="套餐中心") {
+             this.$router.push('/menu/index')
+        }else if (this.title=="校园账户") {
+             this.$router.push('/settings/setUp')
+        }
+        else{
             this.$router.go(-1)
         }
+
+      
         
     },
 
     home(){
-        location.href="http://mappv2.xueerqin.net/home/#/index";
+       
+        this.$router.push('/menu/index')
     },
     login(){
         location.href="http://mappv2.xueerqin.net/Common/Login.shtml";

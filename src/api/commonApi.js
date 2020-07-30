@@ -1,12 +1,54 @@
 import axios from '@/api/axios'
 import qs from 'qs'
 import {publicUrl, baseUrl2, fytestUrl, payrollUrl} from '@/config/config'
-import {homeWorkUrl,schoolUrl,authUrl} from '@/config/config'
+import {homeWorkUrl,schoolUrl,authUrl,organizationUrl} from '@/config/config'
 import   cookie from '@/util/cookie'
+
+
+
+
+
+export const deptListByTeacherId = (params) => {
+    return new Promise((resolve, reject) => {
+      axios({
+          url: organizationUrl + '/api/Organization/DeptListByTeacherId',
+          method: 'get',
+          params
+      }).then(res => {
+          resolve(res.data)
+      }).catch(error => {
+          // location.href = 'http://www.xueerqin.net'
+          reject(error)
+      })
+    })
+  }
+
 export const getAccessToken = () => {
     return new Promise((resolve,reject) => {
         axios({
             url: fytestUrl + '/api/CommonApi/GetTokenByCache',
+        }).then(res => {
+            resolve(res.data)
+        })
+    });
+}
+
+export const getOpenid = (params) => {
+    return new Promise((resolve,reject) => {
+        axios({
+            url: fytestUrl + "/api/OAuthApi/GetAccessToken",
+            params
+        }).then(res => {
+            resolve(res.data)
+        })
+    });
+}
+
+export const unionid = (params) => {
+    return new Promise((resolve,reject) => {
+        axios({
+            url: fytestUrl + "/api/OAuthApi/GetUnionID",
+            params
         }).then(res => {
             resolve(res.data)
         })

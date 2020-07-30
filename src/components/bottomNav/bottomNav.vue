@@ -4,13 +4,13 @@
 		<!--下导航-->
 		<div class="bootom_nav">
 			<ul>
-				<a :href="'http://mappv2.xueerqin.net/home/index.html#/index?v=' + randomStr">
+				<a href="#/menu/index">
 					<li @click="selectgao(1)"  :class="{selectgao:index == 1}">
 						<i class="shou"></i>
 						<h2>首页</h2>
 					</li>
 				</a>
-				<a v-if="isTeacher == 'Parent'" :href="'http://mappv2.xueerqin.net/home/index.html#/vip?v=' + randomStr">
+				<a v-if="isTeacher == 'Parent'" href="#/vip/index">
 					<li  @click="selectgao(2)" :class="{selectgao:index == 2}">
 						<i class="vip"></i>
 						<h2>套餐</h2>	
@@ -28,7 +28,7 @@
 						<h2>积分兑换</h2>
 					</li>
 				</a>
-				<a :href="'http://m.xueerqin.net/study/index.html?v='+randomStr+'#/settings/Tsetup'">
+				<a href="#/settings/Tsetup">
 					<li  @click="selectgao(4)" :class="{selectgao:index == 4}">
 						<i class="geren"></i>
 						<h2>我的</h2>
@@ -83,7 +83,8 @@ export default {
 		  this.$vux.toast.text('功能暂未开放')
 		  return
 	  }
-	  this.index=sel;
+	//   this.index=sel;
+	  this.$parent.index = sel
 	},
 	 getCookie(sName){
             var aCookie = document.cookie.split("; ");

@@ -90,7 +90,7 @@ export default {
             var month = new Date(this.beginTime).getMonth()+1 < 10 ? '0'+(new Date(this.beginTime).getMonth()+1) :new Date(this.beginTime).getMonth()+1
             var date = new Date(this.beginTime).getDate() < 10 ? '0' + new Date(this.beginTime).getDate() : new Date(this.beginTime).getDate() 
             this.beginDate = new Date(this.beginTime).getFullYear() + '-' + month + '-' + date
-            this.beginHour = new Date(this.beginTime).getHours()+1
+            this.beginHour = new Date(this.beginTime).getHours() < 23 ? new Date(this.beginTime).getHours()+1 : new Date(this.beginTime).getHours()
         },
         // 获取 开始时间
         getEndTime () {

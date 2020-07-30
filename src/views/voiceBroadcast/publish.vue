@@ -39,7 +39,9 @@ export default {
             isReadDetail: false,
             title:'',
             classIds:[],
-            classNames:[]
+            classNames:[],
+
+            isPublishing: false
         }
     },
     computed:{
@@ -78,6 +80,10 @@ export default {
             }
         },
         async startPublish(){
+            if (this.isPublishing) {
+                return
+            }
+
             if(!this.title){
                 this.$vux.toast.text('请输入标题', 'top')
                 return
@@ -95,7 +101,14 @@ export default {
                 return
             }
             //提交之前，先上传录音
-             await this.$store.dispatch('media/upload')
+            try {
+                await this.$store.dispatch('media/upload')
+            } catch (error) {
+                this.isPublishing = false
+
+                return
+            }
+             
 
              var amrList = []
             
@@ -116,6 +129,7 @@ export default {
                 classIds:this.classIds
             }
             this.$store.dispatch('broadcast/SchoolVoiceBroadcast',prams).then((data) => {
+                 this.isPublishing = false
                     this.$vux.toast.text('发布成功', 'top')
                     this.$store.commit('broadcast/clear')
                     this.$router.push('adminList')

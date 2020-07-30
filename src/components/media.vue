@@ -201,7 +201,7 @@ export default {
             return this.$store.state.media.showModel
         },
         schoolId () {
-            return this.$store.getters['user/schoolId']
+            return this.$store.state.user.schoolId
         },
         access_token(){
             return this.$store.state.media.access_token
@@ -490,6 +490,7 @@ export default {
     },
     destroyed () {
         console.log('media destroyed...')
+         wx.stopRecord({})
         this.$store.commit('media/clear')
         this.urlLink = ''
         this.showProgress = false

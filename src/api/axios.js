@@ -22,8 +22,8 @@ axios.interceptors.request.use(function (config) {
     authToken = JSON.parse(authToken)
     config.headers['Authorization'] = 'Bearer ' + authToken.access_token
   }
-  
- 
+
+
   if (axios.noLoading) {
     axios.noLoading = false
   } else {
@@ -78,7 +78,7 @@ axios.interceptors.response.use(function (response) {
       if(typeof data == 'object'){
         data = JSON.parse(data)
       }
-      
+
     }
 
   }
@@ -92,16 +92,13 @@ axios.interceptors.response.use(function (response) {
   if (error.response.status == 302) {
     Vue.$vux.toast.text('状态：302，请重新登陆')
     location.href = 'http://mappv2.xueerqin.net/common/login.shtml'
-  }else if (error.response.status == 400) {
-    Vue.$vux.toast.text('状态：400，请重新登陆')
-    location.href = 'http://mappv2.xueerqin.net/common/login.shtml'
   } else if (error.response.status == 403) {
     Vue.$vux.toast.text(error.response.data.error.message, 'top')
   } else if (error.response.status == 401) {
-    // Vue.$vux.alert.show({ 
+    // Vue.$vux.alert.show({
     //     content: '401 登录过期，请重新登陆',
     //     maskZIndex: 100,
-    //     onHide () { 
+    //     onHide () {
     //       store.dispatch('setting/loginOut')
     //     }
     // })
@@ -112,6 +109,14 @@ axios.interceptors.response.use(function (response) {
       res => {
         let domain = '.xueerqin.net'
         cookie.set('authToken',encodeURIComponent(JSON.stringify(res)),0,domain)
+        // this.$vux.toast.text('当前token已过期,请刷新页面',top)
+        Vue.$vux.alert.show({
+            content: '当前token已过期,请刷新页面',
+            maskZIndex: 100,
+            onHide () {
+              window.location.reload()
+            }
+        })
       }
     ).catch(
       () => {
@@ -127,5 +132,3 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error.response.data.error.message)
 })
 export default axios
-
-

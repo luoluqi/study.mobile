@@ -17,9 +17,10 @@
                                 <span>{{item.title}}</span>
                             </p>
                             <div class="voiceContent">
-                                <img :src="item.headImgUrl" alt="">
+                                <img v-if="item.headImgUrl" :src="item.headImgUrl" alt="" :onerror="logo">
+                                <img v-else src="@/assets/img/homeWork/head.png" alt="">
                                 <div class="voiceList">
-                                    <div class="audio" @click="play(item,index)">
+                                    <div class="audio-vbc" @click="play(item,index)">
                                         <img v-if="!item.isPlay"  src="@/assets/img/homeWork/a-1.png" alt="">
                                         <img v-else src="@/assets/img/homeWork/a-2.gif" alt="">
                                         <span style="color: #fff;">{{item.totalSeconds}}"</span>
@@ -58,6 +59,7 @@ export default {
     },
     data() {
         return {
+            logo: 'this.src="' + require('@/assets/img/homeWork/head.png') + '"',
             lastId: '',
             pageIndex:0,
            pageSize:5,
@@ -123,6 +125,7 @@ export default {
             this.pageIndex++
             var prams = {
                 LoginUserId:this.$store.getters['user/loginUserId'],
+                schoolId:this.$store.getters['user/schoolId'],
                 PageNum:this.pageIndex,
                 PageSize:this.pageSize,
                 Title:this.keyWord
@@ -229,7 +232,7 @@ export default {
     font-size: 0.26rem;
     margin-left: 0.1rem;
 }
-.audio {
+.audio-vbc {
     width: 3.8rem;
     height: 0.72rem;
     background: #128FEF;
@@ -237,7 +240,7 @@ export default {
     padding: 0.2rem 0 0 0.24rem;
     box-sizing: border-box;
 }
-.audio img{
+.audio-vbc img{
    width: 0.24rem;
    height: 0.24rem;
 }

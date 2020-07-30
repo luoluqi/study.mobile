@@ -107,7 +107,7 @@ const map = {
             })
 
         },
-        childMarker({state,dispatch}, {lng, lat, content}){
+        async childMarker({state,dispatch}, {lng, lat, content}){
             if (state.childCircle){
                 state.map.remove(state.childCircle)
             }
@@ -117,33 +117,27 @@ const map = {
             if (state.childMarker){
                 state.map.remove(state.childMarker)
             }
-            dispatch('addMarker', {
+            state.childCircle = await dispatch('addMarker', {
                 img: 'static/img/map/dot.png',
                 width: 30,
                 height: 30,
                 lng: lng,
                 lat: lat,
                 anchor: 'center'
-            }).then(res => {
-                state.childCircle = res
             })
            
-            dispatch('addText', {
+            state.childText = await dispatch('addText', {
                 content: '' + content,
                  lng: lng,
                  lat: lat 
-             }).then(res => {
-                 state.childText = res
              })
-            dispatch('addMarker', {
+             state.childMarker = await dispatch('addMarker', {
                 img: 'static/img/map/head.png',
                 width: 66,
                 height: 71,
                 lng: lng,
                 lat: lat,
                 anchor: 'bottom-center'
-            }).then(res => {
-                state.childMarker = res
             })
         },
         drawTrack({state,dispatch},{path, type}){
@@ -592,7 +586,7 @@ const map = {
                 Vue.$vux.toast.text('追踪失败', 'top')
                 return
             }
-            getLastGPS(studentId).then(res => {
+            getLastGPS(studentId).then(async res => {
                  if (!res) {
                     setTimeout(() => {
                         dispatch('getLastGPS', studentId)
@@ -614,7 +608,7 @@ const map = {
                   }
                   var content = res.createTime.replace('T', ' ') + " <br>" + address + '<br>' + '定位类型：' + positionTypeStr
                 
-                  dispatch('childMarker', {lng, lat, content})
+                  await dispatch('childMarker', {lng, lat, content})
                  
                  
                   state.map.setFitView(state.childMarker)

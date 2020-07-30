@@ -19,6 +19,7 @@ const setting = {
                 if(data.Code==200){
                    cookie.clearAll()
                     // console.log(data);
+                    localStorage.clear()
                     window.location.href = "http://mappv2.xueerqin.net/Common/Login.shtml"
                 }
                 

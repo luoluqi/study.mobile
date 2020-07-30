@@ -11,13 +11,6 @@ export default {
           title:'发布广播'
         }
       },{
-        path: 'broadcastList',
-        name: 'index',
-        component: () => import('@/views/voiceBroadcast/broadcastList'),
-        meta:{
-          title:'语音广播'
-        }
-      },{
         path: 'adminList',
         name: 'index',
         component: () => import('@/views/voiceBroadcast/adminList'),

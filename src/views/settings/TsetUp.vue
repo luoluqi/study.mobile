@@ -85,7 +85,7 @@ export default {
                     this.switchIdentities(this.setData)
                     for( var obj of this.setData){
                         if(obj.Name=="切换身份"){
-                            obj.Url="http://mappv2.xueerqin.net/Common/Choose.shtml"
+                            obj.Url="#/role"
                         }
                     }
                     

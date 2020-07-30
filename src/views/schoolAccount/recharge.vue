@@ -24,6 +24,29 @@ import { schoolAccount } from '@/config/config'
 import { Flexbox, FlexboxItem, Divider, XInput, XButton, ToastPlugin } from "vux";
 import cookie from '@/util/cookie'
 import bottomNav from "@/components/bottomNav/bottomNav";
+import {mappv2Url} from '@/config/config'
+
+var moneyList = []
+if (process.env.NODE_ENV == 'production') {
+    moneyList =  [
+        { val: 10, label: "充值10元" },
+        { val: 50, label: "充值50元" },
+        { val: 100, label: "充值100元" },
+        { val: 200, label: "充值200元" },
+        { val: 500, label: "充值500元" },
+        { val: 1000, label: "充值1000元" }
+      ]
+} else {
+    moneyList =  [
+        { val: 0.01, label: "充值0.01元" },
+        { val: 0.05, label: "充值0.05元" },
+        { val: 0.1, label: "充值0.1元" },
+        { val: 0.2, label: "充值0.2元" },
+        { val: 0.5, label: "充值0.5元" },
+        { val: 1, label: "充值1元" }
+      ]
+}
+
 export default {
   components: {
     headNav,
@@ -36,14 +59,7 @@ export default {
   },
   data() {
     return {
-      list: [
-        { val: 0.01, label: "充值0.01元" },
-        { val: 50, label: "充值50元" },
-        { val: 100, label: "充值100元" },
-        { val: 200, label: "充值200元" },
-        { val: 500, label: "充值500元" },
-        { val: 1000, label: "充值1000元" }
-      ],
+      list: moneyList,
       currentIndex:NaN,
       customAmount:'',
       isDisablad:true,
@@ -83,12 +99,12 @@ export default {
           return
         }
         
-        // var reg = /(^[1-9]\d*$)/;     
-        // if (!(reg.test(this.customAmount))) {
-        //     // alert("数量不是正整数!!!");
-        //     this.$vux.toast.text('请输入整数金额', 'top')
-        //     return ;
-        // }
+        var reg = /(^[1-9]\d*$)/;     
+        if (!(reg.test(this.customAmount))) {
+            // alert("数量不是正整数!!!");
+            this.$vux.toast.text('请输入整数金额', 'top')
+            return ;
+        }
 
         if(this.customAmount > 20000){
           this.$vux.toast.text('请输入小于20000的金额', 'top')
@@ -118,7 +134,9 @@ export default {
       this.setCookie('localUrl', localUrl)
       let urlparams = this.urlEncode(params)
       // this.setCookie('payObj',JSON.stringify(params))
-      location.href =  'http://mappv2.xueerqin.net'+'/home/' + 'static/html/pay.html?'+urlparams
+      // location.href =  mappv2Url +'/home/' + 'static/html/pay.html?'+urlparams
+
+      location.href = 'http://m.xueerqin.net/study/static/html/pay.html?'+urlparams
      
     },
     urlEncode (param) {  

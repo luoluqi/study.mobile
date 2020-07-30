@@ -22,7 +22,8 @@ export default {
     return {
       userData:{}, // 用户信息
       fromPath:'',
-      aliveList: ["wrongList",
+      aliveList: [
+                  "wrongList",
                   "circleList",
                   "noticeList",
                   "newsList",
