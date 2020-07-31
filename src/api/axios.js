@@ -44,15 +44,11 @@ axios.interceptors.request.use(function (config) {
   var loginName = cookie.get('loginName')
   if (loginName) {
     config.headers['loginName'] = loginName
-  } else {
-    config.headers['loginName'] = '13700000011'
-  }
+  } 
   var roleCode = cookie.get('roleCode')
   if (roleCode) {
     config.headers['roleCode'] = roleCode
-  } else {
-    config.headers['roleCode'] = 'Teacher'
-  }
+  } 
 
   // if (roleCode == 'Teacher' && location.hash.search(/kitchen/) != -1) {
   //   config.headers['roleCode'] = 'SchoolAdmin'

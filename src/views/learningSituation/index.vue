@@ -13,7 +13,7 @@
                     {{item.examTypeName}}
                 </div>
             </div>
-            <div class="right">
+            <div class="right" v-if="examList.length > 0">
                 <div class="oneTitle" v-for="(item, index) in notReadList" :key='item.examId' @click="goDetail(item, false, index)">
                     <span class="isRead">
                         未读
@@ -31,7 +31,7 @@
                     </span>
                 </div>
             </div>
-            <div v-if="examList.length>0" class="noExam">
+            <div v-if="examList.length == 0" class="noExam">
                 暂无试卷
             </div>
         </div>
@@ -50,24 +50,25 @@ export default {
         return {
            unitIndex: '',
            examIndex: '',
-           examTypeList: [{examTypeId: '1', examTypeName: '单元测试'}, {examTypeId: '2', examTypeName: '其中/期末考试'}, {examTypeId: '3', examTypeName: '月考'}, {examTypeId: '4', examTypeName: '周考'}],
+           examTypeList: [],
            examList: [],
            allExamList: [],
-           notReadList: [{examId:'1', examName: '安顺市第一中心小学 一年级第一单元语文测试'}, {examId:'2', examName: '第二单元英语测试'}],
-           readList: [{examId:'3', examName: '一年级第一单元语文测试'}, {examId:'4', examName: '第二单元英语测试'}]
+           notReadList: [],
+           readList: []
         }
     },
     mounted () {
-        // this.getSchoolYearList().then(
-        //     () => {
-        //         this.getSchoolTermList().then(
-        //             () => {
-        //                 this.getScoreReadSet()
-        //                 this.getExamTypeListOnApp()
-        //             }
-        //         )
-        //     }
-        // )
+        //this.getExamTypeListOnApp()
+        this.getSchoolYearList().then(
+            () => {
+                this.getSchoolTermList().then(
+                    () => {
+                        this.getScoreReadSet()
+                        this.getExamTypeListOnApp()
+                    }
+                )
+            }
+        )
     },
     computed: {
         cookiesObj () {
@@ -98,7 +99,7 @@ export default {
                         if (res.data) {
                             res.data.forEach(
                                 item => {
-                                    if (item.current) {
+                                    if (item.isCurrent) {
                                         this.$store.commit('learningSituation/setCurrentSchoolYear', item)
                                         resolve()
                                     }
@@ -123,7 +124,7 @@ export default {
                             if (res.data) {
                                 res.data.forEach(
                                     item => {
-                                        if (item.currentTerm) {
+                                        if (item.isCurrent) {
                                             this.$store.commit('learningSituation/setCurrentTerm', item)
                                             resolve()
                                         }
@@ -140,21 +141,19 @@ export default {
             this.examIndex = ''
             this.unitIndex = item.examTypeId
             this.$store.commit('learningSituation/setExamTypeId', item.examTypeId)
-            // this.getExamListOnApp()
+            this.getExamListOnApp()
         },
         // 跳转考试详情
         goDetail (item, flag, index) {
             this.examIndex = item.examId
             this.$store.commit('learningSituation/setExamId', item.examId)
             if (!flag) {
-                this.notReadList.splice(index, 1)
-                this.readList.unshift(item)
-                // this.readStudentScore().then(
-                //     () => {
-                //         this.notReadList.splice(index, 1)
-                //         this.readList.unshift(item)
-                //     }
-                // )
+                this.readStudentScore().then(
+                    () => {
+                        this.notReadList.splice(index, 1)
+                        this.readList.unshift(item)
+                    }
+                )
             }
             this.$router.push('learningDetail')
         },
@@ -168,6 +167,7 @@ export default {
                 res => {
                     if (res.data) {
                         this.examTypeList = res.data
+                        debugger
                     }
                 }
             )
@@ -182,6 +182,8 @@ export default {
             this.$store.dispatch('learningSituation/GetExamListOnApp', params).then(
                 res => {
                     if (res.data) {
+                        this.readList = []
+                        this.notReadList = []
                         this.examList = res.data
                         res.data.forEach(
                             item => {

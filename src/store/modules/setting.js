@@ -20,7 +20,12 @@ const setting = {
                    cookie.clearAll()
                     // console.log(data);
                     localStorage.clear()
-                    window.location.href = "http://mappv2.xueerqin.net/Common/Login.shtml"
+                    window.location.href = "http://m.xueerqin.net/Common/Login.shtml"
+
+                    var url = location.origin + location.pathname
+                   
+                    location.href = url.replace('index.html', 'static/login.html')
+            
                 }
                 
             });

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骆米</title>
+    <script src="js/rem.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/layer/mobile/layer.js"></script>
+    <style>
+        html, body{
+            margin: 0;padding: 0;
+        }
+        .login ul li {
+                  position: relative;
+              }
+                  .login ul li samp {
+                      position: absolute;
+                      right: 0.4rem;
+                      top: 0.45rem;
+                      display: inline-block;
+                      width: 0.28rem;
+                      height: 0.18rem;
+                      background: url('img/login/eye.png') no-repeat 0 0;
+                      background-size: cover;
+                  }
+               #loginPwd:focus+samp {
+                      display: inline-block;
+                  }
+      .loginBk{padding: 1px 0 0 0;}
+      .container {
+          background-image: url(img/login/body.jpg);
+          background-repeat: no-repeat;
+          background-color: #fff;
+          background-size: 100% 12.8rem;
+          min-height: 10rem;
+          height:100%;
+      }
+      
+      .logo {
+          width: 1.7rem;
+          height: 1.79rem;
+          margin: 1.2rem auto;
+      }
+      
+          .logo img {
+              width: 1.7rem;
+              height: 1.79rem;
+          }
+      
+      .login {
+          width: 5.68rem;
+          margin: 0 auto 0 auto;
+          overflow: hidden;
+         
+      }
+      
+          .login li {
+              border-bottom: 0.01rem solid #dedede;
+              overflow: hidden;
+              padding: 0.4rem 0;
+              font-size: 0;
+          }
+      
+          .login img {
+              max-width: 0.3rem;
+              float: left;
+              max-height: 0.36rem;
+          }
+      
+          .login span {
+              font-size: 0.28rem;
+              padding: 0 0.25rem;
+              float: left;
+              line-height: 0.3rem;
+              width: 4rem;
+              color: #999;
+          }
+      
+          .login i {
+              display: block;
+              float: right;
+              width: 0.28rem;
+              height: 0.14rem;
+              background: url(/Images/Common/a-d.png) no-repeat;
+              background-size: 0.28rem 0.14rem;
+              margin-top: 0.1rem;
+              margin-right: 0.2rem;
+          }
+      
+          .login input {
+              float: left;
+              border: none;
+              width: 4rem;
+              padding: 0 0.25rem;
+              height: 0.3rem;
+              line-height: 0.3rem;
+              font-size: 0.28rem;
+              color: #999;
+          }
+      
+      .sub {
+          width: 6.32rem;
+          margin: 0.5rem auto 0 auto;
+      }
+      
+          .sub a {
+              width: 100%;
+              height: 0.84rem;
+              line-height: 0.84rem;
+              text-align: center;
+              display: block;
+              border-radius: 0.8rem;
+              background: #0e98f2;
+              color: #fff;
+              font-size: 0.32rem;
+          }
+      .forgot {
+          padding: 0.2rem 0.6rem;
+          font-size: 0.28rem;
+          line-height: 0.28rem;
+      }
+      
+          .forgot a {
+              float: right;
+              background: url(img/login/wj-ico.png) no-repeat left center;
+              height: 0.32rem;
+              background-size: 0.32rem 0.32rem;
+              padding-left: 0.4rem;
+              display: block;
+              color: #999;
+          }
+      </style>
+</head>
+<body>
+    <div class="container" style="">
+        <div id="login" class="loginBk">
+            <div class="logo">
+              
+                <img src="img/login/logo.png" />
+            </div>
+            <div class="login">
+                <ul style="padding: 0;">
+                    <li>
+                        <img src="img/login/rt.png" />
+                        <input type="text" id="loginName" placeholder="手机号" />
+                    </li>
+                    <li>
+                        <img src="img/login/pass.png" />
+                        <input type="password"  id="loginPwd" placeholder="6-20位数字及字母格式密码" />
+                        <!-- <samp class="eye-img" onclick="showPass(event)"></samp> -->
+                    </li>
+                </ul>
+            </div>
+            <div class="sub" id="cslogin" onclick="submitLogin()">
+                <a>登录</a>
+            </div>
+            <div class="forgot">
+                <a href="http://mpersonal.xueerqin.net/UserCenter/RegainPassword">忘记密码</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="js/login.js"> </script>

@@ -1,7 +1,6 @@
 <template>
     <div style="background-color: #fff;">
         <headNav title="学情报告"></headNav>
-        <pageNav :active='0'></pageNav>
         <div class="term">
             当前学期：
             <span>
@@ -9,7 +8,7 @@
             </span>
         </div>
         <div class="main">
-            <div class="unitBox">
+            <div class="unitBox" v-if="examData">
                 <div class="unitName" @click="$router.push('index')">
                     <img src="@/assets/img/learningSituation/exam.png" alt="">
                     <span class="theName">
@@ -18,7 +17,7 @@
                     <img src="@/assets/img/learningSituation/code.png" alt="">
                 </div>
             </div>
-            <div class="content" v-if="examData.scoreList">
+            <div class="content" v-if="examData">
                 <div class="sortBox">
                     <div class="left">
                         <div class="totalScore">
@@ -60,24 +59,8 @@
                     </div> -->
                     <bar :data="examBarData"></bar>
                 </div>
-                <div style="text-align:center">
-                    <select class="selectStyle" v-model="subject" @change="getSubject">
-                        <option value="0">
-                            英语
-                        </option>
-                        <option value="1">
-                            语文
-                        </option>
-                        <option value="2">
-                            数学
-                        </option>
-                    </select>
-                </div>
-                <div class="radar-p">
-                    <radar :data="subjectBarData"></radar>
-                </div>
             </div>
-            <div class="noContent" v-if="!examData.scoreList">
+            <div class="noContent" v-if="!examData">
                 暂无成绩
             </div>
             
@@ -98,90 +81,11 @@ export default {
     },
     data() {
         return {
-            subject: '0',
-            subjectBarData: {
-                indicator: [
-                    { name: '作文', max: 100},
-                    { name: '听力测试', max: 100},
-                    { name: '单词解析', max: 100},
-                    { name: '阅读理解', max: 100},
-                    { name: '语法', max: 100},
-                ],
-                data: [{value: [98, 68, 98, 68, 77]}]
-            },
-            data1: {
-                indicator: [
-                    { name: '作文', max: 100},
-                    { name: '听力测试', max: 100},
-                    { name: '单词解析', max: 100},
-                    { name: '阅读理解', max: 100},
-                    { name: '语法', max: 100},
-                ],
-                data: [{value: [98, 68, 98, 68, 77]}]
-            },
-             data3: {
-                indicator: [
-                    { name: '逻辑', max: 100},
-                    { name: '计算能力', max: 100},
-                    { name: '口算能力', max: 100},
-                    { name: '正弦', max: 100},
-                    { name: '余弦', max: 100},
-                ],
-                data: [{value: [99, 55, 66, 22, 33]}]
-            },
-             data2: {
-                indicator: [
-                    { name: '作文', max: 100},
-                    { name: '文言文', max: 100},
-                    { name: '诗词', max: 100},
-                    { name: '阅读理解', max: 100},
-                    { name: '语法', max: 100},
-                ],
-                data: [{value: [12, 60, 80, 70, 90]}]
-            },
-            examData: {
-               examName: '第一单元测试',
-               classRank: 1,
-               gradeRank: 2,
-               reportAnalysis: '较上次月考，班级排名下降1名，年级排名上升3名。其中，英语成绩低于班级平均分，需要侧重补强学习。',
-               totalScore: 260,
-               scoreList: [
-                    {
-                        "score": 90,
-                        "scoreLevel": "",
-                        "subjecClassAvgScore": 100,
-                        "subjectClassRank": 0,
-                        "subjectClassRankLifting": 0,
-                        "subjectId": "",
-                        "subjectMaxScore": 150,
-                        "subjectName": "英语"
-                    },
-                    {
-                        "score": 80,
-                        "scoreLevel": "",
-                        "subjecClassAvgScore": 90,
-                        "subjectClassRank": 0,
-                        "subjectClassRankLifting": 0,
-                        "subjectId": "",
-                        "subjectMaxScore": 150,
-                        "subjectName": "语文"
-                    },
-                    {
-                        "score": 90,
-                        "scoreLevel": "",
-                        "subjecClassAvgScore": 100,
-                        "subjectClassRank": 0,
-                        "subjectClassRankLifting": 0,
-                        "subjectId": "",
-                        "subjectMaxScore": 150,
-                        "subjectName": "数学"
-                    }
-               ]
-           }
+            examData: ''
         }
     },
     activated () {
-        // this.getStudentExam()
+        this.getStudentExam()
     },
     computed: {
         cookiesObj () {
@@ -201,25 +105,28 @@ export default {
         }
     },
     methods:{
-        getSubject () {
-            this.subjectBarData = this.subject == 0 ? this.data1 : this.subject == 1 ? this.data2 : this.data3 
-        },
         getStudentExam () {
-            // var params = {
-            //     studentId: this.cookiesObj.studentId,
-            //     classId: this.cookiesObj.classId,
-            //     schoolId: this.cookiesObj.schoolId,
-            //     examId: this.examId
-            // }
             var params = {
-                studentId: 'studentId1-1',
-                classId: 'e782d1ccf8f74a0296408d0af26c4ea3',
-                schoolId: 'schoolId1',
-                examId: 'examId3'
+                studentId: this.cookiesObj.studentId,
+                classId: this.cookiesObj.classId,
+                gradeId: this.cookiesObj.gradeId,
+                schoolId: this.cookiesObj.schoolId,
+                examId: this.examId
             }
+            // var params = {
+            //     studentId: '2e499520581b4daaa112f06464b7ec8e',
+            //     classId: '3f117d9b33c74ab3b47ffba246bc48f0',
+            //     schoolId: 'bb34a395d8df4b3a9f9a22592a0e0ae2',
+            //     examId: 'examId1-1',
+            //     gradeId: '162f01e041d541db8a5885c2e16e3a9f'
+            // }
             this.$store.dispatch('learningSituation/GetStudentExam', params).then(
                 res => {
-                   // this.examData = res.data
+                    if (res.data) {
+                        this.examData = res.data
+                    } else {
+                        this.examData = null
+                    }
                 }
             )
         }
@@ -228,18 +135,23 @@ export default {
 </script>
 <style lang='less' scoped>
    .term{
+        position: fixed;
+        top: 0.88rem;
+        left: 0;
+        background: #fff;
         width: 100%;
         height: 0.88rem;
         font-size: 0.26rem;
         line-height: 0.88rem;
         text-align: center;
-        margin-top: 0.32rem;
+        box-shadow:0px 2px 6px 0px rgba(13,45,62,0.1);
         >span{
             color: #128FEF;
         }
     }
     .main{
         width: 100%;
+        margin-top: 1.2rem;
         .unitBox{
             text-align: center;
             margin: 0.3rem 0;
