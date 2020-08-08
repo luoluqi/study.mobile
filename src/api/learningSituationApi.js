@@ -2,11 +2,11 @@ import axios from './axios'
 import qs from 'qs'
 // import {examUrl} from '@/config/config'
 let examUrl = 'http://192.168.66.218:7559'
-// 获取考试统计信息
+// 获取学年和学期
 export const getStudentExam = (params) => {
     return new Promise((resolve,reject) => {
         axios({
-            url: examUrl + '/academic-analysis/stat/queryStudentExamInfoApp',
+            url: examUrl + '/academic-analysis/query/queryStudentExamInfoApp',
             method: 'post',
             data: qs.stringify(params) 
         }).then(res => {

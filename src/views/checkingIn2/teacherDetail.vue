@@ -13,7 +13,7 @@
                 <div class="arrowLeft" @click="leftmove"><img src="../../assets/img/checking/arrow-1.png" alt=""></div>
                 <div ref="detailCont" class="detailCont" :style="{'margin-left': -move * 6.94 + 'rem'}" 
                     @touchstart='touchstart' @touchmove='touchmove' @touchend='touchend'>
-                    <div class="detailItem">
+                    <div class="detailItem" v-if="dataDetail.length != 0">
                         <div class="detailList" v-for="(item,index) of dataDetail" :key="index" :class="{'detailList-1':index == 0 || index == 1,'detailList-2':index == 2 || index == 3,'detailList-3':index == 4 || index == 5}">
                             <p>{{item.timeRnage}}</p>
                              <!-- <div class="outOff" v-for="index in 4" :key="index">
@@ -27,12 +27,14 @@
                             </div>
                         </div>
                     </div>
-                   
+                    <div class="detailItem zanwu" v-if="dataDetail.length == 0">
+                        暂无数据
+                    </div>
                 </div>
                 <div class="arrowRight"  @click="rightmove"><img src="../../assets/img/checking/arrow-2.png" alt=""></div>
             </div>
             <div style="height: 3.64rem;"></div>
-            <div class="statusList">
+            <div class="statusList" v-if="attenceDetail.length != 0">
                 <div class="kejieList" v-for="(item,index) of attenceDetail" :key="index">
                     <div v-if="index != 0" class="line"></div>
                     <span class="time-2">{{item.timeBegin}}-{{item.timeEnd}}</span>
@@ -52,8 +54,10 @@
                         <option  :value=0>请假</option>
                         <option  :value=3>旷课</option>
                     </select>
-                    <!-- <span  v-else> -- </span> -->
                 </div>
+            </div>
+            <div class="statusList2" v-if="attenceDetail.length == 0">
+                <span>暂无数据</span> 
             </div>
             <div class="currMonth">
                  <div class="monthTit">该生本月考勤情况</div>
@@ -430,6 +434,20 @@ export default {
         border-radius:0.15rem;
         margin: 0 auto;
     }
+    .statusList2{
+        font-size: 0.28rem;
+        color: #333;
+        line-height: 0.76rem;
+        margin-left: 0.3rem;
+        background:rgba(255,255,255,1);
+        border-radius:0.15rem;
+        margin: 0 auto;
+        width:6.84rem;
+        text-align: center;
+    }
+    .statusList2 span{
+        /* margin-left: 0.3rem; */
+    }
     .kejieList{
         margin: 0 0.24rem;
         position: relative;
@@ -546,5 +564,12 @@ export default {
     }
     .kuangke i {
         background:#FE3000;
+    }
+    .zanwu{
+        font-size: 0.28rem;
+        color: #333;
+        position: absolute;
+        top: 1.9rem;
+        left: 2.4rem;
     }
 </style>

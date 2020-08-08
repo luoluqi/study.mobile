@@ -7,11 +7,11 @@
                 <span class="star">*</span>
             </div>
             <div class="rowStyle">
-                <datetime @on-change="getBeginTime" v-model="beginTime" format="YYYY-MM-DD HH:mm"  title="开始时间" placeholder="请选择"  :end-date="endDate == 'NaN-NaN-NaN'? '9999-12-31' : endDate" :max-hour="endHour"></datetime>
+                <datetime @on-change="getBeginTime" v-model="beginTime" format="YYYY-MM-DD HH:mm"  title="开始时间" placeholder="请选择"  :end-date="endDate == 'NaN-NaN-NaN'? '9999-12-31' : endDate"></datetime>
                 <span class="star">*</span>
             </div>
             <div class="rowStyle">
-                <datetime @on-change="getEndTime" v-model="endTime" format="YYYY-MM-DD HH:mm"  title="结束时间" placeholder="请选择" :start-date="beginDate == 'NaN-NaN-NaN'? '1900-01-01' : beginDate" :min-hour="beginHour"></datetime>
+                <datetime @on-change="getEndTime" v-model="endTime" format="YYYY-MM-DD HH:mm"  title="结束时间" placeholder="请选择" :start-date="beginDate == 'NaN-NaN-NaN'? '1900-01-01' : beginDate"></datetime>
                 <span class="star">*</span>
             </div>
              <div class="rowStyle">

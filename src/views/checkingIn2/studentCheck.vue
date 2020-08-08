@@ -31,15 +31,15 @@
             <p>本月考勤情况</p>
             <ul class="kaoDetail">
                 <li>
-                    <h2><label>{{checkinData.attendanceCount}}</label>次</h2>
+                    <h2><label>{{summaryData.monthAttendanceDay}}</label>次</h2>
                     <h3>应该考勤</h3>
                 </li>
                 <li>
-                    <h2><label>{{checkinData.alreadyCount}}</label>次</h2>
+                    <h2><label>{{summaryData.monthAlreadyAttendanceDay}}</label>次</h2>
                     <h3>已考勤</h3>
                 </li>
                 <li>
-                    <h2><label>{{checkinData.errCount}}</label>次</h2>
+                    <h2><label>{{summaryData.monthAbNormalAttendanceDay}}</label>次</h2>
                     <h3>异常</h3>
                 </li>
             </ul>  
@@ -71,14 +71,16 @@ export default {
   },
   data(){
       return {
-           late:[], //有缺勤或无记录 橙色     //    1正常 2异常 4有缺勤或无记录
+           late:[], //有缺勤或无记录 橙色     //    1正常  2有缺勤或无记录 4异常
            lack:[], //异常 红色
            leave:[],  //正常 蓝色
            normal:[],   //以前的正常
            active:'',
            userDetail:{},
            myDate:'',
-           checkinData:[]
+           checkinData:[],
+           noAttendanceList:[],
+           summaryData:''
       }
   },
    activated(){
@@ -98,7 +100,8 @@ export default {
           }
          var date =year+'-'+zreo+(month+1)+'-'+0+1
          this.$store.state.checkingIn2.monDay = date
-         this.NowDayCheking(date)          
+         this.NowDayCheking()     
+            
         //  +'-'+0+1
         //   console.log(date);
           
@@ -109,7 +112,14 @@ export default {
         //         this.$vux.toast.text('周末无考勤记录', 'top')
         //         return
         //     }
-          console.log(date);
+        for(var time of this.noAttendanceList){
+            // time = time.slice(0,10)
+            if(time == date){
+              this.$vux.toast.text('该日期无考勤数据',top)
+              return
+            }
+        }
+        //   console.log(date);
           this.$router.push('oneDayCheck')
           this.$store.state.checkingIn2.toDay = date
           localStorage.setItem("yueDate", date);
@@ -132,39 +142,60 @@ export default {
              date = '0' + date
          }
        this.mydate=year+'-'+month+'-'+date
-       console.log(this.mydate,'mydate')
+    //    console.log(this.mydate,'mydate')
        var prams = {
-                SchoolId:this.$store.getters['user/schoolId'],
-                ClassId:this.$store.getters['user/classId']
+                schoolId:this.$store.getters['user/schoolId'],
+                classId:this.$store.getters['user/classId']
+                // schoolId:'bb34a395d8df4b3a9f9a22592a0e0ae2',
+                // classId:'3f117d9b33c74ab3b47ffba246bc48f0'
                 }
                 if(!this.$store.state.checkingIn2.monDay){
-                   prams.SearchTime = this.mydate
+                   prams.attendanceTime = this.mydate
                 }else{
-                    prams.SearchTime = this.$store.state.checkingIn2.monDay
+                    prams.attendanceTime = this.$store.state.checkingIn2.monDay
                 }
-       this.$store.dispatch('checkingIn2/ReportList',prams).then((data) => {
-           
-           for( var obj of data.recordList){
-               obj.attenceTime = obj.attenceTime.slice(0,10)
-            //    1正常 2异常 4有缺勤或无记录
-                if(obj.attenceStatisticsType == 1){
-                    this.leave.push(obj.attenceTime)
+       this.$store.dispatch('checkingIn2/PerMonthClassAttendanceData',prams).then((data) => {
+           this.noAttendanceList = data.noAttendanceList
+           for( var obj of data.perDayAttendanceStatusList){
+            //    obj.attendanceTime = obj.attendanceTime.slice(0,10)
+            //    1正常 2有缺勤或无记录 4异常
+                if(obj.attendanceStatus == 1){
+                    this.leave.push(obj.attendanceTime)
                 }
-                if(obj.attenceStatisticsType == 2 ){
-                    this.lack.push(obj.attenceTime)
+                if(obj.attendanceStatus == 2 ){
+                    this.late.push(obj.attendanceTime)
                 }
-                if(obj.attenceStatisticsType == 4){
-                    this.late.push(obj.attenceTime)
+                if(obj.attendanceStatus == 4){
+                    this.lack.push(obj.attendanceTime)
                 }
             }
             this.checkinData = data
-            console.log('正常1：'+this.leave)
-            console.log('异常2：'+this.lack)
-            console.log('有缺勤或无记录4：'+this.late)
+            this.getCheckDay()  
+            // console.log('正常1：'+this.leave)
+            // console.log('有缺勤或无记录2：'+this.late)
+            // console.log('异常4：'+this.lack)
             
             
        })
-     }
+     },
+    //  获取考勤天数
+    getCheckDay(){
+        var prams = {
+                schoolId:this.$store.getters['user/schoolId'],
+                classId:this.$store.getters['user/classId']
+                // schoolId:'bb34a395d8df4b3a9f9a22592a0e0ae2',
+                // classId:'3f117d9b33c74ab3b47ffba246bc48f0'
+                }
+                if(!this.$store.state.checkingIn2.monDay){
+                   prams.attendanceTime = this.mydate
+                }else{
+                    prams.attendanceTime = this.$store.state.checkingIn2.monDay
+                }
+            this.$store.dispatch('checkingIn2/ClassMonthSummaryData',prams).then((data) => {
+                this.summaryData = data
+            })
+        
+    }
        
         
   }

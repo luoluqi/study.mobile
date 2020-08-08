@@ -12,6 +12,8 @@
 </template>
 <script>
 import {setCookie} from '@/util/tool'
+import {refreshToken} from '@/api/commonApi'
+import cookie from '@/util/cookie'
 export default {
     methods: {
         changeRole (role) {
@@ -22,7 +24,12 @@ export default {
             this.$store.state.user.reloadToken = true
             localStorage.clear()
              this.$router.push('/menu/index')
+        },
+        refreshToken () { 
         }
+    },
+    mounted () {
+
     }
 }
 </script>

@@ -86,40 +86,49 @@ axios.interceptors.response.use(function (response) {
   Vue.$vux.loading.hide();
   console.log('error:', error)
   if (error.response.status == 302) {
-    Vue.$vux.toast.text('状态：302，请重新登陆')
-    location.href = 'http://mappv2.xueerqin.net/common/login.shtml'
+    Vue.$vux.alert.show({
+      content: '状态：302，请重新登陆',
+      maskZIndex: 100,
+      onHide () {
+        location.href = 'http://m.xueerqin.net/study/static/login.html'
+      }
+  })
+    
   } else if (error.response.status == 403) {
     Vue.$vux.toast.text(error.response.data.error.message, 'top')
   } else if (error.response.status == 401) {
-    // Vue.$vux.alert.show({
-    //     content: '401 登录过期，请重新登陆',
-    //     maskZIndex: 100,
-    //     onHide () {
-    //       store.dispatch('setting/loginOut')
-    //     }
-    // })
+    if (!cookie.get('authToken')) {
+      // location.href = 'http://m.xueerqin.net/study/static/login.html'
+      store.dispatch('setting/loginOut')
+      return
+    } 
+    
     var params = {
       refreshtoken: (JSON.parse(decodeURIComponent(cookie.get('authToken')))).refresh_token
     }
-    refreshToken(params).then(
+    
+    return refreshToken(params).then(
       res => {
+        
         let domain = '.xueerqin.net'
         cookie.set('authToken',encodeURIComponent(JSON.stringify(res)),0,domain)
-        // this.$vux.toast.text('当前token已过期,请刷新页面',top)
-        Vue.$vux.alert.show({
-            content: '当前token已过期,请刷新页面',
-            maskZIndex: 100,
-            onHide () {
-              window.location.reload()
-            }
-        })
+        var config = error.config
+        config.headers['Authorization'] = 'Bearer ' + res.access_token
+        return axios(config)
       }
     ).catch(
       () => {
-        store.dispatch('setting/loginOut')
+          Vue.$vux.alert.show({
+            content: '刷新access_token失败',
+            maskZIndex: 100,
+            onHide () {
+              store.dispatch('setting/loginOut')
+            }
+        })
+        
       }
     )
-    return
+    
   }
   else {
     Vue.$vux.toast.text(error.response.data.error.message, 'top')

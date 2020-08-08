@@ -51,17 +51,19 @@
                         <img v-if="item.DealState == 0 || item.DealState == 1" class="canIcon" src="@/assets/img/oa/warn.png" alt="">
                         <img v-else class="canIcon" src="@/assets/img/oa/dead.png" alt="">
                     </div>
-                    
-                    <span>审批人  {{item.NodeName}}</span>
-
-                    <span class="checking" v-if="item.DealState==0">(待审核)</span>
-                    <span class="checking" v-else-if="item.DealState==1">(审核中)</span>
-                    <span class="checking" v-else-if="item.DealState==2">(驳回)</span>
-                    <span class="checking" v-else-if="item.DealState==3">(取消)</span>
-                    <span class="checking" v-else-if="item.DealState==10">(通过)</span>
-                    <span class="checking" v-else-if="item.DealState==20">(不通过)</span>
-                    <span class="checking" v-else>抄送成功</span>
-
+                    <div class="checkBox">
+                        <span>审批人  {{item.NodeName}}</span>
+                        <span class="checking" v-if="item.DealState==0">(待审核)</span>
+                        <span class="checking" v-else-if="item.DealState==1">(审核中)</span>
+                        <span class="checking" v-else-if="item.DealState==2">(驳回)</span>
+                        <span class="checking" v-else-if="item.DealState==3">(取消)</span>
+                        <span class="checking" v-else-if="item.DealState==10">(通过)</span>
+                        <span class="checking" v-else-if="item.DealState==20">(不通过)</span>
+                        <span class="checking" v-else>抄送成功</span>
+                        <p>
+                            {{item.OpRemark}}
+                        </p>
+                    </div>
                     <div class="column"></div>
                 </div>
               
@@ -100,14 +102,29 @@
                 </div>
             </div>
            <div v-if="isHaveDeal" class="bot-right">
-                <div @click="dealRecordNode(20)" class="reject">
+                <div @click="showDealModelFlag(20)" class="reject">
                     拒绝
                 </div>
-                 <div @click="dealRecordNode(10)" class="agree">
+                 <div @click="showDealModelFlag(10)" class="agree">
                     同意
                 </div>
            </div>
         </div>
+        <div class="dealModel" v-if="showDealModel" @click.stop="showDealModel = false">
+           
+        </div>
+        <div class="dealIdeaBox" v-if="showDealModel">
+            <p class="areaLabel"> 
+                <span>审批意见</span>
+            </p>
+            <textarea :maxlength=20 v-model="dealIdea" placeholder="请输入审批意见"></textarea>
+            <div class="sureBox">
+                <div class="next" @click="dealRecordNode">
+                    确认同意/拒绝
+                </div>
+            </div>
+        </div>
+        
     </div>
 </template>
 <script>
@@ -121,17 +138,20 @@ export default {
     },
     data () {
         return{
-           flowDetail: '',
-           formDetail: '',
-           isHaveDeal: false,
-           isHaveOperate: false,
-           nodeList: [],
-           flowRecord: [],
-           dealNode: [],
-           copyNode: [],
-           showCopyMan: false,
-           recordNodeId: '',
-           flowImgs: []
+            showDealModel: false,
+            flowDetail: '',
+            formDetail: '',
+            isHaveDeal: false,
+            isHaveOperate: false,
+            nodeList: [],
+            flowRecord: [],
+            dealNode: [],
+            copyNode: [],
+            showCopyMan: false,
+            recordNodeId: '',
+            flowImgs: [],
+            dealIdea: '',
+            opState: ''
         }
     },
     computed: {
@@ -211,6 +231,7 @@ export default {
             this.$store.dispatch('oa/RecordNodeByFlowRecordId', {flowRecordId: this.dflowId}).then(res => { 
                 if (res.Code == 200) { 
                     this.nodeList = res.Data
+                    debugger
                     this.nodeList.forEach((item,index) => {
                         if (!item.RecordNodeParentId) { 
                             this.flowRecord.push(item)
@@ -300,14 +321,21 @@ export default {
                 }
             )
         },
+        // 
+        showDealModelFlag (opState) {
+            this.dealIdea = ''
+            this.showDealModel = true
+            this.opState = opState
+        },
         // 处理节点
-        dealRecordNode (opState) { 
+        dealRecordNode () {
             var params = { 
                 userId: this.$store.getters['user/teacherId'],
                 userName: this.$store.getters['user/realName'],
                 deptId: this.deptId,
                 recordNodeId: this.recordNodeId,
-                opState
+                opRemark: this.dealIdea,
+                opState: this.opState
             }
             var paramsNew = { 
                 data: JSON.stringify(params)
@@ -316,15 +344,8 @@ export default {
                 let result = res
                 var self = this
                 if (result.Code == 200) { 
-                    self.$vux.alert.show({ 
-                        content: result.Msg,
-                        maskZIndex: 100,
-                        onShow () {
-                        },
-                        onHide () { 
-                            self.getFlow(false)
-                        }
-                    })
+                    this.showDealModel = false
+                    self.getFlow(false)
                 } else { 
                     self.$vux.alert.show({ 
                         content: result.Msg,
@@ -338,9 +359,7 @@ export default {
     }
 }
 </script>
-<style src="./css/public.css" scoped>
-
-</style>
+<style src="./css/public.css" scoped></style>
 <style scoped>
     .main{
         margin-bottom: 1.2rem;
@@ -410,8 +429,6 @@ export default {
     }
     .twoRow{
         position: relative;
-        display: flex;
-        align-items: center;
         color: #333;
         font-size: 0.32rem;
         margin-bottom: 0.44rem;
@@ -421,7 +438,7 @@ export default {
         top: 0.56rem;
         left: 0.27rem;
         width: 0.02rem;
-        height: 0.48rem;
+        height: 80%;
         background: #ebebeb;
     }
     .threeRow{
@@ -434,6 +451,18 @@ export default {
     }
     .imgBox{
         position: relative;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .checkBox{
+        display: inline-block;
+        width: 84%;
+        vertical-align: middle;
+        margin-left: -0.08rem;
+    }
+    .checkBox>p{
+        font-size: 0.24rem;
+        color: #999;
     }
     .canIcon{
         width: 0.28rem;
@@ -524,13 +553,6 @@ export default {
         border-radius: 0.1rem;
         text-align: center;
     }   
-    /* .flowContent{
-        overflow: hidden ;
-        display: -webkit-box ;
-        -webkit-line-clamp: 2 ;
-        -webkit-box-orient: vertical ;
-        word-break: break-all ;
-    } */
     .buyGood{
         display: block;
         /* height: 1.32rem; */
@@ -542,5 +564,50 @@ export default {
         display: block;
         height: 0.02rem;
         background: #333;
+    }
+    .dealModel{
+        position: fixed;
+        background: rgba(0, 0, 0, 0.3);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+    }
+    .dealIdeaBox{
+        position: absolute;
+        top: 20%;
+        left: 10%;
+        width: 80%;
+        background: #fff;
+        z-index: 200;
+        border-radius: 0.1rem;
+    }
+    .areaLabel{
+        font-size: 0.32rem;
+    }
+    .sureBox{
+        padding: 0.24rem 0.2rem;
+        border-top: 0.01rem solid #e5e5e5;
+        /* background: rgba(0, 0, 0, 0.3); */
+    }
+    .next{
+        background: #128FEF;
+        margin: 0 auto;
+        height: 0.8rem;
+        text-align: center;
+        line-height: 0.8rem;
+        color: #fff;
+        font-size: 0.32rem;
+        border-radius: 0.08rem;
+    }
+    textarea{
+        width: 100%;
+        height: 2.98rem;
+        box-sizing: border-box;
+        border: none;
+        padding: 0.1rem 0.24rem;
+        font-size: 0.28rem;
+        background: #fff;
     }
 </style>

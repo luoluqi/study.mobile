@@ -20,7 +20,6 @@ const setting = {
                    cookie.clearAll()
                     // console.log(data);
                     localStorage.clear()
-                    window.location.href = "http://m.xueerqin.net/Common/Login.shtml"
 
                     var url = location.origin + location.pathname
                    

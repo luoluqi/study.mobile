@@ -6,17 +6,17 @@
         </div>
         <div class="studentList">
             
-            <div @click="lookDetail(item.studentId)" v-for="(item,index) in studentData" :key="index" v-if="item.attenceStatus == 5 && item.studentName" class="student truancy">
-                {{item.studentName}}
+            <div @click="lookDetail(item)" v-for="(item,index) in studentData" :key="index" v-if="item.status == 4 && item.name" class="student truancy">
+                {{item.name}}
             </div>
-            <div @click="lookDetail(item.studentId)" v-for="(item,index) in studentData" :key="index" v-if="item.attenceStatus == 6 && item.studentName" class="student leave">
-                {{item.studentName}}
+            <div @click="lookDetail(item)" v-for="(item,index) in studentData" :key="index" v-if="item.status == 2 && item.name" class="student leave">
+                {{item.name}}
             </div>
-             <div @click="lookDetail(item.studentId)" v-for="(item,index) in studentData" :key="index" v-if="item.attenceStatus == 0 && item.studentName" class="student normal">
-                {{item.studentName}}
+             <div @click="lookDetail(item)" v-for="(item,index) in studentData" :key="index" v-if="item.status == 1 && item.name" class="student normal">
+                {{item.name}}
             </div>
             
-            <!-- <div @click="lookDetail(item.studentId)" v-for="(item,index) in studentData" :key="index" v-if="item.attenceStatus == 5 && !item.studentName" class="student truancy">
+            <!-- <div @click="lookDetail(item.id)" v-for="(item,index) in studentData" :key="index" v-if="item.attenceStatus == 5 && !item.studentName" class="student truancy">
                 未命名
             </div> -->
         </div>
@@ -79,42 +79,61 @@ export default {
             toDay:'',
             studentData:[],
             studentType:[],
-            gradeTime:''
+            gradeTime:'',
+            allStudentData:[]
         }
     },
     mounted(){
         this.toDay = this.$store.state.checkingIn2.toDay
-        if(!this.$store.state.checkingIn2.toDay){
-            this.toDay = localStorage.getItem("yueDate")
-        }
-        console.log(this.toDay,'today')
-        this.studentList()
+        // console.log(this.toDay,'today')
+        this.allStudentList()
     },
     methods: {
         // 弹出遮罩
-        lookDetail (studentId) {
-            debugger
-            this.modelShow = true
-            var stuId = studentId
-            this.studentId = studentId
-            this.studentRecords(stuId)
+        lookDetail (item) {
+            // this.modelShow = true
+            // var stuId = studentId
+            // this.studentId = studentId
+
+            // this.studentRecords(stuId)
+            this.$store.state.checkingIn2.itemStudent = item
+            localStorage.setItem('itemStudent',JSON.stringify(item))
+             this.$router.push('teacherDetail')
+
         },
         // 关闭遮罩
         delModel () {
             this.modelShow = false
         },
-        // 获取学生列表
+        // 获取所有学生列表
+        allStudentList(){
+            var prams = {
+                classId :this.$store.getters['user/classId'] 
+                // classId: '3f117d9b33c74ab3b47ffba246bc48f0'
+                }
+            this.$store.dispatch('checkingIn2/ClassAllStudent',prams).then((data) => {
+                this.allStudentData = data
+                this.studentList()
+            })
+        },
+        // 获取有考勤的学生列表
         studentList(){
              var prams = {
-                SchoolId:this.$store.getters['user/schoolId'],
                 ClassId:this.$store.getters['user/classId'] ,
-                // SchoolId: 'bb34a395d8df4b3a9f9a22592a0e0ae2',
                 // ClassId: '3f117d9b33c74ab3b47ffba246bc48f0',
-                GradeId: this.$store.getters['user/gradeId'],
-                SearchTime:this.toDay
+                AttendanceTime:this.toDay
                 }
-            this.$store.dispatch('checkingIn2/StudentList',prams).then((data) => {
-                this.studentData = data
+            this.$store.dispatch('checkingIn2/ClassStudentStatus',prams).then((data) => {
+                var statusData = []
+                for(var obj of this.allStudentData){
+                    obj.status = 1
+                    for(var obj2 of data){
+                        if(obj.id == obj2.studentId){
+                            obj.status = obj2.status
+                        }
+                    }
+                }
+                this.studentData = this.allStudentData
             })
         },
         // 获取单个学生单天的考勤状态
@@ -144,7 +163,7 @@ export default {
                          this.studentType[i].time = true
                      }
                 }
-                console.log(this.studentType)
+                // console.log(this.studentType)
                 // this.state[0] = data.schoolAttenceRecordList[0].attenceStatus
                 // this.state[1] = data.schoolAttenceRecordList[1].attenceStatus
                 // this.state[2] = data.schoolAttenceRecordList[2].attenceStatus

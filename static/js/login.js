@@ -32,14 +32,34 @@ function getParams() {
   
     return obj
 }
-function getAccessToken (code) {
+function getAccessToken () {
     return new Promise((resolve, reject) => {
+        var openid = $.cookie('OpenId')
+        if (openid) {
+            resolve(openid)
+            return
+        }
+
+        var code = getParams().code
+        if (!code) {
+            var url = location.origin + location.pathname
+            location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8a1dedca1e981275&redirect_uri='+url+'&response_type=code&scope=snsapi_base&state=123&connect_redirect=1#wechat_redirect'
+            return
+        }
+
+
         $.ajax({
             url: fytest + "/api/OAuthApi/GetAccessToken?code=" + code,
             success: function (data) {
-                var d = JSON.parse(data).Data;
-               
-                resolve(d)
+                var res = JSON.parse(data).Data;
+                if (!res.openid) {
+                    location.href = location.origin + location.pathname
+                    reject()
+                    return
+                }
+                
+                openid = res.openid
+                resolve(openid)
             }
         });
     })
@@ -47,6 +67,11 @@ function getAccessToken (code) {
 
 function getUnionID (openid) {
     return new Promise((resolve, reject) => {
+        var unionid = $.cookie('unionID')
+        if (unionid) {
+            resolve(unionid)
+            return
+        }
         $.ajax({
             url: fytest + "/api/OAuthApi/GetUnionID",
             data: {
@@ -54,7 +79,9 @@ function getUnionID (openid) {
             },
             success: function (res) {
                 res = JSON.parse(res)
-                resolve(res)
+
+                unionid = res.unionid
+                resolve(unionid)
             }
         });
     })
@@ -85,160 +112,149 @@ function loginUser ({loginName, loginPwd, openId, unionId}) {
             },
             success: function (res) {
                 res = JSON.parse(res)
+                
                 resolve(res)
             }
         });
     })
 }
 
-async function submitLogin() {
+function submitLogin() {
     var layerIndex = layer.open({type: 2, shadeClose: false});
     var loginName = $.trim($('#loginName').val())
     var loginPwd = $.trim($('#loginPwd').val())
     var openId = $.cookie('OpenId')
     var unionId = $.cookie('unionID')
-    var res = await loginUser({loginName, loginPwd, openId, unionId})
+    loginUser({loginName, loginPwd, openId, unionId}).then(res => {
+        layer.close(layerIndex);
 
-    layer.close(layerIndex);
+        var result = res.Data
+        if (result.message == "ok") {
+            localStorage.clear();
+        
+            var roleCount = 0;
+            if (result.data != null && result.data != "") {
+                roleCount = result.data.length;
+            } else {
+                alert("这个账号角色不是老师或者家长,登录失败")
+            
+            
+                return;
+            }
+            if (roleCount == 0) {
+                alert("这个账号角色不是老师或者家长,登录失败")
+            
+                return;
+            }
+        
 
-    var result = res.Data
-    if (result.message == "ok") {
-        localStorage.clear();
-       
-        var roleCount = 0;
-        if (result.data != null && result.data != "") {
-            roleCount = result.data.length;
-        } else {
-            alert("这个账号角色不是老师或者家长,登录失败")
-           
-         
-            return;
+            $.cookie('authToken', JSON.stringify(result.oAuth), {
+                path: '/',
+                domain: '.xueerqin.net',
+                expires: 100
+            })
+
+            $.cookie('loginName', loginName, { expires: 100, path: '/', domain: 'xueerqin.net' })
+            $.cookie('cellPhoneNum', loginName, { expires: 100, path: '/', domain: 'xueerqin.net' })
+
+            var url = location.origin + location.pathname
+            if (roleCount > 1) {
+                $.cookie('isMoreRole', true, { expires: 100, path: '/', domain: 'xueerqin.net' })
+                location.href = url.replace('static/login.html', 'index.html#/role')
+            }
+            else {
+                $.cookie('isMoreRole', false, { expires: 100, path: '/', domain: 'xueerqin.net' })
+            
+            
+            
+                var role = result.data[0].Code;
+                $.cookie('roleCode', role, { expires: 100, path: '/', domain: 'xueerqin.net' })
+            
+                location.href =url.replace('static/login.html', 'index.html#/menu/index')
+            }
         }
-        if (roleCount == 0) {
-            alert("这个账号角色不是老师或者家长,登录失败")
-           
-            return;
+        else if (result.message == "wrongPwd") {
+            alert("密码错误");
         }
-       
-
-        $.cookie('authToken', JSON.stringify(result.oAuth), {
-            path: '/',
-            domain: '.xueerqin.net',
-            expires: 100
-        })
-
-        $.cookie('loginName', loginName, { expires: 100, path: '/', domain: 'xueerqin.net' })
-        $.cookie('cellPhoneNum', loginName, { expires: 100, path: '/', domain: 'xueerqin.net' })
-
-        var url = location.origin + location.pathname
-        if (roleCount > 1) {
-            $.cookie('isMoreRole', true, { expires: 100, path: '/', domain: 'xueerqin.net' })
-            location.href = url.replace('static/login.html', 'index.html#/role')
+        else if (result.message == "invalidUser") {
+            alert("用户不存在");
+        }
+        else if (result.message == "disable") {
+            alert("用户被禁用");
+        }
+        else if (result.message == "userBinded") {
+            alert("账号已经被登录");
+        }
+        else if (result.message == "wechatBinded") {
+            alert("账号已经被微信绑定登录");
+        }
+        else if (result.message == "noteacher") {
+            alert("您尚未录入教职工信息，请联系管理员添加。");
+        }
+        else if (result.message == "noparent") {
+            alert("您尚未录入家长信息，请联系管理员添加。");
+        }
+        else if (result.message == "noteacherandparent") {
+            alert("您尚未录入教职工和家长信息，请联系管理员添加。");
         }
         else {
-            $.cookie('isMoreRole', false, { expires: 100, path: '/', domain: 'xueerqin.net' })
-           
-           
-           
-            var role = result.data[0].Code;
-            $.cookie('roleCode', role, { expires: 100, path: '/', domain: 'xueerqin.net' })
-          
-            location.href =url.replace('static/login.html', 'index.html#/menu/index')
+            alert("异常错误");
         }
-    }
-    else if (result.message == "wrongPwd") {
-        alert("密码错误");
-    }
-    else if (result.message == "invalidUser") {
-        alert("用户不存在");
-    }
-    else if (result.message == "disable") {
-        alert("用户被禁用");
-    }
-    else if (result.message == "userBinded") {
-        alert("账号已经被登录");
-    }
-    else if (result.message == "wechatBinded") {
-        alert("账号已经被微信绑定登录");
-    }
-    else if (result.message == "noteacher") {
-        alert("您尚未录入教职工信息，请联系管理员添加。");
-    }
-    else if (result.message == "noparent") {
-        alert("您尚未录入家长信息，请联系管理员添加。");
-    }
-    else if (result.message == "noteacherandparent") {
-        alert("您尚未录入教职工和家长信息，请联系管理员添加。");
-    }
-    else {
-        alert("异常错误");
-    }
+    })
+
+    
 }
 
-async function start(){
+function start(){
     var layerIndex = layer.open({type: 2, shadeClose: false});
     var openid = $.cookie('OpenId')
     var unionid = $.cookie('unionID')
-    if (!openid || openid == "null") {
-        var code = getParams().code
-        if (!code) {
-            var url = location.origin + location.pathname
-            location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8a1dedca1e981275&redirect_uri='+url+'&response_type=code&scope=snsapi_base&state=123&connect_redirect=1#wechat_redirect'
+    getAccessToken().then(res => {
+        openid = res
+        $.cookie('OpenId', openid, { expires: 100, path: '/', domain: 'xueerqin.net' });
+        return getUnionID(openid)
+    }).then(res => {
+        unionid = res
+        $.cookie('unionID', unionid, { expires: 100, path: '/', domain: 'xueerqin.net' });
+        return getUserInfo({openid, unionid})
+    }).then(res => {
+        if (!res) {
+            layer.close(layerIndex);
             return
         }
-        
-        var res = await getAccessToken(code)
-        if (!res.openid) {
-            location.href = location.origin + location.pathname
+        res = JSON.parse(res)
+        var userData = res.Data
+        if (res.Code == '600') {
+            $.cookie('isNewLoad', true, { expires: 100, path: '/', domain: 'xueerqin.net' });
+            layer.close(layerIndex);
+            return
         }
-        
-        openid = res.openid
-    }
+        if (res.Code == '200') {
+            var roleCount = userData.roleCount;
+            var roleCode = userData.roleCode;
+            
+            $.cookie("loginName", userData.Loginname, { expires: 100, path: '/', domain: 'xueerqin.net' });
+            $.cookie("cellPhoneNum", userData.Loginname, { expires: 100, path: '/', domain: 'xueerqin.net' });
+            
+            var url = location.origin + location.pathname
+            $.cookie('isMoreRole', true, { expires: 100, path: '/', domain: 'xueerqin.net' })
+            location.href = url.replace('static/login.html', 'index.html#/role')
     
-    $.cookie('OpenId', openid, { expires: 100, path: '/', domain: 'xueerqin.net' });
-    if (!unionid || unionid == "null") {
-        var res = await getUnionID(openid)
-        unionid = res.unionid
-    }
-    $.cookie('unionID', unionid, { expires: 100, path: '/', domain: 'xueerqin.net' });
-    res = await getUserInfo({openid, unionid})
-    
-    // "{"Code":"200","Msg":"","Data":{"roleCount":2,"Loginname":"13459486768","parentId":"9b4f723d94dc4a3f804ce9c667766993"}}"
-    if (!res) {
-        layer.close(layerIndex);
-        return
-    }
-    res = JSON.parse(res)
-    var userData = res.Data
-    if (res.Code == '600') {
-        $.cookie('isNewLoad', true, { expires: 100, path: '/', domain: 'xueerqin.net' });
-        layer.close(layerIndex);
-        return
-    }
-    if (res.Code == '200') {
-        var roleCount = userData.roleCount;
-        var roleCode = userData.roleCode;
-        
-        $.cookie("loginName", userData.Loginname, { expires: 100, path: '/', domain: 'xueerqin.net' });
-        $.cookie("cellPhoneNum", userData.Loginname, { expires: 100, path: '/', domain: 'xueerqin.net' });
-        
-        var url = location.origin + location.pathname
-        $.cookie('isMoreRole', true, { expires: 100, path: '/', domain: 'xueerqin.net' })
-        location.href = url.replace('static/login.html', 'index.html#/role')
+            // if (roleCount >= 2) {
+               
+            //     $.cookie('isMoreRole', true, { expires: 100, path: '/', domain: 'xueerqin.net' })
+            //     location.href = url.replace('static/login.html', 'index.html#/role')
+            // }
+            // else if (roleCount == 1) {
+            //     $.cookie('isMoreRole', false, { expires: 100, path: '/', domain: 'xueerqin.net' })
+            //     $.cookie('roleCode', roleCode, { expires: 100, path: '/', domain: 'xueerqin.net' })
+            //     location.href =url.replace('static/login.html', 'index.html#/menu/index')
+               
+            // }
+        }
+        // layer.close(layerIndex);
+    })
 
-        // if (roleCount >= 2) {
-           
-        //     $.cookie('isMoreRole', true, { expires: 100, path: '/', domain: 'xueerqin.net' })
-        //     location.href = url.replace('static/login.html', 'index.html#/role')
-        // }
-        // else if (roleCount == 1) {
-        //     $.cookie('isMoreRole', false, { expires: 100, path: '/', domain: 'xueerqin.net' })
-        //     $.cookie('roleCode', roleCode, { expires: 100, path: '/', domain: 'xueerqin.net' })
-        //     location.href =url.replace('static/login.html', 'index.html#/menu/index')
-           
-        // }
-    }
-    layer.close(layerIndex);
 }
 
 start()
